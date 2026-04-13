@@ -139,58 +139,85 @@ export default function MapHome() {
         )}
       </div>
 
-      {/* Bottom Floating Area (Replaced by SpeedDial globally) */}
-      <div style={{ position: 'absolute', bottom: '20px', left: '20px', right: '90px', zIndex: 20, pointerEvents: 'none' }}>
-        {/* Selected Stamp Bottom Sheet */}
+      {/* Selected Stamp Bottom Sheet */}
+      <div style={{ 
+        position: 'absolute', bottom: 0, left: 0, width: '100%', zIndex: 30, pointerEvents: 'none',
+        display: selectedStamp ? 'block' : 'none'
+      }}>
+        {/* Backdrop dimmer */}
+        <div 
+          onClick={() => setSelectedStamp(null)}
+          style={{
+            position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+            backgroundColor: 'rgba(0,0,0,0.3)', pointerEvents: selectedStamp ? 'auto' : 'none',
+            opacity: selectedStamp ? 1 : 0, transition: 'opacity 0.3s'
+          }}
+        />
+        
+        {/* Sheet Content */}
         <div style={{
-          backgroundColor: '#fff', borderRadius: '24px', padding: '24px',
-          boxShadow: '0 -4px 20px rgba(0,0,0,0.1)', pointerEvents: 'auto',
-          transform: selectedStamp ? 'translateY(0)' : 'translateY(120%)',
+          position: 'relative', width: '100%',
+          backgroundColor: '#fff', borderRadius: '28px 28px 0 0', padding: '30px 24px 40px 24px',
+          boxShadow: '0 -10px 40px rgba(0,0,0,0.15)', pointerEvents: 'auto',
+          transform: selectedStamp ? 'translateY(0)' : 'translateY(100%)',
           transition: 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-          display: selectedStamp ? 'block' : 'none'
         }}>
           {selectedStamp && (
             <>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <span style={{ fontSize: '1.2rem', fontWeight: '800', color: selectedStamp.color }}>
-                  {selectedStamp.symbol} {selectedStamp.name}
-                </span>
-                <span style={{ color: '#888', fontSize: '0.9rem' }}>발견!</span>
+              {/* Drag Handle (Visual only) */}
+              <div style={{ 
+                width: '40px', height: '5px', backgroundColor: '#e0e0e0', borderRadius: '3px',
+                margin: '0 auto 20px auto' 
+              }} />
+
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '24px' }}>
+                <div style={{
+                  width: '64px', height: '64px', borderRadius: '50%',
+                  backgroundColor: `${selectedStamp.color}15`, border: `2px solid ${selectedStamp.color}`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '2rem', fontWeight: 'bold', color: selectedStamp.color, marginBottom: '12px'
+                }}>
+                  {selectedStamp.symbol}
+                </div>
+                <h2 style={{ fontSize: '1.4rem', fontWeight: '800', margin: 0, color: '#222' }}>
+                  {selectedStamp.name}
+                </h2>
+                <p style={{ color: '#666', fontSize: '0.95rem', margin: '8px 0 0 0' }}>
+                  해당 스탬프 위치로 길안내를 시작하시겠습니까?
+                </p>
               </div>
-              <p style={{ color: '#666', fontSize: '0.95rem', marginBottom: '24px' }}>
-                이 스탬프 목적지로 길안내를 시작하시겠습니까?
-              </p>
-              <div style={{ display: 'flex', gap: '12px' }}>
+
+              <div style={{ display: 'flex', gap: '12px', flexDirection: 'column' }}>
                 <button 
                   onClick={() => openAppDeeplink('kakao')}
                   style={{
-                    flex: 1, padding: '16px', backgroundColor: '#FEE500', color: '#000',
-                    borderRadius: '16px', fontWeight: 'bold', fontSize: '1rem',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
+                    width: '100%', padding: '16px', backgroundColor: '#FEE500', color: '#191919',
+                    borderRadius: '16px', fontWeight: 'bold', fontSize: '1.05rem',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', border: 'none'
                   }}
                 >
-                  <Navigation size={18} /> 카카오맵 열기
+                  <Navigation size={20} /> 카카오맵으로 안내 시작
                 </button>
                 <button 
                   onClick={() => openAppDeeplink('naver')}
                   style={{
-                    flex: 1, padding: '16px', backgroundColor: '#03C75A', color: '#fff',
-                    borderRadius: '16px', fontWeight: 'bold', fontSize: '1rem',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
+                    width: '100%', padding: '16px', backgroundColor: '#03C75A', color: '#fff',
+                    borderRadius: '16px', fontWeight: 'bold', fontSize: '1.05rem',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', border: 'none'
                   }}
                 >
-                  <MapPin size={18} /> 네이버 지도 열기
+                  <MapPin size={20} /> 네이버 지도 열기
+                </button>
+                <button 
+                  onClick={() => setSelectedStamp(null)}
+                  style={{
+                    width: '100%', padding: '14px', marginTop: '4px', backgroundColor: '#f5f5f5',
+                    color: '#666', borderRadius: '16px', fontWeight: 'bold', fontSize: '1rem', border: 'none'
+                  }}
+                >
+                  닫기
                 </button>
               </div>
-              <button 
-                onClick={() => setSelectedStamp(null)}
-                style={{
-                  width: '100%', padding: '14px', marginTop: '12px', backgroundColor: 'transparent',
-                  color: '#999', fontSize: '0.9rem'
-                }}
-              >
-                닫기
-              </button>
             </>
           )}
         </div>
