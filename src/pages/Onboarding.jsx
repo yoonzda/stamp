@@ -70,15 +70,15 @@ export default function Onboarding() {
           fontWeight: '300', 
           color: current.color,
           marginBottom: '30px',
-          animation: 'fadeUp 0.5s ease-out'
-        }} key={`icon-${step}`}>
+          transition: 'color 0.6s ease'
+        }}>
           {current.symbol}
         </div>
         
-        <h2 style={{ fontSize: '1.8rem', marginBottom: '15px' }} key={`title-${step}`}>
+        <h2 style={{ fontSize: '1.8rem', marginBottom: '15px' }}>
           {current.title}
         </h2>
-        <p style={{ fontSize: '1rem', color: '#666', lineHeight: '1.6' }} key={`desc-${step}`}>
+        <p style={{ fontSize: '1rem', color: '#666', lineHeight: '1.6' }}>
           {current.desc}
         </p>
       </div>
@@ -91,7 +91,7 @@ export default function Onboarding() {
             width: '100%', padding: '18px', backgroundColor: current.color,
             color: '#fff', borderRadius: '14px', fontSize: '1.1rem', fontWeight: 'bold',
             display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px',
-            transition: 'background-color 0.3s ease'
+            transition: 'background-color 0.6s ease'
           }}
         >
           {step === slides.length - 1 ? '시작하기' : '다음'}
