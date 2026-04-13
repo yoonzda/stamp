@@ -75,15 +75,46 @@ export default function Collection() {
 
         {captured.length === 4 && (
           <div style={{
-            marginTop: '30px', padding: '20px', backgroundColor: '#1c1c1e', color: '#fff',
-            borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '16px',
-            animation: 'fadeUp 0.5s ease-out'
+            marginTop: '40px', padding: '40px 20px', 
+            background: 'linear-gradient(135deg, #1c1c1e 0%, #2c3e50 100%)',
+            borderRadius: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', 
+            boxShadow: '0 16px 40px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.1)',
+            animation: 'fadeUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
           }}>
-            <Award size={40} color="var(--color-yellow)" />
-            <div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: 'bold', marginBottom: '4px' }}>모든 스탬프 수집 완료!</h4>
-              <p style={{ fontSize: '0.85rem', color: '#aaa' }}>축하합니다. 투어를 모두 마쳤습니다.</p>
+            <h3 style={{ color: '#fff', fontSize: '1.4rem', fontWeight: '900', marginBottom: '8px', letterSpacing: '2px', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+              MASTER STAMP
+            </h3>
+            <p style={{ color: '#aaa', fontSize: '0.9rem', marginBottom: '24px' }}>4가지 원소를 통달한 자</p>
+            
+            {/* The Combined Emblem */}
+            <div style={{
+              width: '120px', height: '120px', borderRadius: '50%',
+              background: 'linear-gradient(45deg, #f093fb 0%, #f5576c 100%)',
+              padding: '4px',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 0 30px rgba(245, 87, 108, 0.6), 0 0 60px rgba(240, 147, 251, 0.4)',
+              animation: 'spin 10s linear infinite'
+            }}>
+              <div style={{
+                width: '100%', height: '100%', borderRadius: '50%',
+                backgroundColor: '#1c1c1e', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                position: 'relative', overflow: 'hidden'
+              }}>
+                <div style={{ position: 'absolute', top: '15%', left: '15%', color: 'var(--color-cyan)', fontSize: '1.8rem', fontWeight: 'bold' }}>+</div>
+                <div style={{ position: 'absolute', top: '15%', right: '15%', color: 'var(--color-crimson)', fontSize: '1.8rem', fontWeight: 'bold' }}>-</div>
+                <div style={{ position: 'absolute', bottom: '15%', left: '15%', color: 'var(--color-yellowgreen)', fontSize: '1.8rem', fontWeight: 'bold' }}>×</div>
+                <div style={{ position: 'absolute', bottom: '15%', right: '15%', color: 'var(--color-yellow)', fontSize: '1.8rem', fontWeight: 'bold' }}>÷</div>
+                <Award size={48} color="#fff" style={{ zIndex: 2, filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.5))' }} />
+              </div>
             </div>
+
+            <p style={{ color: '#fff', fontSize: '1rem', marginTop: '24px', fontWeight: 'bold', textAlign: 'center', lineHeight: '1.5' }}>
+              축하합니다!<br/>모든 기운이 조화롭게 완성되었습니다.
+            </p>
+            
+            <style>{`
+              @keyframes spin { 100% { transform: rotate(360deg); } }
+            `}</style>
           </div>
         )}
       </div>

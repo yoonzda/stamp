@@ -3,10 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import { QrCode, Navigation, MapPin } from 'lucide-react';
 
 const STAMPS = [
-  { id: 1, name: '더하기 스탬프 (+)', symbol: '+', color: 'var(--color-cyan)', latOffset: 0.002, lngOffset: 0.002 },
-  { id: 2, name: '빼기 스탬프 (-)', symbol: '-', color: 'var(--color-crimson)', latOffset: -0.0015, lngOffset: 0.0025 },
-  { id: 3, name: '곱하기 스탬프 (×)', symbol: '×', color: 'var(--color-yellowgreen)', latOffset: 0.0025, lngOffset: -0.001 },
-  { id: 4, name: '나누기 스탬프 (÷)', symbol: '÷', color: 'var(--color-yellow)', latOffset: -0.003, lngOffset: -0.002 },
+  // 청록 더하기 (3 routes)
+  { id: 1, name: '더하기 스탬프 (+)', symbol: '+', code: 'STAMP_CYAN', color: 'var(--color-cyan)', latOffset: 0.002, lngOffset: 0.002 },
+  { id: 2, name: '더하기 스탬프 (+)', symbol: '+', code: 'STAMP_CYAN', color: 'var(--color-cyan)', latOffset: -0.004, lngOffset: 0.005 },
+  { id: 3, name: '더하기 스탬프 (+)', symbol: '+', code: 'STAMP_CYAN', color: 'var(--color-cyan)', latOffset: 0.006, lngOffset: -0.003 },
+  // 다홍 빼기 (3 routes)
+  { id: 4, name: '빼기 스탬프 (-)', symbol: '-', code: 'STAMP_CRIMSON', color: 'var(--color-crimson)', latOffset: -0.0015, lngOffset: 0.0025 },
+  { id: 5, name: '빼기 스탬프 (-)', symbol: '-', code: 'STAMP_CRIMSON', color: 'var(--color-crimson)', latOffset: 0.003, lngOffset: 0.006 },
+  { id: 6, name: '빼기 스탬프 (-)', symbol: '-', code: 'STAMP_CRIMSON', color: 'var(--color-crimson)', latOffset: -0.005, lngOffset: -0.004 },
+  // 연두 곱하기 (3 routes)
+  { id: 7, name: '곱하기 스탬프 (×)', symbol: '×', code: 'STAMP_YELLOWGREEN', color: 'var(--color-yellowgreen)', latOffset: 0.0025, lngOffset: -0.001 },
+  { id: 8, name: '곱하기 스탬프 (×)', symbol: '×', code: 'STAMP_YELLOWGREEN', color: 'var(--color-yellowgreen)', latOffset: -0.006, lngOffset: 0.002 },
+  { id: 9, name: '곱하기 스탬프 (×)', symbol: '×', code: 'STAMP_YELLOWGREEN', color: 'var(--color-yellowgreen)', latOffset: 0.004, lngOffset: -0.005 },
+  // 노랑 나누기 (3 routes)
+  { id: 10, name: '나누기 스탬프 (÷)', symbol: '÷', code: 'STAMP_YELLOW', color: 'var(--color-yellow)', latOffset: -0.003, lngOffset: -0.002 },
+  { id: 11, name: '나누기 스탬프 (÷)', symbol: '÷', code: 'STAMP_YELLOW', color: 'var(--color-yellow)', latOffset: 0.005, lngOffset: 0.004 },
+  { id: 12, name: '나누기 스탬프 (÷)', symbol: '÷', code: 'STAMP_YELLOW', color: 'var(--color-yellow)', latOffset: -0.002, lngOffset: -0.006 },
 ];
 
 export default function MapHome() {
@@ -50,26 +62,31 @@ export default function MapHome() {
           });
           myLocOverlay.setMap(map);
 
+          const capturedStamps = JSON.parse(localStorage.getItem('captured_stamps') || '[]');
+
           // Stamp Markers
           calculatedStamps.forEach(stamp => {
+            const isThemeCaptured = capturedStamps.includes(stamp.code);
+
             const content = document.createElement('div');
             content.style.width = '36px';
             content.style.height = '36px';
-            content.style.backgroundColor = '#fff';
-            content.style.border = `3px solid ${stamp.color}`;
+            content.style.backgroundColor = isThemeCaptured ? '#dbdbdb' : '#fff';
+            content.style.border = isThemeCaptured ? `3px solid #b5b5b5` : `3px solid ${stamp.color}`;
             content.style.borderRadius = '50%';
             content.style.display = 'flex';
             content.style.alignItems = 'center';
             content.style.justifyContent = 'center';
-            content.style.fontSize = '20px';
+            content.style.fontSize = isThemeCaptured ? '14px' : '20px';
             content.style.fontWeight = 'bold';
-            content.style.color = stamp.color;
+            content.style.color = isThemeCaptured ? '#888' : stamp.color;
             content.style.boxShadow = '0 4px 6px rgba(0,0,0,0.2)';
             content.style.cursor = 'pointer';
-            content.innerText = stamp.symbol;
+            content.style.transition = 'all 0.3s';
+            content.innerHTML = isThemeCaptured ? '✔️' : stamp.symbol;
 
             content.onclick = () => {
-              setSelectedStamp(stamp);
+              setSelectedStamp({ ...stamp, isThemeCaptured });
               map.panTo(new window.kakao.maps.LatLng(stamp.lat, stamp.lng));
             };
 
@@ -173,17 +190,21 @@ export default function MapHome() {
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '24px' }}>
                 <div style={{
                   width: '64px', height: '64px', borderRadius: '50%',
-                  backgroundColor: `${selectedStamp.color}15`, border: `2px solid ${selectedStamp.color}`,
+                  backgroundColor: selectedStamp.isThemeCaptured ? '#e6e6e6' : `${selectedStamp.color}15`,
+                  border: selectedStamp.isThemeCaptured ? `2px solid #ccc` : `2px solid ${selectedStamp.color}`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '2rem', fontWeight: 'bold', color: selectedStamp.color, marginBottom: '12px'
+                  fontSize: '2rem', fontWeight: 'bold', 
+                  color: selectedStamp.isThemeCaptured ? '#888' : selectedStamp.color, marginBottom: '12px'
                 }}>
-                  {selectedStamp.symbol}
+                  {selectedStamp.isThemeCaptured ? '✔️' : selectedStamp.symbol}
                 </div>
                 <h2 style={{ fontSize: '1.4rem', fontWeight: '800', margin: 0, color: '#222' }}>
                   {selectedStamp.name}
                 </h2>
-                <p style={{ color: '#666', fontSize: '0.95rem', margin: '8px 0 0 0' }}>
-                  해당 스탬프 위치로 길안내를 시작하시겠습니까?
+                <p style={{ color: selectedStamp.isThemeCaptured ? '#888' : '#666', fontSize: '0.95rem', margin: '8px 0 0 0' }}>
+                  {selectedStamp.isThemeCaptured 
+                    ? '이미 이 기호(테마)의 스탬프를 찾았습니다!' 
+                    : '해당 스탬프 위치로 길안내를 시작하시겠습니까?'}
                 </p>
               </div>
 
