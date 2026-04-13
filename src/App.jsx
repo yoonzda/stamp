@@ -3,6 +3,8 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import Onboarding from './pages/Onboarding';
 import MapHome from './pages/MapHome';
 import Scanner from './pages/Scanner';
+import Collection from './pages/Collection';
+import SpeedDial from './components/SpeedDial';
 
 function LoadingScreen() {
   return (
@@ -57,7 +59,10 @@ function App() {
         <Route path="/" element={<MapHome />} />
         <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/scanner" element={<Scanner />} />
+        <Route path="/collection" element={<Collection />} />
       </Routes>
+      
+      {location.pathname !== '/onboarding' && <SpeedDial />}
     </div>
   );
 }

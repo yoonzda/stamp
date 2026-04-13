@@ -20,31 +20,26 @@ export default function MapHome() {
   
   // Initialize Kakao Map
   useEffect(() => {
-    if (!window.kakao || !window.kakao.maps) {
-      console.error('카카오맵 API 스크립트가 로드되지 않았습니다.');
-      return;
-    }
+    const initMap = (latitude, longitude) => {
+      if (!window.kakao || !window.kakao.maps) {
+        // Fallback UI rendering implicitly by keeping mapContainer empty but showing markers/sheet would fail.
+        return;
+      }
+      
+      const calculatedStamps = STAMPS.map(stamp => ({
+        ...stamp,
+        lat: latitude + stamp.latOffset,
+        lng: longitude + stamp.lngOffset
+      }));
+      setStampsData(calculatedStamps);
 
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const { latitude, longitude } = pos.coords;
-        setCurrentPos({ lat: latitude, lng: longitude });
-
-        // Calculate actual stamp positions relative to current pos
-        const calculatedStamps = STAMPS.map(stamp => ({
-          ...stamp,
-          lat: latitude + stamp.latOffset,
-          lng: longitude + stamp.lngOffset
-        }));
-        setStampsData(calculatedStamps);
-
-        window.kakao.maps.load(() => {
-          const mapOption = {
-            center: new window.kakao.maps.LatLng(latitude, longitude),
-            level: 4
-          };
-          const map = new window.kakao.maps.Map(mapContainer.current, mapOption);
-          mapRef.current = map;
+      window.kakao.maps.load(() => {
+        const mapOption = {
+          center: new window.kakao.maps.LatLng(latitude, longitude),
+          level: 4
+        };
+        const map = new window.kakao.maps.Map(mapContainer.current, mapOption);
+        mapRef.current = map;
 
           // My Location Marker
           const myLocContent = `<div style="width:16px;height:16px;background-color:#000;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 4px rgba(0,0,0,0.3)"></div>`;
@@ -86,12 +81,21 @@ export default function MapHome() {
             overlay.setMap(map);
           });
         });
+    };
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setCurrentPos({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+        initMap(pos.coords.latitude, pos.coords.longitude);
       },
       (err) => {
-        alert('위치 정보를 가져올 수 없습니다. 권한을 허용해주세요.');
-        // Fallback default position (Seoul City Hall)
+        // Fallback to City Hall
+        const fallbackLat = 37.5665;
+        const fallbackLng = 126.9780;
+        setCurrentPos({ lat: fallbackLat, lng: fallbackLng });
+        initMap(fallbackLat, fallbackLng);
       },
-      { enableHighAccuracy: true }
+      { enableHighAccuracy: true, timeout: 5000 }
     );
   }, []);
 
@@ -125,26 +129,18 @@ export default function MapHome() {
       </div>
 
       {/* Map Container */}
-      <div id="map" ref={mapContainer} style={{ width: '100%', flex: 1, backgroundColor: '#eee' }}></div>
+      <div id="map" ref={mapContainer} style={{ width: '100%', flex: 1, backgroundColor: '#eef', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        {!window.kakao?.maps && (
+          <div style={{ padding: '40px', textAlign: 'center', color: '#666' }}>
+            <MapPin size={48} color="#ccc" style={{ marginBottom: '16px' }} />
+            <p>지도를 불러오는 중이거나 권한이 필요합니다.</p>
+            <p style={{ fontSize: '0.8rem', marginTop: '8px' }}>(카카오맵 도메인 등록 필요)</p>
+          </div>
+        )}
+      </div>
 
-      {/* Bottom Floating Area */}
-      <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', zIndex: 20, padding: '20px', pointerEvents: 'none' }}>
-        
-        {/* Floating Scan Button */}
-        <button 
-          onClick={() => navigate('/scanner')}
-          style={{
-            float: 'right', marginBottom: selectedStamp ? '20px' : '0', width: '60px', height: '60px',
-            backgroundColor: '#000', color: '#fff', borderRadius: '30px', border: 'none',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 8px 16px rgba(0,0,0,0.3)', pointerEvents: 'auto',
-            transition: 'all 0.3s'
-          }}
-        >
-          <QrCode size={28} />
-        </button>
-        <div style={{ clear: 'both' }}></div>
-
+      {/* Bottom Floating Area (Replaced by SpeedDial globally) */}
+      <div style={{ position: 'absolute', bottom: '20px', left: '20px', right: '90px', zIndex: 20, pointerEvents: 'none' }}>
         {/* Selected Stamp Bottom Sheet */}
         <div style={{
           backgroundColor: '#fff', borderRadius: '24px', padding: '24px',

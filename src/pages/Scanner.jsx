@@ -10,8 +10,19 @@ export default function Scanner() {
   const handleScan = (text) => {
     if (text && !result) {
       setResult(text);
-      alert('스탬프를 획득했습니다!\n내용: ' + text);
-      navigate('/');
+      if(text.startsWith('STAMP_')) {
+        let saved = JSON.parse(localStorage.getItem('captured_stamps') || '[]');
+        if(!saved.includes(text)) {
+          saved.push(text);
+          localStorage.setItem('captured_stamps', JSON.stringify(saved));
+          alert('축하합니다! 새로운 스탬프를 획득했습니다.');
+        } else {
+          alert('이미 획득한 스탬프입니다.');
+        }
+      } else {
+        alert('유효하지 않은 QR 코드입니다.\n내용: ' + text);
+      }
+      navigate('/collection');
     }
   };
 
