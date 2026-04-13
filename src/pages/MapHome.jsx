@@ -140,11 +140,11 @@ export default function MapHome() {
       {/* Header */}
       <div style={{ 
         position: 'absolute', top: 0, left: 0, width: '100%',
-        padding: '24px 20px', zIndex: 10,
-        background: 'linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0))'
+        padding: '40px 20px 20px 20px', zIndex: 10,
+        background: 'linear-gradient(to bottom, rgba(255,255,255,0.95) 60%, rgba(255,255,255,0))'
       }}>
-        <h1 style={{ margin: 0, fontSize: '1.4rem', fontWeight: '800' }}>현재 위치와 주변 스탬프</h1>
-        <p style={{ margin: 0, color: '#555', fontSize: '0.9rem', marginTop: '4px' }}>지도에서 스탬프를 선택하세요</p>
+        <h1 style={{ margin: 0, fontSize: '1.4rem', fontWeight: '900', letterSpacing: '-0.5px' }}>현재 위치와 주변 상자</h1>
+        <p style={{ margin: 0, color: '#555', fontSize: '0.9rem', marginTop: '4px' }}>지도에서 재료를 선택하세요</p>
       </div>
 
       {/* Map Container */}

@@ -14,7 +14,7 @@ export default function CharacterSelect() {
   };
 
   return (
-    <div style={{ padding: '30px 20px', minHeight: '100%', backgroundColor: '#fff', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ padding: '50px 20px 30px', minHeight: '100%', backgroundColor: '#fff', display: 'flex', flexDirection: 'column' }}>
       <h1 style={{ fontSize: '1.8rem', fontWeight: '900', marginBottom: '10px' }}>함께 여행할<br/>동물을 선택하세요</h1>
       <p style={{ color: '#666', marginBottom: '40px' }}>나중에 스탬프를 모아 예쁜 옷을 입혀줄 수 있어요!</p>
       

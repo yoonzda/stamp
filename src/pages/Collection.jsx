@@ -21,11 +21,11 @@ export default function Collection() {
     <div style={{ width: '100%', minHeight: '100%', backgroundColor: '#f9f9f9', display: 'flex', flexDirection: 'column' }}>
       
       {/* Header */}
-      <div style={{ padding: '24px 20px', display: 'flex', alignItems: 'center', backgroundColor: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.05)', zIndex: 10 }}>
-        <button onClick={() => navigate('/')} style={{ display: 'flex', alignItems: 'center', color: '#333', background: 'none', border: 'none', cursor: 'pointer' }}>
-          <ChevronLeft size={28} />
+      <div style={{ padding: '40px 20px 20px 20px', display: 'flex', alignItems: 'center', backgroundColor: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.05)', zIndex: 10 }}>
+        <button onClick={() => navigate('/')} style={{ display: 'flex', alignItems: 'center', color: '#333', background: 'none', border: 'none', cursor: 'pointer', padding: '5px' }}>
+          <ChevronLeft size={32} />
         </button>
-        <h1 style={{ fontSize: '1.3rem', fontWeight: '800', marginLeft: '12px', flex: 1 }}>
+        <h1 style={{ fontSize: '1.3rem', fontWeight: '900', marginLeft: '8px', flex: 1, letterSpacing: '-0.5px' }}>
           {animal?.name}의 옷장
         </h1>
       </div>

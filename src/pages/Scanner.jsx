@@ -46,8 +46,8 @@ export default function Scanner() {
     <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: '#000', color: '#fff' }}>
       
       {/* Header */}
-      <div style={{ padding: '20px', display: 'flex', alignItems: 'center', zIndex: 10 }}>
-        <button onClick={() => navigate(-1)} style={{ color: '#fff', display: 'flex', alignItems: 'center' }}>
+      <div style={{ padding: '40px 20px 20px 20px', display: 'flex', alignItems: 'center', zIndex: 10 }}>
+        <button onClick={() => navigate(-1)} style={{ color: '#fff', display: 'flex', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer' }}>
           <ChevronLeft size={28} />
           <span style={{ fontSize: '1.1rem', marginLeft: '4px' }}>뒤로</span>
         </button>
