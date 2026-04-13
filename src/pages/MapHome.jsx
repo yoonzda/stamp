@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { QrCode, Navigation, MapPin } from 'lucide-react';
+import { getGameState } from '../gameState';
 
 const STAMPS = [
   // 청록 더하기 (3 routes)
@@ -62,7 +63,8 @@ export default function MapHome() {
           });
           myLocOverlay.setMap(map);
 
-          const capturedStamps = JSON.parse(localStorage.getItem('captured_stamps') || '[]');
+          const state = getGameState();
+          const capturedStamps = state.inventory || [];
 
           // Stamp Markers
           calculatedStamps.forEach(stamp => {

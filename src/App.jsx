@@ -4,7 +4,9 @@ import Onboarding from './pages/Onboarding';
 import MapHome from './pages/MapHome';
 import Scanner from './pages/Scanner';
 import Collection from './pages/Collection';
+import CharacterSelect from './pages/CharacterSelect';
 import SpeedDial from './components/SpeedDial';
+import { getGameState } from './gameState';
 
 function LoadingScreen() {
   return (
@@ -45,6 +47,13 @@ function App() {
       const hasOnboarded = localStorage.getItem('hasOnboarded');
       if (!hasOnboarded && location.pathname === '/') {
         navigate('/onboarding');
+        return;
+      }
+
+      // Check character selection
+      const state = getGameState();
+      if (hasOnboarded && !state.character && location.pathname !== '/character') {
+        navigate('/character');
       }
     }, 2000);
 
@@ -58,6 +67,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MapHome />} />
         <Route path="/onboarding" element={<Onboarding />} />
+        <Route path="/character" element={<CharacterSelect />} />
         <Route path="/scanner" element={<Scanner />} />
         <Route path="/collection" element={<Collection />} />
       </Routes>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Scanner as QrScanner } from '@yudiel/react-qr-scanner';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
+import { getGameState, saveGameState } from '../gameState';
 
 export default function Scanner() {
   const navigate = useNavigate();
@@ -11,13 +12,28 @@ export default function Scanner() {
     if (text && !result) {
       setResult(text);
       if(text.startsWith('STAMP_')) {
-        let saved = JSON.parse(localStorage.getItem('captured_stamps') || '[]');
-        if(!saved.includes(text)) {
-          saved.push(text);
-          localStorage.setItem('captured_stamps', JSON.stringify(saved));
-          alert('축하합니다! 새로운 스탬프를 획득했습니다.');
+        const state = getGameState();
+        
+        if(!state.activeQuest) {
+          alert('먼저 옷장에서 제작할 아이템을 선택해주세요!');
+          navigate('/collection');
+          return;
+        }
+
+        if(!state.inventory.includes(text)) {
+          state.inventory.push(text);
+          
+          if(state.inventory.length === 4) {
+            state.unlockedItems.push(state.activeQuest);
+            state.activeQuest = null;
+            state.inventory = [];
+            alert('🎉 축하합니다! 스탬프 4조각을 모아 아이템을 완성했습니다!');
+          } else {
+            alert('성공! 새로운 스탬프 조각을 획득했습니다.');
+          }
+          saveGameState(state);
         } else {
-          alert('이미 획득한 스탬프입니다.');
+          alert('이미 획득한 기호입니다. 다른 기호를 찾으세요!');
         }
       } else {
         alert('유효하지 않은 QR 코드입니다.\n내용: ' + text);
