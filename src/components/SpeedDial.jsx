@@ -1,95 +1,116 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Plus, Map as MapIcon, QrCode, BookOpen } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Map, MapPinned, Camera, Gift } from 'lucide-react';
 
 export default function SpeedDial() {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const actions = [
-    { name: '스캐너', icon: <QrCode size={24} color="var(--color-cyan)" />, path: '/scanner', delay: '0.05s' },
-    { name: '내 도장장', icon: <BookOpen size={24} color="var(--color-crimson)" />, path: '/collection', delay: '0.1s' },
-    { name: '스탬프 지도', icon: <MapIcon size={24} color="var(--color-yellowgreen)" />, path: '/', delay: '0.15s' }
+  const toggleOpen = () => setIsOpen(!isOpen);
+
+  const navItems = [
+    { id: 'home', path: '/', icon: <Map size={26} /> },
+    { id: 'collection', path: '/collection', icon: <MapPinned size={26} /> },
+    { id: 'reward', path: '/reward', icon: <Gift size={26} /> },
+    { id: 'scanner', path: '/scanner', icon: <Camera size={26} /> }
   ];
 
-  const handleNavigate = (path) => {
-    setOpen(false);
-    setTimeout(() => navigate(path), 300); // 닫히는 애니메이션 대기
-  };
-
   return (
-    <div style={{ position: 'absolute', bottom: '30px', right: '30px', zIndex: 9999 }}>
+    <>
+      {/* Soft overlay backdrop linking to the watercolor vibe */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="absolute inset-0 bg-[#e0dbcd]/40 backdrop-blur-[2px] z-40"
+            onClick={() => setIsOpen(false)}
+          />
+        )}
+      </AnimatePresence>
       
-      {/* 얇고 세련된 블러 백그라운드 (메뉴에 집중되도록) */}
-      <div 
-        style={{
-          position: 'absolute', bottom: '-30px', right: '-30px', width: '100vw', height: '100vh',
-          backgroundColor: 'rgba(255,255,255,0.3)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)',
-          opacity: open ? 1 : 0, pointerEvents: open ? 'auto' : 'none',
-          transition: 'all 0.4s ease', zIndex: -1
-        }}
-        onClick={() => setOpen(false)}
-      />
-
-      {/* Speed Dial Actions */}
-      <div style={{ position: 'relative', width: '64px', height: '64px' }}>
-        {actions.map((action, index) => {
-          const translateY = open ? `-${(index + 1) * 72}px` : '0px';
-          const scale = open ? 1 : 0.4;
-          return (
-            <div 
-              key={action.name}
-              onClick={() => handleNavigate(action.path)}
-              style={{
-                position: 'absolute', top: '4px', left: '4px', width: '56px', height: '56px',
-                backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
-                borderRadius: '28px',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 8px 16px rgba(0,0,0,0.08), inset 0 1px 2px rgba(255,255,255,0.8)', cursor: 'pointer',
-                transform: `translateY(${translateY}) scale(${scale})`,
-                transition: `all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) ${action.delay}`,
-                opacity: open ? 1 : 0,
-                pointerEvents: open ? 'auto' : 'none'
+      <div className="absolute bottom-6 right-6 z-50 flex flex-col items-center pointer-events-none">
+        
+        {/* Animated Pop-out Menu Items */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div 
+              className="flex flex-col-reverse items-center gap-4 mb-5 pointer-events-auto"
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={{
+                open: { transition: { staggerChildren: 0.08, delayChildren: 0.02 } },
+                closed: { transition: { staggerChildren: 0.06, staggerDirection: -1 } }
               }}
             >
-              {action.icon}
-              
-              {/* 프리미엄 툴팁 (말풍선) */}
-              <div style={{
-                position: 'absolute', right: '70px',
-                backgroundColor: 'rgba(28, 28, 30, 0.85)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
-                color: '#fff', padding: '10px 16px', borderRadius: '14px',
-                fontSize: '0.9rem', fontWeight: 'bold', letterSpacing: '0.5px',
-                whiteSpace: 'nowrap', opacity: open ? 1 : 0,
-                transform: open ? 'translateX(0)' : 'translateX(10px)',
-                transition: `all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${parseFloat(action.delay) + 0.1}s`,
-                pointerEvents: 'none',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-              }}>
-                {action.name}
-              </div>
-            </div>
-          );
-        })}
+              {navItems.map((item) => {
+                const isActive = location.pathname === item.path;
+                return (
+                  <motion.button
+                    key={item.id}
+                    variants={{
+                      open: { 
+                        opacity: 1, 
+                        y: 0, 
+                        scale: 1,
+                        transition: { type: 'spring', stiffness: 350, damping: 15, mass: 0.8 } 
+                      },
+                      closed: { 
+                        opacity: 0, 
+                        y: 15, 
+                        scale: 0.6,
+                        transition: { duration: 0.15 } 
+                      }
+                    }}
+                    whileHover={{ scale: 1.08 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => {
+                      navigate(item.path);
+                      setIsOpen(false);
+                    }}
+                    className={`w-[3.25rem] h-[3.25rem] rounded-full flex items-center justify-center relative shadow-[0_8px_20px_rgba(40,30,20,0.15)] border-2 transition-colors duration-300
+                      ${isActive 
+                        ? 'bg-[#ffffff] border-[#d5ccbe] text-[#3e342b]' 
+                        : 'bg-[#fdfaf5]/80 backdrop-blur-md border-white/60 text-[#a39585]'
+                      }`}
+                  >
+                    {item.icon}
+                    
+                    {/* Active Indicator Dot */}
+                    {isActive && (
+                      <div className="absolute top-0 right-0 w-3 h-3 rounded-full bg-[#8a7a6b] border-2 border-white shadow-sm" />
+                    )}
+                  </motion.button>
+                );
+              })}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {/* Main Floating Button */}
-        <button 
-          onClick={() => setOpen(!open)}
-          style={{
-            position: 'absolute', top: 0, left: 0, width: '64px', height: '64px',
-            background: open ? '#ff3b30' : '#1c1c1e',
-            color: '#fff', borderRadius: '32px', border: 'none',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: open ? '0 8px 24px rgba(255, 59, 48, 0.4)' : '0 8px 24px rgba(0,0,0,0.25)',
-            transform: `rotate(${open ? '135deg' : '0deg'}) scale(${open ? 0.95 : 1})`,
-            transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-            cursor: 'pointer', outline: 'none'
-          }}
+        {/* Floating Action Button (Main) */}
+        <motion.button 
+          onClick={toggleOpen}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: 'spring', stiffness: 250, damping: 20 }}
+          className="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-tr from-[#685b4f] to-[#8a7a6b] text-[#fdfaf5] shadow-[0_12px_30px_rgba(50,40,30,0.25)] border-2 border-[#e0dbcd]/50 z-50 pointer-events-auto"
         >
-          <Plus size={32} />
-        </button>
+          <motion.div 
+            animate={{ rotate: isOpen ? 135 : 0 }}
+            transition={{ type: 'spring', stiffness: 250, damping: 20 }}
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </motion.div>
+        </motion.button>
+
       </div>
-    </div>
+    </>
   );
 }

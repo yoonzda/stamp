@@ -1,123 +1,259 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { getGameState, SYMBOLS, ISLANDS, getAvailableCoupons } from '../gameState';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft } from 'lucide-react';
-import { ANIMALS, ITEMS, getGameState, saveGameState } from '../gameState';
-import AvatarDisplay from '../components/Avatars';
+import SymbolIcon from '../components/SymbolIcon';
 
 export default function Collection() {
+  const state = getGameState();
+  const stamps = state.collectedStamps || [];
   const navigate = useNavigate();
-  const [state, setState] = useState(getGameState());
+  const [selectedSpot, setSelectedSpot] = useState(null);
 
-  const handleSelectQuest = (itemId) => {
-    const newState = { ...state, activeQuest: itemId, inventory: [] };
-    saveGameState(newState);
-    setState(newState);
+  // Flatten all available spots into one big list and sort: Completed first!
+  const allSortedSpots = useMemo(() => {
+    let allSpots = ISLANDS.flatMap(island => island.spots);
+    
+    allSpots.sort((a, b) => {
+      const aStamp = stamps.find(st => st.code === a.code);
+      const bStamp = stamps.find(st => st.code === b.code);
+      const aDone = !!aStamp;
+      const bDone = !!bStamp;
+
+      if (aDone && bDone) return aStamp.timestamp - bStamp.timestamp;
+      if (aDone && !bDone) return -1;
+      if (!aDone && bDone) return 1;
+      return 0; // maintain default order amongst the same group
+    });
+
+    return allSpots;
+  }, [stamps]);
+
+  const couponsAvailable = getAvailableCoupons(state);
+
+  const getMissingSymbols = () => {
+    const counts = { PLUS: 0, MINUS: 0, MULTIPLY: 0, DIVIDE: 0 };
+    stamps.forEach(s => {
+      const spot = ISLANDS.flatMap(i => i.spots).find(spot => spot.code === s.code);
+      if (spot) counts[spot.category]++;
+    });
+    const currentCompleted = Math.min(counts.PLUS, counts.MINUS, counts.MULTIPLY, counts.DIVIDE);
+    const needed = [];
+    if (counts.PLUS <= currentCompleted) needed.push('더하기');
+    if (counts.MINUS <= currentCompleted) needed.push('빼기');
+    if (counts.MULTIPLY <= currentCompleted) needed.push('곱하기');
+    if (counts.DIVIDE <= currentCompleted) needed.push('나누기');
+    return needed;
   };
 
-  const animal = ANIMALS.find(a => a.id === state.character) || ANIMALS[0];
-  const activeItem = state.activeQuest ? ITEMS.find(i => i.id === state.activeQuest) : null;
+  const missingSymbols = getMissingSymbols();
+
+  const handleShare = (spot) => {
+    if (navigator.share) {
+      navigator.share({
+        title: '옹진 명소 수집',
+        text: `제가 아름다운 옹진군의 [${spot.name}]에 방문해서 특별한 스탬프를 얻었어요! 함께 구경해볼까요?`,
+        url: window.location.href,
+      }).catch(console.error);
+    } else {
+      alert(`[공유 복사됨] 아름다운 옹진군의 [${spot.name}]에 방문해서 특별한 스탬프를 획득했습니다!`);
+    }
+  };
+
+  const openMap = (spot) => {
+    window.open(`https://map.kakao.com/link/search/${spot.address || spot.name}`, '_blank');
+  };
 
   return (
-    <div style={{ width: '100%', minHeight: '100%', backgroundColor: '#f9f9f9', display: 'flex', flexDirection: 'column' }}>
+    <div className="w-full h-full relative bg-transparent overflow-hidden font-['Pretendard']">
       
-      {/* Header */}
-      <div style={{ padding: '40px 20px 20px 20px', display: 'flex', alignItems: 'center', backgroundColor: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.05)', zIndex: 10 }}>
-        <button onClick={() => navigate('/')} style={{ display: 'flex', alignItems: 'center', color: '#333', background: 'none', border: 'none', cursor: 'pointer', padding: '5px' }}>
-          <ChevronLeft size={32} />
-        </button>
-        <h1 style={{ fontSize: '1.3rem', fontWeight: '900', marginLeft: '8px', flex: 1, letterSpacing: '-0.5px' }}>
-          {animal?.name}의 옷장
-        </h1>
-      </div>
-
-      <div style={{ padding: '20px', flex: 1, overflowY: 'auto' }}>
+      <div className="relative z-10 w-full h-full p-4 pt-12 overflow-y-auto hide-scrollbar flex flex-col items-center">
         
-        {/* Avatar Area */}
-        <div style={{ 
-          backgroundColor: '#fff', borderRadius: '30px', padding: '30px 20px', 
-          boxShadow: '0 10px 30px rgba(0,0,0,0.05)', marginBottom: '30px'
-        }}>
-          <AvatarDisplay animalId={state.character} unlockedItems={state.unlockedItems} />
+        {/* Header */}
+        <div className="text-center mb-6">
+          <h1 className="text-[1.75rem] text-[#3e342b] mb-2 font-bold font-['Nanum_Myeongjo'] drop-shadow-sm border-b-[1.5px] border-[#d5ccbe] pb-2 px-8 inline-block">
+            나의 수집첩
+          </h1>
+          <p className="text-[0.8rem] font-medium opacity-80 text-[#6b5a4d] px-4 break-keep">
+            옹진군의 모든 명소가 한자리에 모였습니다.<br/>4가지 고유한 기호를 모두 모으면 보상으로 교환할 수 있어요!
+          </p>
         </div>
 
-        {/* Current Quest Area */}
-        {activeItem ? (
-          <div style={{ marginBottom: '40px' }}>
-            <h2 style={{ fontSize: '1.2rem', fontWeight: '800', marginBottom: '16px' }}>현재 제작 중...</h2>
-            <div style={{ 
-              backgroundColor: '#1c1c1e', color: '#fff', padding: '24px', borderRadius: '24px',
-              boxShadow: '0 10px 20px rgba(0,0,0,0.2)'
-            }}>
-              <h3 style={{ fontSize: '1.3rem', margin: '0 0 8px 0', color: '#fff' }}>{activeItem.name}</h3>
-              <p style={{ color: '#aaa', fontSize: '0.9rem', margin: '0 0 20px 0' }}>지도에서 남은 스탬프를 찾으세요!</p>
+        {/* 4x4 Master Grid of ALL SPOTS */}
+        <div className="w-full max-w-sm px-2 mb-8">
+          <div className="grid grid-cols-4 gap-y-6 gap-x-2">
+            {allSortedSpots.map((spot, i) => {
+              const isDone = stamps.some(st => st.code === spot.code);
+              const sym = SYMBOLS[spot.category];
               
-              {/* Progress Slots */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '8px' }}>
-                {['STAMP_CYAN', 'STAMP_CRIMSON', 'STAMP_YELLOWGREEN', 'STAMP_YELLOW'].map((code) => {
-                  const hasIt = state.inventory.includes(code);
-                  let symbol = '+';
-                  let color = 'var(--color-cyan)';
-                  if(code === 'STAMP_CRIMSON') { symbol = '-'; color = 'var(--color-crimson)'; }
-                  if(code === 'STAMP_YELLOWGREEN') { symbol = '×'; color = 'var(--color-yellowgreen)'; }
-                  if(code === 'STAMP_YELLOW') { symbol = '÷'; color = 'var(--color-yellow)'; }
-
-                  return (
-                    <div key={code} style={{
-                      width: '50px', height: '50px', borderRadius: '14px',
-                      backgroundColor: hasIt ? color : '#333',
-                      color: hasIt ? '#fff' : '#666',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: '1.5rem', fontWeight: 'bold', border: hasIt ? 'none' : '2px dashed #555'
-                    }}>
-                      {symbol}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-            <button 
-              onClick={() => handleSelectQuest(null)}
-              style={{ width: '100%', padding: '14px', marginTop: '12px', background: 'none', border: '1px solid #ccc', borderRadius: '16px', color: '#666', fontWeight: 'bold' }}>
-              제작 취소하기
-            </button>
-          </div>
-        ) : (
-          <div>
-            <h2 style={{ fontSize: '1.2rem', fontWeight: '800', marginBottom: '16px' }}>제작할 아이템 선택</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px' }}>
-              {ITEMS.map((item) => {
-                const isUnlocked = state.unlockedItems.includes(item.id);
-                return (
-                  <div key={item.id} style={{
-                    backgroundColor: '#fff', padding: '20px', borderRadius: '20px',
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.05)', opacity: isUnlocked ? 0.6 : 1
-                  }}>
-                    <div>
-                      <h3 style={{ fontSize: '1.1rem', fontWeight: 'bold', margin: '0 0 6px 0', textDecoration: isUnlocked ? 'line-through' : 'none' }}>
-                        {item.name}
-                      </h3>
-                      <p style={{ fontSize: '0.85rem', color: '#888', margin: 0 }}>
-                        {isUnlocked ? '이미 보유 중입니다' : item.desc}
-                      </p>
-                    </div>
-                    {!isUnlocked && (
-                      <button 
-                        onClick={() => handleSelectQuest(item.id)}
-                        style={{
-                          backgroundColor: 'var(--color-cyan)', color: '#fff', padding: '10px 16px',
-                          borderRadius: '12px', border: 'none', fontWeight: 'bold'
-                        }}>
-                        제작 시작
-                      </button>
+              return (
+                <motion.button 
+                  onClick={() => setSelectedSpot({ spot, isDone, sym })}
+                  key={spot.code}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  whileTap={{ scale: 0.9 }}
+                  transition={{ delay: i * 0.03, type: 'spring', damping: 20 }}
+                  className="flex flex-col items-center focus:outline-none"
+                >
+                  <div className={`w-[3.6rem] h-[3.6rem] rounded-full flex items-center justify-center relative transition-all duration-300
+                    ${isDone ? 'shadow-inner mix-blend-multiply border border-transparent cursor-pointer hover:shadow-md' : 'border border-[#d1c8b4] border-dashed opacity-40 cursor-pointer hover:opacity-70'}`}
+                       style={{ backgroundColor: isDone ? sym.color + '25' : 'transparent' }}>
+                    
+                    {/* The Icon */}
+                    <span className={`w-8 h-8 flex items-center justify-center ${isDone ? 'drop-shadow-sm' : 'opacity-80 mix-blend-multiply'}`} 
+                          style={{ color: isDone ? sym.color : '#a39889' }}>
+                      <SymbolIcon type={sym.id} />
+                    </span>
+                    
+                    {/* Checkmark overlay for completed ones */}
+                    {isDone && (
+                      <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-[#8a7a6b] rounded-full flex items-center justify-center shadow-sm">
+                        <span className="text-[0.55rem] text-[#f4ecdf] font-bold">✓</span>
+                      </div>
                     )}
                   </div>
-                );
-              })}
-            </div>
+                  
+                  {/* Spot Name */}
+                  <span className={`mt-2 text-[0.6rem] font-bold text-center leading-tight w-[4rem] mix-blend-multiply break-keep
+                    ${isDone ? 'text-[#3e342b]' : 'text-[#a39889] opacity-70'}`}>
+                    {spot.name}
+                  </span>
+                </motion.button>
+              );
+            })}
           </div>
-        )}
+        </div>
+        
+        {/* Simple Call to Action logic */}
+        <div className="w-full max-w-sm px-4 mt-auto pb-12 text-center">
+          <div className="border-t border-dashed border-[#d5ccbe] pt-6 mb-4">
+            <span className="text-[0.95rem] text-[#54463a] font-bold font-['Nanum_Myeongjo']">
+              현재 모은 스탬프: <span className="text-[#b85b40] text-[1.4rem] font-['Gowun_Batang'] mx-1">{stamps.length}</span>개
+            </span>
+          </div>
+
+          <button 
+            onClick={() => navigate('/reward')}
+            disabled={couponsAvailable <= 0}
+            className={`w-full py-4 rounded-xl font-bold tracking-wider text-[0.85rem] transition-all flex flex-col items-center justify-center gap-1 leading-snug
+              ${couponsAvailable > 0 
+                ? 'bg-[#3e342b] text-[#f4ecdf] shadow-md animate-pulse' 
+                : 'bg-transparent border border-[#d5ccbe] text-[#a39889] opacity-60'
+              }`}
+          >
+            {couponsAvailable > 0 ? (
+              <span className="text-[0.95rem]">{couponsAvailable}개의 보상 혜택 고르기</span>
+            ) : (
+              <>
+                <span>진행중인 세트 부족 기호:</span>
+                <span>{missingSymbols.join(', ')}</span>
+              </>
+            )}
+          </button>
+        </div>
+        
       </div>
+
+      {/* Spot Detail Box-less Poetic Modal */}
+      <AnimatePresence>
+        {selectedSpot && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-50 flex flex-col items-center justify-center p-8 bg-[#2a241f]/95 backdrop-blur-md text-center"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setSelectedSpot(null);
+            }}
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 15, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 15, opacity: 0 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="flex flex-col items-center w-full max-w-sm"
+            >
+              <div 
+                className={`w-24 h-24 rounded-full flex items-center justify-center text-4xl mb-8 border border-dashed relative z-10 shrink-0
+                  ${!selectedSpot.isDone && 'opacity-40 grayscale'} `} 
+                style={{ borderColor: selectedSpot.sym.color }}
+              >
+                <div className="absolute inset-0 opacity-20 rounded-full mix-blend-screen" style={{ backgroundColor: selectedSpot.sym.color }} />
+                <span className="relative z-10 w-12 h-12 flex items-center justify-center drop-shadow-lg" style={{ color: selectedSpot.sym.color }}>
+                  {selectedSpot.isDone ? <SymbolIcon type={selectedSpot.sym.id} /> : '?'}
+                </span>
+              </div>
+
+              <h2 className="text-[1.6rem] font-bold text-[#f4ecdf] mb-4 font-['Nanum_Myeongjo'] drop-shadow-sm tracking-wide break-keep">
+                {selectedSpot.spot.name}
+              </h2>
+              
+              <p className="text-[0.95rem] font-medium text-[#c4baa8] mb-6 leading-relaxed max-w-[14rem] break-keep relative">
+                {selectedSpot.spot.desc}
+              </p>
+
+              <div className="w-8 h-[1px] bg-[#a39585]/40 mb-6" />
+
+              <p className="text-[0.8rem] text-[#a39585] mb-10 font-medium tracking-wide">
+                {selectedSpot.spot.address}
+              </p>
+
+              <div className="flex flex-col w-full gap-3">
+                {selectedSpot.isDone ? (
+                  <>
+                    <p className="text-[0.8rem] font-bold text-[#d5ccbe] mb-4 tracking-widest">
+                      획득 일자 : {new Date(stamps.find(s => s.code === selectedSpot.spot.code)?.timestamp || Date.now()).toLocaleDateString('ko-KR')}
+                    </p>
+                    <button 
+                      onClick={() => handleShare(selectedSpot.spot)}
+                      className="w-full text-[#3e342b] bg-[#e8dfcf] font-bold py-4 rounded-none shadow-md active:scale-95 transition-transform text-[0.95rem] tracking-widest mt-2 hover:bg-white"
+                    >
+                      기록 공유하기
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex gap-2 w-full mb-2">
+                      <button 
+                        onClick={() => window.open(`https://map.kakao.com/link/search/${encodeURIComponent(selectedSpot.spot.name)}`, '_blank')}
+                        className="flex-1 text-[#d5ccbe] border border-dashed border-[#a39585]/50 py-3.5 font-bold text-[0.85rem] active:scale-95 transition-transform tracking-widest hover:text-white"
+                      >
+                        카카오맵 길찾기
+                      </button>
+                      <button 
+                        onClick={() => window.open(`https://map.naver.com/v5/directions/-/${encodeURIComponent(selectedSpot.spot.name)},-/transit?c=15,0,0,0,dh`, '_blank')}
+                        className="flex-1 text-[#d5ccbe] border border-dashed border-[#a39585]/50 py-3.5 font-bold text-[0.85rem] active:scale-95 transition-transform tracking-widest hover:text-white"
+                      >
+                        네이버지도 길찾기
+                      </button>
+                    </div>
+                    <button 
+                      onClick={() => navigate('/scanner')}
+                      className="w-full text-[#3e342b] bg-[#e8dfcf] font-bold py-4 rounded-none shadow-md active:scale-95 transition-transform text-[0.95rem] tracking-widest hover:bg-white"
+                    >
+                      스탬프 획득하기
+                    </button>
+                  </>
+                )}
+              </div>
+
+              <button 
+                onClick={() => setSelectedSpot(null)}
+                className="mt-8 text-[#a39585] text-[0.85rem] font-bold underline underline-offset-4 hover:text-[#f4ecdf] tracking-widest"
+              >
+                닫기
+              </button>
+
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <style>{`
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
     </div>
   );
 }
