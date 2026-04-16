@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import intro1Trad from '../assets/intro1_trad.png';
 
 const ONBOARDING_STEPS = [
@@ -52,6 +52,24 @@ export default function Onboarding({ onFinish }) {
     localStorage.setItem('has_seen_onboarding', 'true');
     onFinish();
   };
+
+  const skip = () => {
+    localStorage.setItem('has_seen_onboarding', 'true');
+    onFinish();
+  };
+
+  // Keyboard Navigation Support
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowRight' && step < ONBOARDING_STEPS.length - 1) {
+        setStep((prev) => prev + 1);
+      } else if (e.key === 'ArrowLeft' && step > 0) {
+        setStep((prev) => prev - 1);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [step]);
 
   return (
     <div 
@@ -112,10 +130,28 @@ export default function Onboarding({ onFinish }) {
                 </span>
               </button>
             ) : (
-              <div className="text-gray-600 text-[0.8rem] tracking-widest font-semibold flex items-center justify-center gap-2 opacity-60 animate-pulse mt-2">
-                <svg className="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                스와이프하여 넘기기
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+              <div className="flex w-full items-center justify-between mt-1 px-4">
+                 <button 
+                   onClick={() => step > 0 && setStep(step - 1)} 
+                   className={`p-2 transition-all ${step === 0 ? 'opacity-0 cursor-default' : 'opacity-50 hover:opacity-100 hover:scale-110 text-gray-800'}`}
+                   disabled={step === 0}
+                 >
+                   <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
+                 </button>
+                 
+                 <button 
+                   onClick={skip}
+                   className="text-gray-600 text-[0.85rem] font-bold hover:text-gray-900 tracking-[0.2em] underline underline-offset-8 decoration-black/20 hover:decoration-black/40 transition-colors"
+                 >
+                   건너뛰기
+                 </button>
+
+                 <button 
+                   onClick={() => step < ONBOARDING_STEPS.length - 1 && setStep(step + 1)} 
+                   className="p-2 opacity-50 hover:opacity-100 hover:scale-110 text-gray-800 transition-all"
+                 >
+                   <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                 </button>
               </div>
             )}
           </div>
