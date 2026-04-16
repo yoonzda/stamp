@@ -1,11 +1,13 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ISLANDS, getGameState } from '../gameState';
+import dumujinImg from '../assets/dumujin.png';
+import sagotImg from '../assets/sagot.png';
 
 // Map real image paths for specific known spots
 const REAL_IMAGES = {
-  'STAMP_B1': '/dumujin.png',
-  'STAMP_B2': '/sagot.png',
+  'STAMP_B1': dumujinImg,
+  'STAMP_B2': sagotImg,
 };
 
 // Map fallback scenic keywords for unsplash images

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import introWc from '../assets/intro_wc.png';
 
 const ONBOARDING_STEPS = [
   {
@@ -33,7 +34,7 @@ export default function Onboarding({ onFinish }) {
       <div className="flex-1 flex flex-col justify-center items-center p-8 text-center animate-fade-in-up transition-all duration-300">
         {/* Watercolor Image Header */}
         <div className="w-64 h-64 mb-8 rounded-[2rem] overflow-hidden shadow-lg border-2 border-[#d5ccbe]">
-          <img src="/intro_wc.png" alt="인트로 수채화" className="w-full h-full object-cover" />
+          <img src={introWc} alt="인트로 수채화" className="w-full h-full object-cover" />
         </div>
         <h2 className="text-3xl font-['Nanum_Myeongjo'] font-bold text-[#0B4F9A] mb-4">
           {ONBOARDING_STEPS[step].title}

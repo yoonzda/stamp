@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import introWc from '../assets/intro_wc.png';
 
 export default function Splash({ onFinish }) {
   useEffect(() => {
@@ -14,7 +15,7 @@ export default function Splash({ onFinish }) {
       <div className="animate-fade-in-up flex flex-col items-center">
         {/* Title / Logo with Watercolor Image */}
         <div className="w-40 h-40 mb-6 rounded-3xl overflow-hidden shadow-lg border-2 border-[#d5ccbe]">
-          <img src="/intro_wc.png" alt="인트로 수채화" className="w-full h-full object-cover" />
+          <img src={introWc} alt="인트로 수채화" className="w-full h-full object-cover" />
         </div>
         <h1 className="text-4xl font-['Nanum_Myeongjo'] font-bold text-[#3e342b] mb-2 tracking-tight">
           스탬프 투어

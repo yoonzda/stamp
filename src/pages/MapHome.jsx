@@ -8,7 +8,13 @@ export default function MapHome() {
 
   return (
     <div className="w-full h-full bg-transparent overflow-y-auto overflow-x-hidden relative scrollbar-hide">
-      <div className="min-h-full w-full flex flex-col justify-center items-center py-10 px-4">
+      <div className="w-full h-full bg-transparent flex flex-col justify-center items-center overflow-hidden relative">
+      <button 
+          onClick={() => { localStorage.removeItem('has_seen_onboarding'); window.location.reload(); }}
+          className="absolute top-4 left-4 z-50 bg-white/80 text-black px-3 py-1.5 rounded-full text-xs shadow-md font-bold"
+        >
+          🔄 처음부터 다시보기 (테스트용)
+        </button>
         
         {/* Container matching full width to fit original layout */}
         <div className="relative w-full">
