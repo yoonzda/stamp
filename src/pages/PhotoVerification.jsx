@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getGameState, saveGameState, ISLANDS } from '../gameState';
 
@@ -7,17 +7,50 @@ export default function PhotoVerification() {
   const navigate = useNavigate();
   const [agreed, setAgreed] = useState(false);
   const [capturing, setCapturing] = useState(false);
+  const [gpsStatus, setGpsStatus] = useState({ state: 'checking', coords: null, error: null });
+  const [photoPreview, setPhotoPreview] = useState(null);
+
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setGpsStatus({ 
+            state: 'success', 
+            coords: { lat: position.coords.latitude, lng: position.coords.longitude },
+            error: null 
+          });
+        },
+        (error) => {
+          console.warn("GPS Access Denied/Error", error);
+          setGpsStatus({ state: 'error', coords: null, error: 'GPS 위치 접근 허용이 필요합니다.' });
+        },
+        { enableHighAccuracy: true, timeout: 5000 }
+      );
+    } else {
+      setGpsStatus({ state: 'error', coords: null, error: 'GPS를 지원하지 않는 브라우저입니다.' });
+    }
+  }, []);
 
   const spot = ISLANDS.flatMap(i => i.spots).find(s => s.code === code);
 
-  const handleCapture = () => {
+  const handleCapture = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
     if (!agreed) {
       alert("사진 수집 및 이용에 동의해주세요.");
       return;
     }
+    if (gpsStatus.state !== 'success') {
+      alert("GPS 위치 확인이 완료되지 않았습니다.");
+      return;
+    }
+    
     setCapturing(true);
+    const objectUrl = URL.createObjectURL(file);
+    setPhotoPreview(objectUrl);
+
     setTimeout(() => {
-      // Mock acquire stamp
       const state = getGameState();
       if (!state.collectedStamps) state.collectedStamps = [];
       const alreadyHas = state.collectedStamps.find(s => s.code === code);
@@ -25,8 +58,8 @@ export default function PhotoVerification() {
         state.collectedStamps.push({
           code: code,
           acquiredAt: new Date().toISOString(),
-          // Use an image to represent the taken photo
-          photoUrl: `https://picsum.photos/seed/${code}_user/400/300`
+          photoUrl: objectUrl,
+          coords: gpsStatus.coords
         });
         saveGameState(state);
       }
@@ -40,11 +73,12 @@ export default function PhotoVerification() {
     <div className="w-full h-full bg-[#1a1a1a] flex flex-col relative text-white">
       {/* Mock Camera Viewfinder */}
       <div className="flex-1 relative flex flex-col justify-end p-6 bg-black overflow-hidden">
-        {/* The simulated live camera feed */}
+        {/* The simulated live camera feed or real photo preview */}
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-60 scale-110 motion-safe:animate-pulse" 
-          style={{ backgroundImage: `url(https://picsum.photos/seed/${code}1/400/800)` }} 
+          className={`absolute inset-0 bg-cover bg-center ${photoPreview ? 'opacity-100 scale-100' : 'opacity-60 scale-110 motion-safe:animate-pulse'}`}
+          style={{ backgroundImage: `url(${photoPreview || `https://picsum.photos/seed/${code}1/400/800`})` }} 
         />
+        {photoPreview && <div className="absolute inset-0 bg-black/20" />}
         
         {/* Viewfinder Frame */}
         <div className="absolute inset-8 border-2 border-white/20 rounded-3xl pointer-events-none z-10 flex flex-col justify-between p-4">
@@ -62,9 +96,21 @@ export default function PhotoVerification() {
 
         {/* GPS Indication */}
         <div className="absolute top-12 left-0 right-0 flex justify-center z-20">
-          <div className="bg-green-500/90 backdrop-blur text-white px-5 py-2.5 rounded-full font-bold shadow-lg flex items-center gap-2 animate-bounce">
-            📍 {spot.name} 위치 확인 완료
-          </div>
+          {gpsStatus.state === 'checking' && (
+             <div className="bg-gray-500/90 backdrop-blur text-white px-5 py-2.5 rounded-full font-bold shadow-lg flex items-center gap-2">
+               ⏳ 위성(GPS) 위치 확인 중...
+             </div>
+          )}
+          {gpsStatus.state === 'error' && (
+             <div className="bg-red-500/90 backdrop-blur text-white px-5 py-2.5 rounded-full font-bold shadow-lg flex items-center gap-2">
+               ⚠️ {gpsStatus.error}
+             </div>
+          )}
+          {gpsStatus.state === 'success' && (
+             <div className="bg-green-500/90 backdrop-blur text-white px-5 py-2.5 rounded-full font-bold shadow-lg flex items-center gap-2 animate-bounce">
+               📍 {spot.name} 위치 확인 완료
+             </div>
+          )}
         </div>
 
         <div className="relative z-10 w-full mb-10 pb-20"></div>
@@ -99,17 +145,26 @@ export default function PhotoVerification() {
           </span>
         </label>
 
-        <button 
-          onClick={handleCapture}
-          disabled={capturing}
-          className={`w-full py-4 rounded-xl font-bold text-lg shadow-md transition-all ${
-            agreed && !capturing 
-              ? 'bg-[#004790] text-white active:scale-95' 
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-          }`}
-        >
-          {capturing ? '사진 분석 및 인증 중...' : '📸 사진 촬영 및 스탬프 획득'}
-        </button>
+        <div className="relative">
+          <input 
+            type="file" 
+            accept="image/*" 
+            capture="environment"
+            onChange={handleCapture}
+            disabled={capturing || !agreed || gpsStatus.state !== 'success'}
+            className="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer disabled:cursor-not-allowed"
+          />
+          <button 
+            disabled={capturing || !agreed || gpsStatus.state !== 'success'}
+            className={`w-full py-4 rounded-xl font-bold text-lg shadow-md transition-all relative z-10 ${
+              (agreed && gpsStatus.state === 'success' && !capturing)
+                ? 'bg-[#004790] text-white active:scale-95' 
+                : 'bg-gray-300 text-gray-500'
+            }`}
+          >
+            {capturing ? '사진 분석 및 인증 중...' : '📸 실제 카메라로 촬영하기'}
+          </button>
+        </div>
       </div>
     </div>
   );

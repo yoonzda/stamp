@@ -8,7 +8,7 @@ const ONBOARDING_STEPS = [
   },
   {
     title: '스탬프를 모아보세요',
-    description: '각 명소를 방문하고 QR 코드를 스캔하여 예쁜 스탬프를 획득하세요.',
+    description: '명소의 아름다운 풍경을 사진으로 찍어 인증하고 스탬프를 획득하세요.',
     icon: '📸'
   },
   {
