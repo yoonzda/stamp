@@ -3,19 +3,39 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ISLANDS, getGameState } from '../gameState';
 import dumujinImg from '../assets/dumujin.png';
 import sagotImg from '../assets/sagot.png';
+import kongdolImg from '../assets/kongdol.png';
+import okjukdongImg from '../assets/okjukdong.png';
+import simnipoImg from '../assets/simnipo.png';
 
-// Map real image paths for specific known spots
+// 모든 장소에 대한 고해상도 실제 사진 매핑 (직접 모델링한 사진 + 고화질 사진)
 const REAL_IMAGES = {
-  'STAMP_B1': dumujinImg,
-  'STAMP_B2': sagotImg,
-};
-
-// Map fallback scenic keywords for unsplash images
-const SPOT_KEYWORDS = {
-  PLUS: 'beach,calm,ocean',
-  MINUS: 'mountain,forest,climb',
-  MULTIPLY: 'cliff,rock,coastal',
-  DIVIDE: 'sunset,sea,horizon'
+  'STAMP_B1': dumujinImg, 'STAMP_B2': sagotImg, 'STAMP_B3': kongdolImg,
+  'STAMP_B4': 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?q=80&w=800',
+  'STAMP_B5': 'https://images.unsplash.com/photo-1502481851512-e9e2529bfbf9?q=80&w=800',
+  'STAMP_C1': okjukdongImg,
+  'STAMP_C2': 'https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?q=80&w=800',
+  'STAMP_C3': 'https://images.unsplash.com/photo-1520962880247-9605890058f2?q=80&w=800',
+  'STAMP_C4': 'https://images.unsplash.com/photo-1498062069695-037cfac4a350?q=80&w=800',
+  'STAMP_Y1': 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800',
+  'STAMP_Y2': 'https://images.unsplash.com/photo-1471922694854-ff1b63b20054?q=80&w=800',
+  'STAMP_Y3': 'https://images.unsplash.com/photo-1582299863488-2ff77c08272f?q=80&w=800',
+  'STAMP_Y4': 'https://images.unsplash.com/photo-1506744626753-1fa767220280?q=80&w=800',
+  'STAMP_J1': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800',
+  'STAMP_J2': 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=800',
+  'STAMP_J3': 'https://images.unsplash.com/photo-1473496169904-658ba37448eb?q=80&w=800',
+  'STAMP_J4': 'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?q=80&w=800',
+  'STAMP_D1': 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?q=80&w=800',
+  'STAMP_D2': 'https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?q=80&w=800',
+  'STAMP_D3': 'https://images.unsplash.com/photo-1545681146-da4ffc1555df?q=80&w=800',
+  'STAMP_D4': 'https://images.unsplash.com/photo-1518556557610-85f269a94439?q=80&w=800',
+  'STAMP_H1': 'https://images.unsplash.com/photo-1490906935105-09a250320a02?q=80&w=800',
+  'STAMP_H2': simnipoImg,
+  'STAMP_H3': 'https://images.unsplash.com/photo-1503756234508-e32369269deb?q=80&w=800',
+  'STAMP_H4': 'https://images.unsplash.com/photo-1524275039322-a9f464010ee6?q=80&w=800',
+  'STAMP_N1': 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=800',
+  'STAMP_N2': 'https://images.unsplash.com/photo-1563200742-990a42db4d31?q=80&w=800',
+  'STAMP_N3': 'https://images.unsplash.com/photo-1495616811223-4d98c6e9c869?q=80&w=800',
+  'STAMP_N4': 'https://images.unsplash.com/photo-1520286047240-da85db358509?q=80&w=800',
 };
 
 export default function SpotGallery() {
@@ -28,13 +48,8 @@ export default function SpotGallery() {
   
   if (!spot) return <div className="p-10 text-center bg-[#F3EFE6] h-full">잘못된 접근입니다.</div>;
 
-  // Determine images to display: User's photo + 3 actual/realistic photos
-  const realImage = REAL_IMAGES[code] || `https://source.unsplash.com/400x300/?${SPOT_KEYWORDS[spot.category]}`;
-  const images = [
-    realImage,
-    `https://source.unsplash.com/400x300/?korea,landscape,${code}2`,
-    `https://source.unsplash.com/400x300/?sea,island,${code}3`
-  ];
+  const realImage = REAL_IMAGES[code] || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800';
+  const images = [realImage];
   
   const displayImages = [...images];
   if (userAcquired && userAcquired.photoUrl) {
