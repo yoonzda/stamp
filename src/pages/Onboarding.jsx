@@ -43,31 +43,34 @@ export default function Onboarding({ onFinish }) {
          className="absolute inset-0 w-full h-full object-cover -z-10 animate-fade-in scale-[1.15]" 
       />
 
-      {/* Content wrapper taking up the bottom space */}
-      <div className="flex-1 flex flex-col justify-end px-5 pb-10 text-left z-10 animate-fade-in-up">
+      {/* Content wrapper centered */}
+      <div className="flex-1 flex flex-col justify-center items-center px-6 text-center z-10 animate-fade-in-up">
         
-        {/* ONE BIG GLASS BOX for both Text and Buttons */}
-        <div className="flex flex-col bg-white/20 backdrop-blur-xl p-8 rounded-[2rem] border border-white/50 shadow-2xl">
+        {/* ONE BIG GLASS BOX perfectly centered */}
+        <div className="flex flex-col bg-white/20 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.15)] w-full max-w-sm">
+          
+          {/* Top Minimalist Handle */}
+          <div className="w-12 h-1 flex-shrink-0 bg-white/60 mx-auto rounded-full mb-8"></div>
           
           {/* Text Area */}
-          <div className="mb-8">
-            <h2 className="text-[1.8rem] font-bold text-gray-900 mb-3 leading-tight tracking-tight drop-shadow-sm">
+          <div className="mb-10">
+            <h2 className="text-[1.9rem] font-bold text-gray-900 mb-4 leading-[1.3] tracking-tight drop-shadow-sm">
               {ONBOARDING_STEPS[step].title}
             </h2>
-            <p className="text-gray-800 text-[1.1rem] break-keep leading-[1.7] font-medium drop-shadow-sm">
+            <p className="text-gray-800 text-[1.1rem] break-keep leading-[1.8] font-medium drop-shadow-sm px-2">
               {ONBOARDING_STEPS[step].description}
             </p>
           </div>
           
           {/* Buttons Area */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-6 items-center w-full">
             {/* Dots */}
-            <div className="flex justify-center gap-2 mb-2">
+            <div className="flex justify-center gap-2.5 mb-1">
               {ONBOARDING_STEPS.map((_, i) => (
                 <div 
                   key={i} 
-                  className={`h-1.5 rounded-full transition-all duration-500 ease-out ${
-                    i === step ? 'w-8 bg-gray-800' : 'w-2.5 bg-gray-400/50'
+                  className={`h-2 rounded-full transition-all duration-500 ease-out ${
+                    i === step ? 'w-10 bg-gray-800 shadow-sm' : 'w-3 bg-gray-400/50'
                   }`} 
                 />
               ))}
@@ -75,7 +78,7 @@ export default function Onboarding({ onFinish }) {
             
             <button 
               onClick={nextStep}
-              className="w-full py-4.5 bg-white/60 backdrop-blur-md text-gray-900 rounded-2xl font-bold shadow-sm hover:bg-white/80 active:scale-95 transition-all text-lg tracking-wide border border-white/50"
+              className="w-full py-4 bg-gray-900/90 text-white rounded-[1.25rem] font-bold shadow-lg hover:bg-gray-900 active:scale-95 transition-all text-lg tracking-wider"
             >
               {step === ONBOARDING_STEPS.length - 1 ? '기행 시작하기' : '다음 풍경'}
             </button>
@@ -83,7 +86,7 @@ export default function Onboarding({ onFinish }) {
             {step < ONBOARDING_STEPS.length - 1 && (
               <button 
                 onClick={skip}
-                className="w-full py-1 text-gray-600 font-semibold hover:text-gray-900 transition-colors tracking-wide underline underline-offset-4 decoration-black/20"
+                className="w-full py-1 text-gray-700 font-bold hover:text-gray-900 transition-colors tracking-wide underline underline-offset-4 decoration-black/20"
               >
                 건너뛰기
               </button>
