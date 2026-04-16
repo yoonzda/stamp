@@ -23,13 +23,15 @@ export default function Splash({ onFinish }) {
           자연이 허락한 쉼표
         </p>
 
-        {/* Trendy Modern Geometric Loader */}
+        {/* Ultra Elegant Minimalism Loader */}
         <div className="mt-8 mb-2 flex flex-col items-center">
-           <div className="w-8 h-8 border-[2.5px] border-gray-800 animate-[spin_5s_linear_infinite] flex items-center justify-center p-1.5 rotate-45">
-              <div className="w-full h-full bg-gray-800/80 animate-pulse"></div>
+           <div className="flex gap-2 mb-4">
+             <div className="w-1.5 h-1.5 rounded-full bg-gray-800/80 animate-bounce" style={{ animationDelay: '0ms' }}></div>
+             <div className="w-1.5 h-1.5 rounded-full bg-gray-800/60 animate-bounce" style={{ animationDelay: '150ms' }}></div>
+             <div className="w-1.5 h-1.5 rounded-full bg-gray-800/40 animate-bounce" style={{ animationDelay: '300ms' }}></div>
            </div>
-           <span className="mt-6 text-gray-800 font-bold text-[0.7rem] tracking-[0.4em] uppercase opacity-80">
-             Preparing
+           <span className="text-gray-800 font-bold text-[0.7rem] tracking-[0.4em] uppercase opacity-60">
+             여행을 준비 중입니다
            </span>
         </div>
       </div>
