@@ -33,23 +33,23 @@ export default function Onboarding({ onFinish }) {
   };
 
   return (
-    <div className="absolute inset-0 z-40 flex flex-col font-['Nanum_Myeongjo'] overflow-hidden">
+    <div className="absolute inset-0 z-40 flex flex-col font-['Nanum_Myeongjo'] overflow-hidden bg-white">
       
-      {/* FULL SCREEN BACKGROUND */}
-      <div className="absolute inset-0 bg-[#e9e3d3] -z-20"></div>
+      {/* FULL SCREEN BACKGROUND - 100% Opaque for full feeling */}
       <img 
          key={step}
          src={ONBOARDING_STEPS[step].img} 
          alt="온보딩 전통 수묵화" 
-         className="absolute inset-0 w-full h-full object-cover -z-10 opacity-70 animate-fade-in mix-blend-multiply scale-100 hover:scale-105 transition-transform duration-[3000ms]" 
+         className="absolute inset-0 w-full h-full object-cover -z-10 animate-fade-in scale-100 hover:scale-105 transition-transform duration-[3000ms]" 
       />
 
-      <div className="absolute inset-x-0 bottom-0 h-[60vh] bg-gradient-to-t from-[#e9e3d3] via-[#e9e3d3]/90 to-transparent -z-10"></div>
+      {/* Fade the extremely bottom portion cleanly so the text is fully readable */}
+      <div className="absolute inset-x-0 bottom-0 h-[50vh] bg-gradient-to-t from-white via-white/80 to-transparent -z-10"></div>
 
       {/* Text Content - Floating over bottom */}
       <div className="flex-1 flex flex-col justify-end px-6 pb-10 text-left z-10 animate-fade-in-up">
         
-        <div className="bg-[#f4ecdf]/80 backdrop-blur-md p-7 rounded-[2rem] border border-[#d5ccbe]/60 shadow-[0_8px_30px_rgba(62,52,43,0.08)]">
+        <div className="bg-white/95 backdrop-blur-md p-7 rounded-[2rem] border border-[#d5ccbe]/60 shadow-xl">
           <h2 className="text-[1.8rem] font-bold text-[#2e2620] mb-4 leading-tight tracking-tight">
             {ONBOARDING_STEPS[step].title}
           </h2>

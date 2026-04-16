@@ -12,8 +12,8 @@ export default function Splash({ onFinish }) {
   return (
     <div className="absolute inset-0 z-50 flex flex-col items-center justify-center transition-opacity duration-500 overflow-hidden font-['Nanum_Myeongjo']">
       <div className="absolute inset-0 bg-[#e9e3d3] -z-20"></div>
-      <img src={splashTrad} alt="전통 수묵화 배경" className="absolute inset-0 w-full h-full object-cover opacity-70 scale-105 transition-transform duration-[4000ms] -z-10 mix-blend-multiply" />
-      <div className="absolute inset-x-0 bottom-0 top-1/2 bg-gradient-to-t from-[#e9e3d3] to-transparent -z-10 opacity-80"></div>
+      <img src={splashTrad} alt="전통 수묵화 배경" className="absolute inset-0 w-full h-full object-cover scale-105 transition-transform duration-[4000ms] -z-10" />
+      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-white/90 to-transparent -z-10"></div>
 
       <div className="relative z-10 animate-fade-in-up flex flex-col items-center text-center -mt-20">
         <h1 className="text-[2.8rem] font-black text-[#2b241e] mb-4 tracking-[-2px] drop-shadow-sm">
