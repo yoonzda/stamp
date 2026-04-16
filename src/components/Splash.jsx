@@ -19,13 +19,18 @@ export default function Splash({ onFinish }) {
         <h1 className="text-[2.7rem] font-black text-gray-900 mb-5 tracking-tight drop-shadow-md leading-tight">
           옹진군<br/>스탬프 투어
         </h1>
-        <p className="text-gray-800 font-bold text-[1.15rem] tracking-[0.2em] mb-2">
+        <p className="text-gray-800 font-bold text-[1.15rem] tracking-[0.2em] mb-4">
           자연이 허락한 쉼표
         </p>
 
-        {/* Spinner moved inside the glass box */}
-        <div className="mt-8">
-          <div className="w-10 h-10 border-[4px] border-gray-400/30 border-t-gray-800 rounded-full animate-spin"></div>
+        {/* Trendy Modern Geometric Loader */}
+        <div className="mt-8 mb-2 flex flex-col items-center">
+           <div className="w-8 h-8 border-[2.5px] border-gray-800 animate-[spin_5s_linear_infinite] flex items-center justify-center p-1.5 rotate-45">
+              <div className="w-full h-full bg-gray-800/80 animate-pulse"></div>
+           </div>
+           <span className="mt-6 text-gray-800 font-bold text-[0.7rem] tracking-[0.4em] uppercase opacity-80">
+             Preparing
+           </span>
         </div>
       </div>
     </div>
