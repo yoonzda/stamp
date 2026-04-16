@@ -49,11 +49,8 @@ export default function Onboarding({ onFinish }) {
         {/* ONE BIG GLASS BOX perfectly centered */}
         <div className="flex flex-col bg-white/20 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.15)] w-full max-w-sm">
           
-          {/* Top Minimalist Handle */}
-          <div className="w-12 h-1 flex-shrink-0 bg-white/60 mx-auto rounded-full mb-8"></div>
-          
           {/* Text Area */}
-          <div className="mb-10">
+          <div className="mb-10 mt-2">
             <h2 className="text-[1.9rem] font-bold text-gray-900 mb-4 leading-[1.3] tracking-tight drop-shadow-sm">
               {ONBOARDING_STEPS[step].title}
             </h2>
