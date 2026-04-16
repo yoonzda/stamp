@@ -183,16 +183,23 @@ export default function IslandDetail() {
               </p>
 
               <div className="flex flex-col w-full gap-3">
+                <button 
+                  onClick={() => navigate(`/photo-verify/${selectedSpot.spot.code}`)}
+                  className="w-full bg-[#8a7a6b] text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform shadow-md border-b-4 border-[#685b4f]"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                  사진 찍고 스탬프 받기
+                </button>
                 <div className="flex gap-2 w-full">
                   <button 
                     onClick={() => window.open(`https://map.kakao.com/link/search/${encodeURIComponent(selectedSpot.spot.name)}`, '_blank')}
-                    className="flex-1 text-[#d5ccbe] border border-dashed border-[#a39585]/50 py-4 font-bold text-[0.85rem] active:scale-95 transition-transform tracking-widest hover:text-white"
+                    className="flex-1 text-[#d5ccbe] border border-dashed border-[#a39585]/50 py-3 font-bold text-[0.85rem] active:scale-95 transition-transform tracking-widest hover:text-white"
                   >
                     카카오맵 길찾기
                   </button>
                   <button 
                     onClick={() => window.open(`https://map.naver.com/v5/directions/-/${encodeURIComponent(selectedSpot.spot.name)},-/transit?c=15,0,0,0,dh`, '_blank')}
-                    className="flex-1 text-[#d5ccbe] border border-dashed border-[#a39585]/50 py-4 font-bold text-[0.85rem] active:scale-95 transition-transform tracking-widest hover:text-white"
+                    className="flex-1 text-[#d5ccbe] border border-dashed border-[#a39585]/50 py-3 font-bold text-[0.85rem] active:scale-95 transition-transform tracking-widest hover:text-white"
                   >
                     네이버지도 길찾기
                   </button>

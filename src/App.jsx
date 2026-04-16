@@ -1,16 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import MapHome from './pages/MapHome';
 import IslandDetail from './pages/IslandDetail';
-import Scanner from './pages/Scanner';
+import PhotoVerification from './pages/PhotoVerification';
+import Gallery from './pages/Gallery';
 import Collection from './pages/Collection';
 import Reward from './pages/Reward';
 import SpeedDial from './components/SpeedDial';
+import Splash from './components/Splash';
+import Onboarding from './pages/Onboarding';
 
 function App() {
+  const [showSplash, setShowSplash] = useState(true);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem('has_seen_onboarding') !== 'true') {
+      setShowOnboarding(true);
+    }
+  }, []);
+
   return (
     <div className="w-full max-w-md mx-auto h-screen shadow-xl overflow-hidden relative" style={{ backgroundColor: '#F3EFE6' }}>
       
+      {showSplash && <Splash onFinish={() => setShowSplash(false)} />}
+      
+      {(!showSplash && showOnboarding) && (
+        <Onboarding onFinish={() => setShowOnboarding(false)} />
+      )}
+
       {/* 
         MASTER CANVAS: 
         Instead of tiling an image which causes ugly grid lines, we dynamically generate 
@@ -30,7 +48,8 @@ function App() {
         <Routes>
           <Route path="/" element={<MapHome />} />
           <Route path="/island/:id" element={<IslandDetail />} />
-          <Route path="/scanner" element={<Scanner />} />
+          <Route path="/photo-verify/:code" element={<PhotoVerification />} />
+          <Route path="/gallery" element={<Gallery />} />
           <Route path="/collection" element={<Collection />} />
           <Route path="/reward" element={<Reward />} />
         </Routes>
@@ -39,4 +58,5 @@ function App() {
     </div>
   );
 }
+
 export default App;
