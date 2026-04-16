@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import wcIntro1 from '../assets/wc_intro1.png';
-import wcIntro2 from '../assets/wc_intro2.png';
+import intro1Trad from '../assets/intro1_trad.png';
+import intro2Trad from '../assets/intro2_trad.png';
 
 const ONBOARDING_STEPS = [
   {
     title: '바다 위 보석, 옹진군',
-    description: '일상의 번잡함에서 잠시 벗어나, 투명한 바다와 고즈넉한 바람이 반겨주는 옹진군의 섬들을 거닐어 보세요. 발길 닿는 구석구석마다 새로운 위안과 평화로움이 당신을 기다리고 있습니다.',
-    img: wcIntro1
+    description: '일상의 번잡함에서 벗어나, 고즈넉한 수묵화처럼 펼쳐진 전통 옹진군의 섬들을 거닐어 보세요. 발길 닿는 구석구석마다 새로운 위안이 당신을 기다리고 있습니다.',
+    img: intro1Trad
   },
   {
-    title: '찰나를 영원한 추억으로',
-    description: '발걸음을 멈추게 하는 경이로운 명소 앞에서는 꼭 사진을 남겨주세요. 섬이 건네는 고요하고 다정한 이야기를 사진으로 기록하는 순간, 특별한 스탬프와 함께 당신만의 아름다운 여행기가 완성됩니다.',
-    img: wcIntro2
+    title: '찰나를 영원한 풍경으로',
+    description: '발걸음을 멈추게 하는 경이로운 명소 앞에서는 카메라를 들어주세요. 섬이 건네는 다정한 이야기를 기록하는 순간, 특별한 인장과 함께 당신만의 우아한 여행기가 완성됩니다.',
+    img: intro2Trad
   }
 ];
 
@@ -33,38 +33,41 @@ export default function Onboarding({ onFinish }) {
   };
 
   return (
-    <div className="absolute inset-0 z-40 bg-[#F3EFE6] flex flex-col font-['Pretendard']">
+    <div className="absolute inset-0 z-40 flex flex-col font-['Nanum_Myeongjo'] overflow-hidden">
       
-      {/* Massive Edge-to-Edge Image Header */}
-      <div className="relative w-full h-[55%] rounded-b-[3rem] overflow-hidden shadow-sm bg-[#e8decb]">
-        <img 
-           key={step}
-           src={ONBOARDING_STEPS[step].img} 
-           alt="온보딩 수채화 안내" 
-           className="absolute inset-0 w-full h-full object-cover animate-fade-in transform transition-transform duration-[2000ms] hover:scale-105" 
-        />
-        {/* Soft bottom gradient to blend with the text area */}
-        <div className="absolute w-full h-40 bg-gradient-to-t from-[#F3EFE6] to-transparent bottom-0"></div>
-      </div>
+      {/* FULL SCREEN BACKGROUND */}
+      <div className="absolute inset-0 bg-[#e9e3d3] -z-20"></div>
+      <img 
+         key={step}
+         src={ONBOARDING_STEPS[step].img} 
+         alt="온보딩 전통 수묵화" 
+         className="absolute inset-0 w-full h-full object-cover -z-10 opacity-70 animate-fade-in mix-blend-multiply scale-100 hover:scale-105 transition-transform duration-[3000ms]" 
+      />
 
-      {/* Text Content - Left Aligned */}
-      <div className="flex-1 flex flex-col justify-start items-start px-8 pt-8 pb-4 text-left animate-fade-in-up transition-all duration-300">
-        <h2 className="text-[1.8rem] font-['Nanum_Myeongjo'] font-bold text-[#3e342b] mb-4 leading-tight tracking-tight drop-shadow-sm">
-          {ONBOARDING_STEPS[step].title}
-        </h2>
-        <p className="text-[#685b4f] text-[1.05rem] break-keep leading-relaxed opacity-95">
-          {ONBOARDING_STEPS[step].description}
-        </p>
+      <div className="absolute inset-x-0 bottom-0 h-[60vh] bg-gradient-to-t from-[#e9e3d3] via-[#e9e3d3]/90 to-transparent -z-10"></div>
+
+      {/* Text Content - Floating over bottom */}
+      <div className="flex-1 flex flex-col justify-end px-6 pb-10 text-left z-10 animate-fade-in-up">
+        
+        <div className="bg-[#f4ecdf]/80 backdrop-blur-md p-7 rounded-[2rem] border border-[#d5ccbe]/60 shadow-[0_8px_30px_rgba(62,52,43,0.08)]">
+          <h2 className="text-[1.8rem] font-bold text-[#2e2620] mb-4 leading-tight tracking-tight">
+            {ONBOARDING_STEPS[step].title}
+          </h2>
+          <p className="text-[#4a3f35] text-[1.05rem] break-keep leading-[1.8] font-medium">
+            {ONBOARDING_STEPS[step].description}
+          </p>
+        </div>
+
       </div>
       
       {/* Footer Controls */}
-      <div className="px-8 pb-12 flex flex-col gap-6 bg-[#F3EFE6]">
-        <div className="flex justify-start gap-2.5 mb-2">
+      <div className="px-6 pb-12 flex flex-col gap-6 z-10">
+        <div className="flex justify-start gap-2.5 mb-2 ml-4">
           {ONBOARDING_STEPS.map((_, i) => (
             <div 
               key={i} 
-              className={`h-2 rounded-full transition-all duration-500 ease-out ${
-                i === step ? 'w-10 bg-[#004790]' : 'w-3 bg-[#d5ccbe]'
+              className={`h-1.5 rounded-full transition-all duration-500 ease-out ${
+                i === step ? 'w-10 bg-[#3e342b]' : 'w-3 bg-[#d5ccbe]'
               }`} 
             />
           ))}
@@ -72,15 +75,15 @@ export default function Onboarding({ onFinish }) {
         
         <button 
           onClick={nextStep}
-          className="w-full py-4 bg-[#004790] text-white rounded-2xl font-bold shadow-md hover:bg-opacity-90 active:scale-95 transition-all text-lg tracking-wide"
+          className="w-full py-4.5 bg-[#2b241e] text-[#f4ecdf] rounded-2xl font-bold shadow-xl hover:bg-opacity-90 active:scale-95 transition-all text-lg tracking-wide border border-[#1a1511]"
         >
-          {step === ONBOARDING_STEPS.length - 1 ? '여행 시작하기' : '다음 이야기'}
+          {step === ONBOARDING_STEPS.length - 1 ? '기행 시작하기' : '다음 페이지'}
         </button>
         
         {step < ONBOARDING_STEPS.length - 1 && (
           <button 
             onClick={skip}
-            className="w-full py-2 text-[#8a7a6b] font-medium hover:text-[#3e342b] transition-colors tracking-wide underline underline-offset-4 decoration-black/20"
+            className="w-full py-2 text-[#736456] font-semibold hover:text-[#2b241e] transition-colors tracking-wide underline underline-offset-4 decoration-black/20"
           >
             건너뛰기
           </button>

@@ -87,7 +87,7 @@ export default function SpotGallery() {
                   <span className="text-[0.6rem] text-gray-500">인증됨</span>
                 )}
               </div>
-              <img src={imgUrl} alt={`${spot.name} 사진 ${idx}`} className="w-full aspect-[4/3] object-cover" loading="lazy" />
+              <img src={imgUrl} alt={`${spot.name} 사진 ${idx}`} className="w-full aspect-[4/3] object-cover bg-[#e0dbcd]" loading="lazy" referrerPolicy="no-referrer" />
             </div>
           ))}
         </div>
