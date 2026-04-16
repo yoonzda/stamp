@@ -56,32 +56,25 @@ export default function Gallery() {
               
               <div className="space-y-6">
                 {spotsWithImages.map(spot => (
-                  <div key={spot.id} className="bg-white rounded-2xl p-4 shadow-sm border border-[#e0dbcd]">
-                    <div className="flex items-center gap-2 mb-4">
-                      <h3 className="font-bold text-[#3e342b] text-[1.05rem] flex-1 truncate">{spot.name}</h3>
-                      {spot.userAcquired && (
-                        <span className="text-[0.7rem] font-bold text-white bg-[#004790] px-2 py-1.5 rounded-full whitespace-nowrap shadow-sm">
-                          ✨ 내 사진 저장됨
-                        </span>
-                      )}
+                  <div key={spot.id} className="bg-white rounded-2xl p-5 shadow-sm border border-[#e0dbcd] flex items-center justify-between">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className="font-bold text-[#3e342b] text-[1.1rem]">{spot.name}</h3>
+                        {spot.userAcquired && (
+                          <span className="text-[0.65rem] font-bold text-white bg-[#004790] px-2 py-0.5 rounded-full shadow-sm">
+                            ✨ 내 사진 저장됨
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[#8a7a6b] text-sm line-clamp-1">{spot.desc}</p>
                     </div>
                     
-                    <div className="flex gap-3 overflow-x-auto snap-x hide-scrollbar pb-2">
-                      {spot.displayImages.map((imgUrl, idx) => (
-                        <div key={idx} className="snap-center shrink-0 w-44 h-32 rounded-xl overflow-hidden shadow-sm border border-black/5 bg-gray-100 relative group cursor-pointer transition-transform active:scale-95">
-                          {idx === 0 && spot.userAcquired && (
-                             <div className="absolute top-2 right-2 bg-white/80 p-1 rounded-full shadow z-10 backdrop-blur-sm">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#004790" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
-                             </div>
-                          )}
-                          <img src={imgUrl} alt={`${spot.name} 사진 ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                        </div>
-                      ))}
-                    </div>
-                    {/* Caption / Helper */}
-                    <div className="mt-2 text-right">
-                      <span className="text-[0.7rem] text-[#a39585]">밀어서 더 보기 →</span>
-                    </div>
+                    <button 
+                      onClick={() => navigate(`/gallery/${spot.code}`)} 
+                      className="shrink-0 bg-[#F3EFE6] text-[#54463a] px-4 py-2 rounded-lg font-bold text-sm shadow-sm hover:bg-[#e8decb] active:scale-95 transition-all"
+                    >
+                      자세히 보기
+                    </button>
                   </div>
                 ))}
               </div>

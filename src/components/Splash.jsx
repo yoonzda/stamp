@@ -12,9 +12,9 @@ export default function Splash({ onFinish }) {
   return (
     <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#F3EFE6] transition-opacity duration-500">
       <div className="animate-fade-in-up flex flex-col items-center">
-        {/* Title / Logo */}
-        <div className="w-24 h-24 mb-6 rounded-full bg-white shadow-soft flex items-center justify-center border-4 border-[#0B4F9A]">
-          <span className="text-4xl">🏝️</span>
+        {/* Title / Logo with Watercolor Image */}
+        <div className="w-40 h-40 mb-6 rounded-3xl overflow-hidden shadow-lg border-2 border-[#d5ccbe]">
+          <img src="/intro_wc.png" alt="인트로 수채화" className="w-full h-full object-cover" />
         </div>
         <h1 className="text-4xl font-['Nanum_Myeongjo'] font-bold text-[#3e342b] mb-2 tracking-tight">
           스탬프 투어

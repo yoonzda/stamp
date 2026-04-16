@@ -10,14 +10,14 @@ export default function MapHome() {
     <div className="w-full h-full bg-transparent overflow-y-auto overflow-x-hidden relative scrollbar-hide">
       <div className="min-h-full w-full flex flex-col justify-center items-center py-10 px-4">
         
-        {/* Container matching the generated image's aspect ratio (square 1:1) */}
-        <div className="relative w-full aspect-square max-w-[500px]">
+        {/* Container matching full width to fit original layout */}
+        <div className="relative w-full">
           
           {/* Background Map Image */}
           <img 
             src={mapBg} 
             alt="옹진군 수채화 지도" 
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none mix-blend-multiply"
+            className="w-full h-auto object-contain pointer-events-none mix-blend-multiply"
           />
 
           {/* Map Pins / Labels */}
