@@ -21,15 +21,34 @@ export default function Splash({ onFinish }) {
       {/* Invisible Soft Glow for Legibility */}
       <div className="absolute w-[350px] h-[350px] bg-white/70 blur-[50px] rounded-full z-0 pointer-events-none" />
 
+      {/* Global SVG Gradients for Animations and Custom Icons */}
+      <svg width="0" height="0" className="absolute">
+        <defs>
+          {/* Beautiful Sunset to Sky Travel Gradient for Airplane */}
+          <linearGradient id="gradientPlane" x1="0" y1="0" x2="1" y2="1">
+             <stop offset="0%" stopColor="#f43f5e" /> {/* Hot Rose */}
+             <stop offset="50%" stopColor="#a855f7" /> {/* Violet */}
+             <stop offset="100%" stopColor="#0ea5e9" /> {/* Sky Blue */}
+          </linearGradient>
+        </defs>
+      </svg>
+
       {/* Main Content Group - Optically centered by lifting it up (-mt-12) */}
       <div className="relative z-10 flex flex-col items-center animate-fade-in-up w-full px-6 -mt-12">
         
-        {/* Large, Beautiful Standard Travel Loader (Airplane + Globe) */}
+        {/* Large, Beautiful Standard Travel Loader (Airplane + Custom Detailed Globe) */}
         <div className="relative w-32 h-32 mb-6 flex items-center justify-center drop-shadow-lg">
           
-          {/* Static Earth / Globe Icon inside */}
-          <svg className="absolute w-[4.5rem] h-[4.5rem] text-[#3b82f6] opacity-30" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          {/* Custom Detailed Tech/Wireframe Globe Icon */}
+          <svg className="absolute w-[4.5rem] h-[4.5rem] opacity-30 drop-shadow-sm" viewBox="0 0 100 100">
+            {/* Globe Outer Border */}
+            <circle cx="50" cy="50" r="48" fill="none" stroke="#2563eb" strokeWidth="4" />
+            {/* Longitude Arcs */}
+            <path d="M 50 2 C 15 20, 15 80, 50 98 C 85 80, 85 20, 50 2 Z" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeDasharray="4 4" />
+            <path d="M 50 2 C 35 20, 35 80, 50 98 C 65 80, 65 20, 50 2 Z" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeDasharray="4 4" />
+            {/* Latitude Arcs */}
+            <path d="M 2 50 C 20 68, 80 68, 98 50 C 80 32, 20 32, 2 50 Z" fill="none" stroke="#3b82f6" strokeWidth="2.5" strokeDasharray="4 4" />
+            <path d="M 12 25 C 30 38, 70 38, 88 25 M 12 75 C 30 62, 70 62, 88 75" fill="none" stroke="#3b82f6" strokeWidth="2.5" strokeDasharray="4 4" />
           </svg>
           
           {/* Rotating Airplane & Smooth Fluffy Contrail Group */}
@@ -49,8 +68,8 @@ export default function Splash({ onFinish }) {
                ))}
             </svg>
 
-            {/* Airplane Icon tracking the orbit */}
-            <svg className="absolute top-[3px] left-1/2 -ml-[14px] w-7 h-7 text-[#1e293b] transform rotate-[90deg] drop-shadow-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            {/* Airplane Icon tracking the orbit (Solid sleek shape, smooth soft gradient fill) */}
+            <svg className="absolute top-[3px] left-1/2 -ml-[14px] w-7 h-7 transform rotate-[90deg] drop-shadow-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="url(#gradientPlane)">
                <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
             </svg>
           </div>
@@ -67,14 +86,23 @@ export default function Splash({ onFinish }) {
             여행
           </h1>
           
-          {/* Rugged, Fat, Clunky Bokjumeoni perfectly matching Jeju Doldam */}
-          <svg viewBox="0 0 100 100" className="w-[4rem] h-[4rem] text-[#0f172a] transform -translate-y-[4px]" fill="rgba(255,255,255,0.95)" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(1px 2px 3px rgba(255,255,255,0.8))" }}>
+          {/* Rugged, Fat, Clunky Bokjumeoni perfectly matching Jeju Doldam 
+              (No sharp points, slightly thicker strokes, lumpy & extremely puffy belly) */}
+          <svg viewBox="0 0 100 100" className="w-[4rem] h-[4rem] text-[#0f172a] transform -translate-y-[4px]" fill="rgba(255,255,255,0.95)" stroke="currentColor" strokeWidth="6.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(1px 2px 3px rgba(255,255,255,0.8))" }}>
             
-            {/* Clunky, asymmetrical folded top (투박하고 큼직하게 잡힌 상단 주름) */}
-            <path d="M 35 38 L 24 16 C 36 12, 43 18, 50 14 C 60 8, 70 14, 78 16 L 65 38 Z" />
+            {/* Clunky, asymmetrical bumpy top (라운드지고 울퉁불퉁한 상단) */}
+            <path d="M 35 38 
+                     C 28 25, 20 20, 24 14 
+                     C 30 8, 40 18, 50 12 
+                     C 60 6, 75 12, 78 16 
+                     C 82 22, 72 28, 65 38 Z" />
 
-            {/* Extremely wide, heavy, bulging bottom (투박하고 강하게 퍼지는 빵빵한 하단) */}
-            <path d="M 35 38 C 5 45, -5 98, 50 95 C 105 92, 95 45, 65 38 Z" />
+            {/* Extremely wide, heavy, bulging & bumpy bottom (하단은 더 빵빵하게 울퉁불퉁 항아리) */}
+            <path d="M 35 38 
+                     C 15 45, 2 65, 8 85 
+                     C 15 100, 40 98, 50 95 
+                     C 60 100, 85 98, 92 82 
+                     C 95 65, 85 45, 65 38 Z" />
 
             {/* Thick clunky neck string */}
             <path d="M 26 38 Q 48 45, 74 38" fill="none" />
