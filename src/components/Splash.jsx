@@ -55,22 +55,33 @@ export default function Splash({ onFinish }) {
           <div className="absolute inset-0 w-full h-full" style={{ animation: "spinAccelerate 3.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite" }}>
             
             {/* Fading Fluffy Cloud Trail (Dense overlapping array to simulate a solid dissipating gas trail) */}
-            <svg className="absolute inset-0 w-full h-full text-white pointer-events-none drop-shadow-sm blur-[0.5px]" viewBox="0 0 100 100">
+            <svg className="absolute inset-0 w-full h-full text-white pointer-events-none drop-shadow-sm blur-[1px]" viewBox="0 0 100 100">
                {[...Array(40)].map((_, i) => (
                  <circle 
                    key={i} 
                    cx="50" cy="12" /* Center orbit at r=38 */
                    r={3.5 - i * 0.08} /* Starts thick and naturally tapers to a fine point */
                    fill="currentColor" 
-                   opacity={Math.max((1 - i/40), 0) * 0.8}
+                   opacity={Math.max((1 - i/40), 0) * 0.85}
                    style={{ transformOrigin: "50px 50px", transform: `rotate(${-i * 2}deg)` }} 
                  />
                ))}
             </svg>
 
-            {/* Airplane Icon tracking the orbit (Solid sleek shape, smooth soft gradient fill) */}
-            <svg className="absolute top-[3px] left-1/2 -ml-[14px] w-7 h-7 transform rotate-[90deg] drop-shadow-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="url(#gradientPlane)">
-               <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+            {/* Custom Side-view Airplane (Very soft, rounded pill shape naturally fitting the design) */}
+            <svg className="absolute w-[2rem] h-[2rem] text-[#4b5563] drop-shadow-md" style={{ top: "0px", left: "50%", transform: "translateX(-50%)" }} viewBox="0 0 100 100" fill="currentColor">
+              {/* Back tiny stabilizer fin */}
+              <path d="M 22 55 L 2 59 C -2 60, 2 68, 8 64 L 20 58 Z" />
+              {/* Top Tail Fin */}
+              <path d="M 28 42 L 18 18 C 16 12, 25 10, 32 18 L 42 42 Z" />
+              {/* Main Fuselage (Round nose facing right) */}
+              <path d="M 15 42 L 80 42 C 95 42, 98 57, 80 57 L 15 57 C 5 57, 5 42, 15 42 Z" />
+              {/* Downward Wing */}
+              <path d="M 45 52 L 25 80 C 20 88, 32 92, 40 80 L 58 52 Z" />
+              {/* Three small cute windows */}
+              <circle cx="53" cy="49" r="2.5" fill="#eef2f5" />
+              <circle cx="63" cy="49" r="2.5" fill="#eef2f5" />
+              <circle cx="73" cy="49" r="2.5" fill="#eef2f5" />
             </svg>
           </div>
         </div>
@@ -87,8 +98,8 @@ export default function Splash({ onFinish }) {
           </h1>
           
           {/* Rugged, Fat, Clunky Bokjumeoni perfectly matching Jeju Doldam 
-              (No sharp points, slightly thicker strokes, lumpy & extremely puffy belly) */}
-          <svg viewBox="0 0 100 100" className="w-[4rem] h-[4rem] text-[#0f172a] transform -translate-y-[4px]" fill="rgba(255,255,255,0.95)" stroke="currentColor" strokeWidth="6.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(1px 2px 3px rgba(255,255,255,0.8))" }}>
+              (Slightly scaled down to 3.35rem to balance perfectly with the 3.25rem text) */}
+          <svg viewBox="0 0 100 100" className="w-[3.35rem] h-[3.35rem] text-[#0f172a] transform -translate-y-[4px]" fill="rgba(255,255,255,0.95)" stroke="currentColor" strokeWidth="6.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(1px 2px 3px rgba(255,255,255,0.8))" }}>
             
             {/* Clunky, asymmetrical bumpy top (라운드지고 울퉁불퉁한 상단) */}
             <path d="M 35 38 
