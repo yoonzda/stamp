@@ -5,7 +5,7 @@ export default function Splash({ onFinish }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       onFinish();
-    }, 3000);
+    }, 4500);
     return () => clearTimeout(timer);
   }, [onFinish]);
 
@@ -69,18 +69,18 @@ export default function Splash({ onFinish }) {
             여행
           </h1>
           
-          {/* Authentic Korean Bokjumeoni with distinct ruffled top and fat wide base */}
-          <svg viewBox="0 0 100 100" className="w-[3.4rem] h-[3.4rem] text-[#0f172a] transform -translate-y-[2px]" fill="rgba(255,255,255,0.9)" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(1px 2px 3px rgba(255,255,255,0.8))" }}>
-            {/* Flattened wide ruffled top */}
-            <path d="M 28 20 C 35 12, 65 12, 72 20 L 68 38 L 32 38 Z" fill="rgba(255,255,255,0.9)" />
-            {/* Very wide and fat bottom body */}
-            <path d="M 32 38 C 10 50, 5 88, 25 93 C 40 97, 60 97, 75 93 C 95 88, 90 50, 68 38 Z" fill="rgba(255,255,255,0.9)" />
-            {/* Distinct single belt line tightly defining the neck */}
-            <path d="M 26 38 Q 50 42, 74 38" strokeWidth="6" />
-            {/* Prominent Center Knot decoration */}
-            <circle cx="50" cy="40" r="5" fill="currentColor" stroke="none" />
-            {/* Traditional distinct hanging ribbon ends */}
-            <path d="M 50 45 Q 38 60, 42 75 M 50 45 Q 62 60, 58 75" fill="none" strokeWidth="4.5" />
+          {/* Extremely Round and Cute Chubby Pouch */}
+          <svg viewBox="0 0 100 100" className="w-[3.6rem] h-[3.6rem] text-[#0f172a] transform -translate-y-[2px]" fill="rgba(255,255,255,0.9)" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(1px 2px 3px rgba(255,255,255,0.8))" }}>
+            {/* Soft, plump frill top */}
+            <path d="M 30 30 C 25 10, 45 15, 50 22 C 55 15, 75 10, 70 30" fill="rgba(255,255,255,0.9)" strokeWidth="4.5" />
+            {/* Deep, perfectly rounded dumpling body */}
+            <path d="M 30 30 C 5 45, 10 93, 50 93 C 90 93, 95 45, 70 30 Z" fill="rgba(255,255,255,0.9)" />
+            {/* Ribbon tie hugging the rounded neck softly */}
+            <path d="M 28 32 Q 50 40, 72 32" fill="none" strokeWidth="6" />
+            {/* Soft rounded knot */}
+            <circle cx="50" cy="38" r="4.5" fill="currentColor" stroke="none" />
+            {/* Curved, dynamic bouncy tassels */}
+            <path d="M 50 42 C 40 55, 45 65, 43 75 M 50 42 C 60 55, 55 65, 57 75" fill="none" strokeWidth="4.5" />
           </svg>
 
           <h1 className="text-[#0f172a] text-[3.25rem] leading-[1.1]" style={{ fontFamily: "'EF_jejudoldam', sans-serif", textShadow: "1px 2px 4px rgba(255,255,255,0.9)" }}>
