@@ -25,7 +25,7 @@ export default function Splash({ onFinish }) {
       <div className="relative z-10 flex flex-col items-center animate-fade-in-up w-full px-6 -mt-12">
         
         {/* Large, Beautiful Standard Travel Loader (Flight + 2D Sticker Globe) */}
-        <div className="relative w-32 h-32 mb-6 flex items-center justify-center drop-shadow-lg">
+        <div className="relative w-32 h-32 mb-2 flex items-center justify-center drop-shadow-lg">
           
           {/* Authentic Doodle Torn-Paper Sticker Globe */}
           <svg className="absolute w-[5.5rem] h-[5.5rem] drop-shadow-md z-0" viewBox="0 0 100 100">
@@ -43,23 +43,35 @@ export default function Splash({ onFinish }) {
                {/* Base Ocean (Clear, Pretty Warm Pastel Teal) */}
                <circle cx="50" cy="50" r="42" fill="#89cbd6" />
 
-               {/* Hand-drawn Continents (Thick, clean, ultra-cute simple blobs matching the reference!) */}
+               {/* Hand-drawn Continents: East Asia Centered (Korea, Japan, Asia, Australia) */}
                
-               {/* Top Left Blob */}
-               <path d="M 5 5 C 30 -10, 45 15, 35 30 C 25 45, -5 45, 5 5 Z" 
-                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" />
+               {/* Giant Eurasia Mass (Korea Peninsula strongly sticking out at the center-right) */}
+               <path d="M -5 35 
+                        C 15 15, 60 -5, 80 15 
+                        C 85 25, 75 30, 65 35 
+                        C 75 40, 75 55, 68 55 
+                        C 62 55, 55 45, 50 40 
+                        C 55 55, 60 70, 50 72 
+                        C 42 70, 45 60, 40 55 
+                        C 38 65, 28 65, 25 60 
+                        C 20 50, 15 50, -5 40 Z" 
+                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" />
 
-               {/* Top Right Blob */}
-               <path d="M 55 -5 C 90 -5, 100 25, 80 40 C 60 55, 30 25, 55 -5 Z" 
-                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" />
+               {/* Japan (Archipelago right next to Korea) */}
+               <path d="M 85 35 C 90 40, 85 60, 78 58 C 80 50, 82 42, 85 35 Z" 
+                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" />
 
-               {/* Bottom Left Blob */}
-               <path d="M -5 55 C 25 45, 45 70, 30 95 C 15 120, -25 90, -5 55 Z" 
-                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" />
+               {/* Australia (Bottom Right block) */}
+               <path d="M 65 75 Q 85 65, 90 85 Q 92 105, 75 98 Q 50 90, 65 75 Z" 
+                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" />
 
-               {/* Bottom Right Blob */}
-               <path d="M 55 60 C 85 45, 110 70, 90 95 C 70 120, 35 85, 55 60 Z" 
-                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" />
+               {/* Africa / Middle East (Left side edge) */}
+               <path d="M -10 50 C 15 50, 25 65, 15 85 C 5 95, -10 95, -10 50 Z" 
+                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" />
+                     
+               {/* Taiwan / Indonesia tiny islands */}
+               <circle cx="62" cy="62" r="2.5" fill="#bae498" stroke="#1e293b" strokeWidth="4" />
+               <circle cx="50" cy="85" r="3" fill="#bae498" stroke="#1e293b" strokeWidth="4" />
             </g>
 
             {/* 4. The Super Thick Mastering Globe Border (Fusing everything safely) */}
