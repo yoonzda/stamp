@@ -67,27 +67,23 @@ export default function Splash({ onFinish }) {
             여행
           </h1>
           
-          {/* Authentic, Highly Dynamic Korean Bokjumeoni 
-              (Natural wrinkled fabric spreading out softly, with the Super Fat Bottom kept intact) */}
-          <svg viewBox="0 0 100 100" className="w-[3.7rem] h-[3.7rem] text-[#0f172a] transform -translate-y-[2px]" fill="rgba(255,255,255,0.97)" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(1px 2px 3px rgba(255,255,255,0.8))" }}>
+          {/* Rugged, Fat, Clunky Bokjumeoni perfectly matching Jeju Doldam */}
+          <svg viewBox="0 0 100 100" className="w-[4rem] h-[4rem] text-[#0f172a] transform -translate-y-[4px]" fill="rgba(255,255,255,0.95)" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(1px 2px 3px rgba(255,255,255,0.8))" }}>
             
-            {/* Elegant Ruffled Fabric Top (3 Soft scalloped folds spreading outwards in a deeply organic way) */}
-            <path d="M 35 34 C 28 22, 20 18, 14 15 C 25 5, 38 10, 42 16 C 45 5, 55 5, 58 16 C 62 10, 75 5, 86 15 C 80 18, 72 22, 65 34 Z" fill="rgba(255,255,255,0.97)" />
+            {/* Clunky, asymmetrical folded top (투박하고 큼직하게 잡힌 상단 주름) */}
+            <path d="M 35 38 L 24 16 C 36 12, 43 18, 50 14 C 60 8, 70 14, 78 16 L 65 38 Z" />
 
-            {/* Inner Fabric Wrinkles (Drawn softly to make it look tied and naturally ruffled) */}
-            <path d="M 42 16 Q 44 25, 46 32 M 58 16 Q 56 25, 54 32 M 50 11 L 50 32" fill="none" strokeWidth="3" />
+            {/* Extremely wide, heavy, bulging bottom (투박하고 강하게 퍼지는 빵빵한 하단) */}
+            <path d="M 35 38 C 5 45, -5 98, 50 95 C 105 92, 95 45, 65 38 Z" />
 
-            {/* Completely Balanced, Super Fat & Plump Droplet Body (둥둥한 밑단 그대로 유지!) */}
-            <path d="M 35 32 C 15 45, 5 95, 50 95 C 95 95, 85 45, 65 32 Z" fill="rgba(255,255,255,0.97)" />
+            {/* Thick clunky neck string */}
+            <path d="M 26 38 Q 48 45, 74 38" fill="none" />
 
-            {/* Crisp Ribbon Neck Tie tying the fabric tightly */}
-            <path d="M 28 35 Q 50 43, 72 35" fill="none" strokeWidth="6" />
+            {/* Rugged Knot (slightly off-center for natural rough feel) */}
+            <circle cx="48" cy="42" r="5.5" fill="currentColor" stroke="none" />
 
-            {/* Prominent Circular Knot */}
-            <circle cx="50" cy="39" r="4.5" fill="currentColor" stroke="none" />
-
-            {/* Elegant wavy Tassels loosely falling down */}
-            <path d="M 50 43 Q 40 55, 45 70 M 50 43 Q 60 55, 55 70" fill="none" strokeWidth="4.5" />
+            {/* Heavy, rough thick tassels hanging irregularly */}
+            <path d="M 46 45 C 42 55, 40 65, 45 75 M 52 45 C 56 55, 60 65, 55 70" fill="none" />
 
           </svg>
 
