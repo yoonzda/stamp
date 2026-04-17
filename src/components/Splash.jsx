@@ -40,53 +40,37 @@ export default function Splash({ onFinish }) {
                      L 18 6 L 25 2 L 35 5 L 43 1 Z" 
                   fill="#ffffff" stroke="#e2e8f0" strokeWidth="1" strokeLinejoin="miter" />
             
-            {/* 2. Clipping Mask for the globe's inner boundaries (Scaled down to leave a huge white padding margin) */}
+            {/* 2. Clipping Mask for the globe's inner boundaries */}
             <clipPath id="globe-clip">
               <circle cx="50" cy="50" r="36" />
             </clipPath>
 
-            {/* 3. The intricately doodled content (Clipped safely into the smaller globe) */}
+            {/* 3. The intricately doodled EARTH content (Clipped safely into the smaller globe) */}
             <g clipPath="url(#globe-clip)">
-               {/* Base Ocean (Soft teal/blue) */}
-               <circle cx="50" cy="50" r="36" fill="#88c9d1" />
+               {/* Base Ocean (Muted, desaturated vintage teal/blue to reduce harshness) */}
+               <circle cx="50" cy="50" r="36" fill="#a5c7c9" />
 
-               {/* Hand-drawn 'Doodle' Continents highly detailed with squiggly peninsulas & bays */}
+               {/* Hand-drawn Earth-Mapped Continents (Muted soft sage green) */}
                
-               {/* Top Left (North America style detailed blob) */}
-               <path d="M 10 15 
-                        L 25 10 Q 30 20, 25 25 
-                        C 35 25, 45 30, 35 40 
-                        C 40 50, 30 55, 20 45 
-                        Q 15 55, 5 45 L 5 15 Z" 
-                     fill="#badd9e" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
-               
-               {/* Top Right (Asia/Europe style intricate cluster) */}
-               <path d="M 50 10 
-                        L 58 20 C 45 30, 60 40, 65 45 
-                        C 75 55, 90 40, 80 25 
-                        C 90 20, 95 10, 85 5 
-                        C 75 0, 80 -10, 65 0 
-                        L 50 10 Z" 
-                     fill="#badd9e" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
-                     
-               {/* Bottom Left (South America style hooked blob) */}
-               <path d="M 5 60 
-                        C 20 50, 35 60, 25 75 
-                        C 35 85, 40 100, 25 105 
-                        C 15 110, -5 95, 5 75 Z" 
-                     fill="#badd9e" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
+               {/* North America */}
+               <path d="M 12 25 C 18 10, 35 5, 45 15 C 40 25, 30 25, 30 35 C 28 40, 35 48, 25 55 C 22 50, 18 45, 12 40 C 5 35, 8 30, 12 25 Z" 
+                     fill="#c5d6b4" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
 
-               {/* Bottom Right (Africa/Oceania style sweeping landmass) */}
-               <path d="M 45 75 
-                        C 55 60, 75 60, 80 75 
-                        C 90 90, 80 105, 65 95 
-                        C 60 105, 45 95, 55 85 
-                        Q 45 85, 45 75 Z" 
-                     fill="#badd9e" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
+               {/* South America (Drip shaped hanging below NA) */}
+               <path d="M 28 58 C 38 58, 48 65, 40 85 C 38 95, 25 80, 22 70 C 20 65, 22 60, 28 58 Z" 
+                     fill="#c5d6b4" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
+               
+               {/* Eurasia (Huge right sweeping landmass) */}
+               <path d="M 52 12 C 65 5, 85 10, 95 25 C 100 35, 85 40, 80 35 C 75 30, 65 35, 60 28 C 55 35, 48 20, 52 12 Z" 
+                     fill="#c5d6b4" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
+
+               {/* Africa (Tucked perfectly below Europe) */}
+               <path d="M 50 35 C 60 30, 75 35, 75 50 C 75 65, 65 80, 55 80 C 50 75, 45 60, 42 50 C 40 40, 45 35, 50 35 Z" 
+                     fill="#c5d6b4" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
                      
-               {/* Tiny floating detailed island */}
-               <path d="M 40 55 Q 45 45, 55 52 Q 45 60, 40 55 Z" 
-                     fill="#badd9e" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
+               {/* Greenland & Small cute islands for earth-realism */}
+               <path d="M 40 5 C 45 2, 50 8, 45 12 C 40 10, 38 5, 40 5 Z" 
+                     fill="#c5d6b4" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
             </g>
 
             {/* 4. The Super Thick Mastering Globe Border (Fusing everything safely) */}
