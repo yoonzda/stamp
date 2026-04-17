@@ -5,7 +5,7 @@ export default function Splash({ onFinish }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       onFinish();
-    }, 4500);
+    }, 5000);
     return () => clearTimeout(timer);
   }, [onFinish]);
 
@@ -64,22 +64,22 @@ export default function Splash({ onFinish }) {
         </h2>
         
         {/* Text 2: 여행 [아이콘] 주머니 - Flex & Jeju Doldam matched SVG */}
-        <div className="flex items-center justify-center gap-2 mb-6">
+        <div className="flex items-center justify-center gap-[2px] mb-6">
           <h1 className="text-[#0f172a] text-[3.25rem] leading-[1.1]" style={{ fontFamily: "'EF_jejudoldam', sans-serif", textShadow: "1px 2px 4px rgba(255,255,255,0.9)" }}>
             여행
           </h1>
           
-          {/* Extremely Round and Cute Chubby Pouch */}
-          <svg viewBox="0 0 100 100" className="w-[3.6rem] h-[3.6rem] text-[#0f172a] transform -translate-y-[2px]" fill="rgba(255,255,255,0.9)" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(1px 2px 3px rgba(255,255,255,0.8))" }}>
-            {/* Soft, plump frill top */}
-            <path d="M 30 30 C 25 10, 45 15, 50 22 C 55 15, 75 10, 70 30" fill="rgba(255,255,255,0.9)" strokeWidth="4.5" />
-            {/* Deep, perfectly rounded dumpling body */}
-            <path d="M 30 30 C 5 45, 10 93, 50 93 C 90 93, 95 45, 70 30 Z" fill="rgba(255,255,255,0.9)" />
-            {/* Ribbon tie hugging the rounded neck softly */}
-            <path d="M 28 32 Q 50 40, 72 32" fill="none" strokeWidth="6" />
-            {/* Soft rounded knot */}
+          {/* Authentic, Highly Dynamic Korean Bokjumeoni (Fan Top, Pinched Neck, Squishy Fat Bottom) */}
+          <svg viewBox="0 0 100 100" className="w-[3.7rem] h-[3.7rem] text-[#0f172a] transform -translate-y-[2px]" fill="rgba(255,255,255,0.9)" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(1px 2px 3px rgba(255,255,255,0.8))" }}>
+            {/* Fan-like top spreading out widely */}
+            <path d="M 36 32 C 30 20, 20 12, 17 12 C 40 8, 60 8, 83 12 C 80 12, 70 20, 64 32 Z" fill="rgba(255,255,255,0.9)" strokeWidth="4.5" />
+            {/* Super fat wide perfectly round belly spreading out from visibly pinched neck */}
+            <path d="M 36 32 C -5 50, -5 95, 50 95 C 105 95, 105 50, 64 32 Z" fill="rgba(255,255,255,0.9)" />
+            {/* Ribbon tie tightly cinching the neck */}
+            <path d="M 28 34 Q 50 42, 72 34" fill="none" strokeWidth="6" />
+            {/* Distinct Center knot */}
             <circle cx="50" cy="38" r="4.5" fill="currentColor" stroke="none" />
-            {/* Curved, dynamic bouncy tassels */}
+            {/* Tiny cute bouncy Tassels */}
             <path d="M 50 42 C 40 55, 45 65, 43 75 M 50 42 C 60 55, 55 65, 57 75" fill="none" strokeWidth="4.5" />
           </svg>
 
