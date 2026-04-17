@@ -27,24 +27,42 @@ export default function Splash({ onFinish }) {
         {/* Large, Beautiful Standard Travel Loader (Flight + 2D Sticker Globe) */}
         <div className="relative w-32 h-32 mb-6 flex items-center justify-center drop-shadow-lg">
           
-          {/* Custom Doodle Sticker 2D Globe (White thick border, simple paper doodle look) */}
-          <svg className="absolute w-[5rem] h-[5rem] drop-shadow-sm z-0 transform rotate-[10deg]" viewBox="0 0 100 100">
-            {/* White Sticker Outer Border */}
+          {/* Authentic Doodle Sticker Globe (Based perfectly on User's Reference!) */}
+          <svg className="absolute w-[5.5rem] h-[5.5rem] drop-shadow-md z-0" viewBox="0 0 100 100">
+            {/* 1. Thick White Sticker Outer Border */}
             <circle cx="50" cy="50" r="48" fill="#ffffff" />
             
-            {/* Soft Blue Ocean with Marker Pen Dash Outline */}
-            <circle cx="50" cy="50" r="42.5" fill="#e0f2fe" stroke="#334155" strokeWidth="2.5" strokeDasharray="12 4" />
-            
-            {/* Left Continent (Rough Marker fill style) */}
-            <path d="M 23 28 C 40 15, 50 40, 35 60 C 20 80, 10 50, 23 28 Z" fill="#bbf7d0" stroke="#334155" strokeWidth="2.5" strokeLinejoin="round" />
-            
-            {/* Right Continent */}
-            <path d="M 55 35 C 75 15, 90 45, 75 75 C 60 105, 40 60, 55 35 Z" fill="#bbf7d0" stroke="#334155" strokeWidth="2.5" strokeLinejoin="round" />
-            
-            {/* Cute Small Doodled Islands */}
-            <circle cx="35" cy="78" r="3" fill="#bbf7d0" stroke="#334155" strokeWidth="2" />
-            <circle cx="78" cy="30" r="4.5" fill="#bbf7d0" stroke="#334155" strokeWidth="2" />
-            <circle cx="68" cy="82" r="2" fill="#bbf7d0" stroke="#334155" strokeWidth="2" />
+            {/* 2. Clipping Mask to guarantee the thick continent borders never bleed into the white sticker area */}
+            <clipPath id="globe-clip">
+              <circle cx="50" cy="50" r="42" />
+            </clipPath>
+
+            {/* 3. The Doodled Content (Clipped to perfect circle) */}
+            <g clipPath="url(#globe-clip)">
+               {/* Base Ocean (Soft teal/blue) */}
+               <circle cx="50" cy="50" r="42" fill="#88c9d1" />
+
+               {/* Hand-drawn 'Doodle' Continents with ultra-thick pen lines matching reference */}
+               
+               {/* Top Left Continent */}
+               <path d="M 0 10 C 25 5, 35 15, 38 28 C 41 41, 28 48, 18 45 C 8 42, 0 30, 0 30 Z" 
+                     fill="#badd9e" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
+               
+               {/* Top Right Continent */}
+               <path d="M 60 0 C 65 20, 75 10, 85 25 C 95 40, 100 20, 100 0 Z" 
+                     fill="#badd9e" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
+                     
+               {/* Bottom Left Continent */}
+               <path d="M -5 55 C 20 50, 30 65, 28 80 C 26 95, 40 100, 20 105 C 0 110, -5 85, -5 55 Z" 
+                     fill="#badd9e" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
+
+               {/* Bottom Right Continent */}
+               <path d="M 60 52 C 85 45, 105 60, 95 85 C 85 110, 60 95, 50 85 C 40 75, 45 60, 60 52 Z" 
+                     fill="#badd9e" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
+            </g>
+
+            {/* 4. The Super Thick Mastering Globe Border (Drawn ON TOP to perfectly merge with continent outlines and cover clip edges!) */}
+            <circle cx="50" cy="50" r="42" fill="none" stroke="#1e293b" strokeWidth="4.5" />
           </svg>
           
           {/* Rotating Airplane & Smooth Fluffy Contrail Group */}
