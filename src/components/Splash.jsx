@@ -30,51 +30,48 @@ export default function Splash({ onFinish }) {
           {/* Authentic Doodle Torn-Paper Sticker Globe */}
           <svg className="absolute w-[5.5rem] h-[5.5rem] drop-shadow-md z-0" viewBox="0 0 100 100">
             
-            {/* 1. Ultra-Wide Jagged Torn/Cut Paper Sticker Background (Hand-cut scissor feel) */}
-            <path d="M 50 1 
-                     L 58 4 L 63 +1 L 70 3 L 78 1 L 84 8 L 90 5 L 94 13 L 90 20 
-                     L 96 28 L 94 36 L 98 42 L 95 50 L 99 58 L 95 66 L 97 75 L 91 80 
-                     L 94 88 L 86 90 L 83 95 L 75 92 L 67 98 L 60 92 L 53 97 L 45 95 
-                     L 38 98 L 32 94 L 23 97 L 18 90 L 10 93 L 8 85 L 3 78 L 5 70 
-                     L 2 63 L 6 56 L 3 48 L 7 40 L 4 33 L 9 27 L 6 18 L 12 12 L 8 5 
-                     L 18 6 L 25 2 L 35 5 L 43 1 Z" 
-                  fill="#ffffff" stroke="#e2e8f0" strokeWidth="1" strokeLinejoin="miter" />
+            {/* 1. Subtle Bumpy Hand-Cut Paper Sticker Background (Mostly circular, mildly uneven) */}
+            <path d="M 50 2 
+                     C 65 1, 75 4, 85 12 
+                     C 95 20, 99 35, 97 50 
+                     C 96 65, 92 80, 80 90 
+                     C 65 100, 40 98, 25 88 
+                     C 10 78, 2 60, 4 45 
+                     C 5 30, 10 15, 22 8 
+                     C 32 2, 40 3, 50 2 Z" 
+                  fill="#ffffff" stroke="#e2e8f0" strokeWidth="1" strokeLinejoin="round" />
             
             {/* 2. Clipping Mask for the globe's inner boundaries */}
             <clipPath id="globe-clip">
-              <circle cx="50" cy="50" r="36" />
+              <circle cx="50" cy="50" r="42" />
             </clipPath>
 
             {/* 3. The intricately doodled EARTH content (Clipped safely into the smaller globe) */}
             <g clipPath="url(#globe-clip)">
-               {/* Base Ocean (Muted, desaturated vintage teal/blue to reduce harshness) */}
-               <circle cx="50" cy="50" r="36" fill="#a5c7c9" />
+               {/* Base Ocean (Clear, Bright Pastel Sky Blue) */}
+               <circle cx="50" cy="50" r="42" fill="#93c5fd" />
 
-               {/* Hand-drawn Earth-Mapped Continents (Muted soft sage green) */}
+               {/* Hand-drawn Earth-Mapped Continents (Bright clear pastel green, extremely soft & rounded) */}
                
-               {/* North America */}
-               <path d="M 12 25 C 18 10, 35 5, 45 15 C 40 25, 30 25, 30 35 C 28 40, 35 48, 25 55 C 22 50, 18 45, 12 40 C 5 35, 8 30, 12 25 Z" 
-                     fill="#c5d6b4" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
+               {/* North America (Cute curved blob) */}
+               <path d="M 5 20 Q 25 5, 40 20 Q 30 35, 35 45 Q 15 50, 5 35 Z" 
+                     fill="#bbf7d0" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
 
-               {/* South America (Drip shaped hanging below NA) */}
-               <path d="M 28 58 C 38 58, 48 65, 40 85 C 38 95, 25 80, 22 70 C 20 65, 22 60, 28 58 Z" 
-                     fill="#c5d6b4" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
+               {/* South America (Drip shaped soft bulb) */}
+               <path d="M 25 60 Q 40 55, 35 75 Q 35 100, 15 90 Q 10 70, 25 60 Z" 
+                     fill="#bbf7d0" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
                
-               {/* Eurasia (Huge right sweeping landmass) */}
-               <path d="M 52 12 C 65 5, 85 10, 95 25 C 100 35, 85 40, 80 35 C 75 30, 65 35, 60 28 C 55 35, 48 20, 52 12 Z" 
-                     fill="#c5d6b4" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
+               {/* Eurasia (Sweeping soft blob top-right) */}
+               <path d="M 55 10 Q 75 0, 95 15 Q 105 35, 80 40 Q 60 45, 50 30 Q 45 15, 55 10 Z" 
+                     fill="#bbf7d0" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
 
-               {/* Africa (Tucked perfectly below Europe) */}
-               <path d="M 50 35 C 60 30, 75 35, 75 50 C 75 65, 65 80, 55 80 C 50 75, 45 60, 42 50 C 40 40, 45 35, 50 35 Z" 
-                     fill="#c5d6b4" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
-                     
-               {/* Greenland & Small cute islands for earth-realism */}
-               <path d="M 40 5 C 45 2, 50 8, 45 12 C 40 10, 38 5, 40 5 Z" 
-                     fill="#c5d6b4" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
+               {/* Africa (Tucked perfectly below Eurasia as a bouncy blob) */}
+               <path d="M 45 45 Q 65 35, 75 50 Q 80 75, 65 85 Q 45 80, 45 60 Z" 
+                     fill="#bbf7d0" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
             </g>
 
             {/* 4. The Super Thick Mastering Globe Border (Fusing everything safely) */}
-            <circle cx="50" cy="50" r="36" fill="none" stroke="#1e293b" strokeWidth="4.5" />
+            <circle cx="50" cy="50" r="42" fill="none" stroke="#1e293b" strokeWidth="4.5" />
           </svg>
           
           {/* Rotating Airplane & Smooth Fluffy Contrail Group */}
