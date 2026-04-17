@@ -10,98 +10,87 @@ export default function Splash({ onFinish }) {
   }, [onFinish]);
 
   return (
-    <div className="absolute inset-0 z-50 overflow-hidden bg-[#eef2f5]">
-      {/* Background Image Cover */}
+    <div className="absolute inset-0 z-50 flex flex-col justify-center items-center overflow-hidden bg-[#eef2f5]">
+      {/* Background Image */}
       <img 
         src={splashTrad} 
         alt="옹진군 여행주머니 배경" 
         className="absolute inset-0 w-full h-full object-cover object-center z-0" 
       />
       
-      {/* 
-        Subtle Gradients: 
-        Top: Soft white gradient so dark text pops perfectly.
-        Bottom: Soft dark gradient so white loader pops perfectly. 
-      */}
-      <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-transparent to-black/40 z-0 pointer-events-none" />
+      {/* Invisible Soft Glow to perfectly isolate dark text over any background part */}
+      <div className="absolute w-[350px] h-[350px] bg-white/60 blur-[60px] rounded-full z-0 pointer-events-none" />
 
-      {/* Foreground Content */}
-      <div className="relative z-10 flex flex-col h-full w-full justify-between items-center pt-[18%] pb-[12%]">
+      {/* Centered Main Content Group */}
+      <div className="relative z-10 flex flex-col items-center animate-fade-in-up w-full px-6">
         
-        {/* Top Typography Section */}
-        <div className="flex flex-col items-center px-6 w-full animate-fade-in-down">
+        {/* Custom Custom Math Pocket Loader */}
+        <div className="relative flex justify-center items-end w-28 h-24 mb-3">
           
-          {/* Title 1: 옹진군 (Gowun Batang or standard serif, non-italic, clean) */}
-          <h2 className="text-[#273248] font-['Gowun_Batang',_serif] text-[2rem] font-bold tracking-[0.15em] mb-3 drop-shadow-sm">
-            옹진군
-          </h2>
-          
-          {/* Title 2: 여행 주머니 (Nanum Myeongjo or serif, Italic, elegant curve) */}
-          <h1 className="text-[#0f172a] font-serif italic text-[4rem] font-extrabold tracking-tight leading-[1.1] text-center mb-6 drop-shadow-sm" style={{ textShadow: "1px 1px 2px rgba(255,255,255,0.8)" }}>
-            여행 주머니
-          </h1>
-          
-          {/* Short English Travel Phrase */}
-          <div className="flex items-center gap-3">
-             <div className="w-8 h-[1px] bg-[#64748b]"></div>
-             <p className="text-[#475569] font-sans text-xs tracking-[0.4em] font-medium uppercase">
-               Unfold Your Journey
-             </p>
-             <div className="w-8 h-[1px] bg-[#64748b]"></div>
+          {/* Floating Math Symbols */}
+          <div className="absolute inset-0 flex justify-center items-end" style={{ paddingBottom: '10px' }}>
+            <span className="absolute font-serif font-black text-[#1e293b] float-symbol math-plus">＋</span>
+            <span className="absolute font-serif font-black text-[#334155] float-symbol math-minus">－</span>
+            <span className="absolute font-sans font-black text-[#0f172a] float-symbol math-multiply">×</span>
+            <span className="absolute font-mono font-black text-[#475569] float-symbol math-divide">÷</span>
           </div>
 
+          {/* Delicate Sleek Pocket SVG */}
+          <svg viewBox="0 0 24 24" fill="rgba(255, 255, 255, 0.85)" stroke="#1e293b" strokeWidth="1.2" className="w-16 h-16 z-10 drop-shadow-md">
+            <path d="M5 4h14v8c0 4-3 8-7 8s-7-4-7-8V4z" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M5 8h14" strokeLinecap="round" strokeDasharray="1.5 2" />
+            <path d="M11 4v4a1 1 0 002 0V4" strokeLinecap="round"/>
+          </svg>
         </div>
 
-        {/* Bottom Loading Indicator (Large & Sophisticated) */}
-        <div className="flex flex-col items-center animate-fade-in-up" style={{ animationDelay: '300ms' }}>
-          
-          {/* Luxurious Dual-Orbit Spinner */}
-          <div className="relative w-24 h-24 mb-6">
-            {/* Outer Static Thin Ring */}
-            <svg className="absolute inset-0 w-full h-full text-white/30" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" strokeWidth="0.5" />
-            </svg>
-            
-            {/* Outer Slow Rotating Dashed Tracker */}
-            <svg className="absolute inset-0 w-full h-full text-white/50" style={{ animation: 'spinOuter 12s linear infinite' }} viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="3 15" />
-            </svg>
-
-            {/* Inner Bold Dynamic Rotating Arc */}
-            <svg className="absolute inset-0 w-full h-full text-white" style={{ animation: 'spinInner 2s cubic-bezier(0.4, 0.1, 0.6, 0.9) infinite' }} viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="36" fill="none" stroke="currentColor" strokeWidth="2.5" strokeDasharray="180" strokeDashoffset="90" strokeLinecap="round" />
-            </svg>
-
-            {/* Centered Minimal Compass/Star Icon */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 2L14.6 9.4L22 12L14.6 14.6L12 22L9.4 14.6L2 12L9.4 9.4L12 2Z" />
-              </svg>
-            </div>
-          </div>
-          
-          <p className="text-white/90 font-sans text-[0.65rem] font-bold tracking-[0.5em] uppercase drop-shadow-md">
-            Loading
-          </p>
+        {/* Text 1: 옹진군 */}
+        <h2 className="text-[#1e293b] font-['Gowun_Batang',_serif] text-[1.65rem] font-bold tracking-[0.2em] mb-2 drop-shadow-sm">
+          옹진군
+        </h2>
+        
+        {/* Text 2: 여행 주머니 (Italic) */}
+        <h1 className="text-[#0f172a] font-serif italic text-[3.8rem] md:text-[4.5rem] font-extrabold tracking-tight leading-[1] text-center mb-6 drop-shadow-sm" style={{ textShadow: "1px 2px 8px rgba(255,255,255,0.8)" }}>
+          여행 주머니
+        </h1>
+        
+        {/* Short English Line */}
+        <div className="flex items-center gap-3">
+           <div className="w-6 h-[1px] bg-[#64748b]"></div>
+           <p className="text-[#334155] font-sans text-[0.65rem] tracking-[0.4em] font-bold uppercase drop-shadow-sm">
+             Unfold Your Journey
+           </p>
+           <div className="w-6 h-[1px] bg-[#64748b]"></div>
         </div>
 
       </div>
 
       <style>{`
-        .animate-fade-in-down {
-          animation: fadeDown 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .animate-fade-in-up {
+          animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        @keyframes fadeDown {
-          from { opacity: 0; transform: translateY(-20px); }
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes spinOuter {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+
+        /* Floating Math Symbol Animations */
+        .float-symbol {
+          opacity: 0;
+          bottom: 25px; /* start deep inside pocket */
+          animation: floatOut 2.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
         }
-        @keyframes spinInner {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(-360deg); }
+        
+        /* Staggered delays and starting positions */
+        .math-plus { animation-delay: 0s; left: 25%; font-size: 1.8rem; --drift: -18px; --rot: -25deg; }
+        .math-minus { animation-delay: 0.7s; left: 55%; font-size: 2.2rem; --drift: 15px; --rot: 20deg; }
+        .math-multiply { animation-delay: 1.4s; left: 60%; font-size: 1.9rem; --drift: -8px; --rot: -15deg; }
+        .math-divide { animation-delay: 2.1s; left: 35%; font-size: 2rem; --drift: 12px; --rot: 18deg; }
+        
+        @keyframes floatOut {
+          0% { transform: translateY(10px) scale(0.5) rotate(0deg); opacity: 0; }
+          20% { opacity: 1; }
+          70% { opacity: 0.8; }
+          100% { transform: translateY(-45px) scale(1.1) translateX(var(--drift)) rotate(var(--rot)); opacity: 0; }
         }
       `}</style>
     </div>
