@@ -30,16 +30,19 @@ export default function Splash({ onFinish }) {
           {/* Authentic Doodle Torn-Paper Sticker Globe */}
           <svg className="absolute w-[5.5rem] h-[5.5rem] drop-shadow-md z-0" viewBox="0 0 100 100">
             
-            {/* 1. Subtle Bumpy Hand-Cut Paper Sticker Background (Mostly circular, mildly uneven) */}
-            <path d="M 50 2 
-                     C 65 1, 75 4, 85 12 
-                     C 95 20, 99 35, 97 50 
-                     C 96 65, 92 80, 80 90 
-                     C 65 100, 40 98, 25 88 
-                     C 10 78, 2 60, 4 45 
-                     C 5 30, 10 15, 22 8 
-                     C 32 2, 40 3, 50 2 Z" 
-                  fill="#ffffff" stroke="#e2e8f0" strokeWidth="1" strokeLinejoin="round" />
+            {/* 1. Micro-Jagged Torn Paper Edge (Overall circular, but heavily torn perimeter) */}
+            <path d="M 50 1 
+                     L 54 2 L 58 0 L 62 3 L 66 1 L 70 4 L 75 2 L 78 6 L 82 4 
+                     L 85 9 L 88 6 L 91 12 L 94 9 L 96 15 L 98 12 L 99 18 
+                     L 98 22 L 100 28 L 97 32 L 99 38 L 96 42 L 99 48 L 97 52 
+                     L 99 58 L 96 62 L 98 68 L 94 72 L 97 78 L 93 82 L 95 88 
+                     L 90 91 L 86 88 L 82 93 L 78 89 L 74 95 L 68 91 L 64 96 
+                     L 58 92 L 54 98 L 48 94 L 42 98 L 38 93 L 32 97 L 28 92 
+                     L 24 96 L 20 90 L 15 94 L 12 88 L 8 92 L 6 86 L 2 88 
+                     L 4 80 L 1 74 L 5 68 L 2 62 L 6 56 L 2 50 L 5 44 
+                     L 1 38 L 5 32 L 2 26 L 6 20 L 3 14 L 8 9 L 12 12 
+                     L 16 6 L 22 8 L 26 3 L 32 6 L 38 2 L 44 4 L 50 1 Z" 
+                  fill="#ffffff" stroke="#e2e8f0" strokeWidth="1" strokeLinejoin="miter" />
             
             {/* 2. Clipping Mask for the globe's inner boundaries */}
             <clipPath id="globe-clip">
@@ -48,26 +51,26 @@ export default function Splash({ onFinish }) {
 
             {/* 3. The intricately doodled EARTH content (Clipped safely into the smaller globe) */}
             <g clipPath="url(#globe-clip)">
-               {/* Base Ocean (Clear, Bright Pastel Sky Blue) */}
-               <circle cx="50" cy="50" r="42" fill="#93c5fd" />
+               {/* Base Ocean (Clear, Pretty Warm Pastel Teal) */}
+               <circle cx="50" cy="50" r="42" fill="#89cbd6" />
 
-               {/* Hand-drawn Earth-Mapped Continents (Bright clear pastel green, extremely soft & rounded) */}
+               {/* Hand-drawn Earth-Mapped Continents (Pretty Warm Pastel Chartreuse) */}
                
-               {/* North America (Cute curved blob) */}
+               {/* North America */}
                <path d="M 5 20 Q 25 5, 40 20 Q 30 35, 35 45 Q 15 50, 5 35 Z" 
-                     fill="#bbf7d0" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
+                     fill="#bae498" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
 
-               {/* South America (Drip shaped soft bulb) */}
+               {/* South America */}
                <path d="M 25 60 Q 40 55, 35 75 Q 35 100, 15 90 Q 10 70, 25 60 Z" 
-                     fill="#bbf7d0" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
+                     fill="#bae498" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
                
-               {/* Eurasia (Sweeping soft blob top-right) */}
+               {/* Eurasia */}
                <path d="M 55 10 Q 75 0, 95 15 Q 105 35, 80 40 Q 60 45, 50 30 Q 45 15, 55 10 Z" 
-                     fill="#bbf7d0" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
+                     fill="#bae498" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
 
-               {/* Africa (Tucked perfectly below Eurasia as a bouncy blob) */}
+               {/* Africa */}
                <path d="M 45 45 Q 65 35, 75 50 Q 80 75, 65 85 Q 45 80, 45 60 Z" 
-                     fill="#bbf7d0" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
+                     fill="#bae498" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
             </g>
 
             {/* 4. The Super Thick Mastering Globe Border (Fusing everything safely) */}
