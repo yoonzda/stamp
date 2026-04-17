@@ -21,38 +21,34 @@ export default function Splash({ onFinish }) {
       {/* Invisible Soft Glow for Legibility */}
       <div className="absolute w-[350px] h-[350px] bg-white/70 blur-[50px] rounded-full z-0 pointer-events-none" />
 
-      {/* Global SVG Gradients for Animations and Custom Icons */}
-      <svg width="0" height="0" className="absolute">
-        <defs>
-          {/* Beautiful Sunset to Sky Travel Gradient for Airplane */}
-          <linearGradient id="gradientPlane" x1="0" y1="0" x2="1" y2="1">
-             <stop offset="0%" stopColor="#f43f5e" /> {/* Hot Rose */}
-             <stop offset="50%" stopColor="#a855f7" /> {/* Violet */}
-             <stop offset="100%" stopColor="#0ea5e9" /> {/* Sky Blue */}
-          </linearGradient>
-        </defs>
-      </svg>
-
       {/* Main Content Group - Optically centered by lifting it up (-mt-12) */}
       <div className="relative z-10 flex flex-col items-center animate-fade-in-up w-full px-6 -mt-12">
         
-        {/* Large, Beautiful Standard Travel Loader (Airplane + Custom Detailed Globe) */}
+        {/* Large, Beautiful Standard Travel Loader (Flight + 2D Sticker Globe) */}
         <div className="relative w-32 h-32 mb-6 flex items-center justify-center drop-shadow-lg">
           
-          {/* Custom Detailed Tech/Wireframe Globe Icon */}
-          <svg className="absolute w-[4.5rem] h-[4.5rem] opacity-30 drop-shadow-sm" viewBox="0 0 100 100">
-            {/* Globe Outer Border */}
-            <circle cx="50" cy="50" r="48" fill="none" stroke="#2563eb" strokeWidth="4" />
-            {/* Longitude Arcs */}
-            <path d="M 50 2 C 15 20, 15 80, 50 98 C 85 80, 85 20, 50 2 Z" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeDasharray="4 4" />
-            <path d="M 50 2 C 35 20, 35 80, 50 98 C 65 80, 65 20, 50 2 Z" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeDasharray="4 4" />
-            {/* Latitude Arcs */}
-            <path d="M 2 50 C 20 68, 80 68, 98 50 C 80 32, 20 32, 2 50 Z" fill="none" stroke="#3b82f6" strokeWidth="2.5" strokeDasharray="4 4" />
-            <path d="M 12 25 C 30 38, 70 38, 88 25 M 12 75 C 30 62, 70 62, 88 75" fill="none" stroke="#3b82f6" strokeWidth="2.5" strokeDasharray="4 4" />
+          {/* Custom Doodle Sticker 2D Globe (White thick border, simple paper doodle look) */}
+          <svg className="absolute w-[5rem] h-[5rem] drop-shadow-sm z-0 transform rotate-[10deg]" viewBox="0 0 100 100">
+            {/* White Sticker Outer Border */}
+            <circle cx="50" cy="50" r="48" fill="#ffffff" />
+            
+            {/* Soft Blue Ocean with Marker Pen Dash Outline */}
+            <circle cx="50" cy="50" r="42.5" fill="#e0f2fe" stroke="#334155" strokeWidth="2.5" strokeDasharray="12 4" />
+            
+            {/* Left Continent (Rough Marker fill style) */}
+            <path d="M 23 28 C 40 15, 50 40, 35 60 C 20 80, 10 50, 23 28 Z" fill="#bbf7d0" stroke="#334155" strokeWidth="2.5" strokeLinejoin="round" />
+            
+            {/* Right Continent */}
+            <path d="M 55 35 C 75 15, 90 45, 75 75 C 60 105, 40 60, 55 35 Z" fill="#bbf7d0" stroke="#334155" strokeWidth="2.5" strokeLinejoin="round" />
+            
+            {/* Cute Small Doodled Islands */}
+            <circle cx="35" cy="78" r="3" fill="#bbf7d0" stroke="#334155" strokeWidth="2" />
+            <circle cx="78" cy="30" r="4.5" fill="#bbf7d0" stroke="#334155" strokeWidth="2" />
+            <circle cx="68" cy="82" r="2" fill="#bbf7d0" stroke="#334155" strokeWidth="2" />
           </svg>
           
           {/* Rotating Airplane & Smooth Fluffy Contrail Group */}
-          <div className="absolute inset-0 w-full h-full" style={{ animation: "spinAccelerate 3.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite" }}>
+          <div className="absolute inset-0 w-full h-full z-10" style={{ animation: "spinAccelerate 3.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite" }}>
             
             {/* Fading Fluffy Cloud Trail (Dense overlapping array to simulate a solid dissipating gas trail) */}
             <svg className="absolute inset-0 w-full h-full text-white pointer-events-none drop-shadow-sm blur-[1px]" viewBox="0 0 100 100">
@@ -68,20 +64,9 @@ export default function Splash({ onFinish }) {
                ))}
             </svg>
 
-            {/* Custom Side-view Airplane (Very soft, rounded pill shape naturally fitting the design) */}
-            <svg className="absolute w-[2rem] h-[2rem] text-[#4b5563] drop-shadow-md" style={{ top: "0px", left: "50%", transform: "translateX(-50%)" }} viewBox="0 0 100 100" fill="currentColor">
-              {/* Back tiny stabilizer fin */}
-              <path d="M 22 55 L 2 59 C -2 60, 2 68, 8 64 L 20 58 Z" />
-              {/* Top Tail Fin */}
-              <path d="M 28 42 L 18 18 C 16 12, 25 10, 32 18 L 42 42 Z" />
-              {/* Main Fuselage (Round nose facing right) */}
-              <path d="M 15 42 L 80 42 C 95 42, 98 57, 80 57 L 15 57 C 5 57, 5 42, 15 42 Z" />
-              {/* Downward Wing */}
-              <path d="M 45 52 L 25 80 C 20 88, 32 92, 40 80 L 58 52 Z" />
-              {/* Three small cute windows */}
-              <circle cx="53" cy="49" r="2.5" fill="#eef2f5" />
-              <circle cx="63" cy="49" r="2.5" fill="#eef2f5" />
-              <circle cx="73" cy="49" r="2.5" fill="#eef2f5" />
+            {/* Airplane Icon tracking the orbit (Restored to the ultra-simple, classic, reliable flat flight icon!) */}
+            <svg className="absolute top-[3px] left-1/2 -ml-[14px] w-7 h-7 text-[#334155] transform rotate-[90deg] drop-shadow-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+               <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
             </svg>
           </div>
         </div>
