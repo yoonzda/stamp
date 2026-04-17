@@ -27,42 +27,70 @@ export default function Splash({ onFinish }) {
         {/* Large, Beautiful Standard Travel Loader (Flight + 2D Sticker Globe) */}
         <div className="relative w-32 h-32 mb-6 flex items-center justify-center drop-shadow-lg">
           
-          {/* Authentic Doodle Sticker Globe (Based perfectly on User's Reference!) */}
+          {/* Authentic Doodle Torn-Paper Sticker Globe */}
           <svg className="absolute w-[5.5rem] h-[5.5rem] drop-shadow-md z-0" viewBox="0 0 100 100">
-            {/* 1. Thick White Sticker Outer Border */}
-            <circle cx="50" cy="50" r="48" fill="#ffffff" />
             
-            {/* 2. Clipping Mask to guarantee the thick continent borders never bleed into the white sticker area */}
+            {/* 1. Ultra-Wide Jagged Torn/Cut Paper Sticker Background (Hand-cut scissor feel) */}
+            <path d="M 50 1 
+                     L 58 4 L 63 +1 L 70 3 L 78 1 L 84 8 L 90 5 L 94 13 L 90 20 
+                     L 96 28 L 94 36 L 98 42 L 95 50 L 99 58 L 95 66 L 97 75 L 91 80 
+                     L 94 88 L 86 90 L 83 95 L 75 92 L 67 98 L 60 92 L 53 97 L 45 95 
+                     L 38 98 L 32 94 L 23 97 L 18 90 L 10 93 L 8 85 L 3 78 L 5 70 
+                     L 2 63 L 6 56 L 3 48 L 7 40 L 4 33 L 9 27 L 6 18 L 12 12 L 8 5 
+                     L 18 6 L 25 2 L 35 5 L 43 1 Z" 
+                  fill="#ffffff" stroke="#e2e8f0" strokeWidth="1" strokeLinejoin="miter" />
+            
+            {/* 2. Clipping Mask for the globe's inner boundaries (Scaled down to leave a huge white padding margin) */}
             <clipPath id="globe-clip">
-              <circle cx="50" cy="50" r="42" />
+              <circle cx="50" cy="50" r="36" />
             </clipPath>
 
-            {/* 3. The Doodled Content (Clipped to perfect circle) */}
+            {/* 3. The intricately doodled content (Clipped safely into the smaller globe) */}
             <g clipPath="url(#globe-clip)">
                {/* Base Ocean (Soft teal/blue) */}
-               <circle cx="50" cy="50" r="42" fill="#88c9d1" />
+               <circle cx="50" cy="50" r="36" fill="#88c9d1" />
 
-               {/* Hand-drawn 'Doodle' Continents with ultra-thick pen lines matching reference */}
+               {/* Hand-drawn 'Doodle' Continents highly detailed with squiggly peninsulas & bays */}
                
-               {/* Top Left Continent */}
-               <path d="M 0 10 C 25 5, 35 15, 38 28 C 41 41, 28 48, 18 45 C 8 42, 0 30, 0 30 Z" 
+               {/* Top Left (North America style detailed blob) */}
+               <path d="M 10 15 
+                        L 25 10 Q 30 20, 25 25 
+                        C 35 25, 45 30, 35 40 
+                        C 40 50, 30 55, 20 45 
+                        Q 15 55, 5 45 L 5 15 Z" 
                      fill="#badd9e" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
                
-               {/* Top Right Continent */}
-               <path d="M 60 0 C 65 20, 75 10, 85 25 C 95 40, 100 20, 100 0 Z" 
+               {/* Top Right (Asia/Europe style intricate cluster) */}
+               <path d="M 50 10 
+                        L 58 20 C 45 30, 60 40, 65 45 
+                        C 75 55, 90 40, 80 25 
+                        C 90 20, 95 10, 85 5 
+                        C 75 0, 80 -10, 65 0 
+                        L 50 10 Z" 
                      fill="#badd9e" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
                      
-               {/* Bottom Left Continent */}
-               <path d="M -5 55 C 20 50, 30 65, 28 80 C 26 95, 40 100, 20 105 C 0 110, -5 85, -5 55 Z" 
+               {/* Bottom Left (South America style hooked blob) */}
+               <path d="M 5 60 
+                        C 20 50, 35 60, 25 75 
+                        C 35 85, 40 100, 25 105 
+                        C 15 110, -5 95, 5 75 Z" 
                      fill="#badd9e" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
 
-               {/* Bottom Right Continent */}
-               <path d="M 60 52 C 85 45, 105 60, 95 85 C 85 110, 60 95, 50 85 C 40 75, 45 60, 60 52 Z" 
+               {/* Bottom Right (Africa/Oceania style sweeping landmass) */}
+               <path d="M 45 75 
+                        C 55 60, 75 60, 80 75 
+                        C 90 90, 80 105, 65 95 
+                        C 60 105, 45 95, 55 85 
+                        Q 45 85, 45 75 Z" 
+                     fill="#badd9e" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
+                     
+               {/* Tiny floating detailed island */}
+               <path d="M 40 55 Q 45 45, 55 52 Q 45 60, 40 55 Z" 
                      fill="#badd9e" stroke="#1e293b" strokeWidth="4.5" strokeLinejoin="round" />
             </g>
 
-            {/* 4. The Super Thick Mastering Globe Border (Drawn ON TOP to perfectly merge with continent outlines and cover clip edges!) */}
-            <circle cx="50" cy="50" r="42" fill="none" stroke="#1e293b" strokeWidth="4.5" />
+            {/* 4. The Super Thick Mastering Globe Border (Fusing everything safely) */}
+            <circle cx="50" cy="50" r="36" fill="none" stroke="#1e293b" strokeWidth="4.5" />
           </svg>
           
           {/* Rotating Airplane & Smooth Fluffy Contrail Group */}
