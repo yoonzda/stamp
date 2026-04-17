@@ -10,7 +10,7 @@ export default function Splash({ onFinish }) {
   }, [onFinish]);
 
   return (
-    <div className="absolute inset-0 z-50 flex flex-col justify-center items-center overflow-hidden bg-[#eef2f5]">
+    <div className="absolute inset-0 z-50 flex flex-col justify-center items-center overflow-hidden bg-[#eef2f5] font-['EF_jejudoldam',_sans-serif]">
       {/* Background Image */}
       <img 
         src={splashTrad} 
@@ -35,8 +35,6 @@ export default function Splash({ onFinish }) {
           {/* Rotating Airplane & Smooth Fluffy Contrail Group */}
           <div className="absolute inset-0 w-full h-full" style={{ animation: "spinAccelerate 3.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite" }}>
             
-            {/* The dotted path is REMOVED! Only the natural cloud trail remains. */}
-
             {/* Fading Fluffy Cloud Trail (Dense overlapping array to simulate a solid dissipating gas trail) */}
             <svg className="absolute inset-0 w-full h-full text-white pointer-events-none drop-shadow-sm blur-[0.5px]" viewBox="0 0 100 100">
                {[...Array(40)].map((_, i) => (
@@ -63,24 +61,32 @@ export default function Splash({ onFinish }) {
           옹진군
         </h2>
         
-        {/* Text 2: 여행 [아이콘] 주머니 - Flex & Jeju Doldam matched SVG */}
+        {/* Text 2: 여행 [아이콘] 주머니 - Pulling gap to tight fit */}
         <div className="flex items-center justify-center gap-[2px] mb-6">
           <h1 className="text-[#0f172a] text-[3.25rem] leading-[1.1]" style={{ fontFamily: "'EF_jejudoldam', sans-serif", textShadow: "1px 2px 4px rgba(255,255,255,0.9)" }}>
             여행
           </h1>
           
-          {/* Authentic, Highly Dynamic Korean Bokjumeoni (Fan Top, Pinched Neck, Squishy Fat Bottom) */}
-          <svg viewBox="0 0 100 100" className="w-[3.7rem] h-[3.7rem] text-[#0f172a] transform -translate-y-[2px]" fill="rgba(255,255,255,0.9)" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(1px 2px 3px rgba(255,255,255,0.8))" }}>
-            {/* Fan-like top spreading out widely */}
-            <path d="M 36 32 C 30 20, 20 12, 17 12 C 40 8, 60 8, 83 12 C 80 12, 70 20, 64 32 Z" fill="rgba(255,255,255,0.9)" strokeWidth="4.5" />
-            {/* Super fat wide perfectly round belly spreading out from visibly pinched neck */}
-            <path d="M 36 32 C -5 50, -5 95, 50 95 C 105 95, 105 50, 64 32 Z" fill="rgba(255,255,255,0.9)" />
-            {/* Ribbon tie tightly cinching the neck */}
-            <path d="M 28 34 Q 50 42, 72 34" fill="none" strokeWidth="6" />
-            {/* Distinct Center knot */}
-            <circle cx="50" cy="38" r="4.5" fill="currentColor" stroke="none" />
-            {/* Tiny cute bouncy Tassels */}
-            <path d="M 50 42 C 40 55, 45 65, 43 75 M 50 42 C 60 55, 55 65, 57 75" fill="none" strokeWidth="4.5" />
+          {/* Authentic, Highly Dynamic Korean Bokjumeoni 
+              (Perfectly balanced Bezier Curves for beautiful smooth organic shapes) */}
+          <svg viewBox="0 0 100 100" className="w-[3.7rem] h-[3.7rem] text-[#0f172a] transform -translate-y-[2px]" fill="rgba(255,255,255,0.97)" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(1px 2px 3px rgba(255,255,255,0.8))" }}>
+            
+            {/* Elegant Fan Top (Soft organic curves spreading outwards) */}
+            <path d="M 35 34 C 32 25, 23 18, 16 15 Q 50 4, 84 15 C 77 18, 68 25, 65 34 Z" fill="rgba(255,255,255,0.97)" />
+
+            {/* Completely Balanced, Super Fat & Plump Droplet Body (둥둥한 밑단) */}
+            {/* Control points geometrically spaced to guarantee a perfect pear-like drop shape */}
+            <path d="M 35 32 C 15 45, 5 95, 50 95 C 95 95, 85 45, 65 32 Z" fill="rgba(255,255,255,0.97)" />
+
+            {/* Crisp Ribbon Neck Tie */}
+            <path d="M 28 35 Q 50 43, 72 35" fill="none" strokeWidth="6" />
+
+            {/* Prominent Circular Knot */}
+            <circle cx="50" cy="39" r="4.5" fill="currentColor" stroke="none" />
+
+            {/* Elegant wavy Tassels */}
+            <path d="M 50 43 Q 40 55, 45 70 M 50 43 Q 60 55, 55 70" fill="none" strokeWidth="4.5" />
+
           </svg>
 
           <h1 className="text-[#0f172a] text-[3.25rem] leading-[1.1]" style={{ fontFamily: "'EF_jejudoldam', sans-serif", textShadow: "1px 2px 4px rgba(255,255,255,0.9)" }}>
