@@ -30,7 +30,7 @@ export default function Splash({ onFinish }) {
           {/* Authentic Doodle Torn-Paper Sticker Globe */}
           <svg className="absolute w-[5.5rem] h-[5.5rem] drop-shadow-md z-0" viewBox="0 0 100 100">
             
-            {/* 1. Perfect Smooth Clean White Sticker Border (No torn edges, just clean simplicity) */}
+            {/* 1. Perfect Smooth Clean White Sticker Border */}
             <circle cx="50" cy="50" r="48" fill="#ffffff" />
             
             {/* 2. Clipping Mask for the globe's inner boundaries */}
@@ -43,35 +43,32 @@ export default function Splash({ onFinish }) {
                {/* Base Ocean (Clear, Pretty Warm Pastel Teal) */}
                <circle cx="50" cy="50" r="42" fill="#89cbd6" />
 
-               {/* Hand-drawn Continents: East Asia Centered (Korea, Japan, Asia, Australia) */}
+               {/* Hand-drawn Earth Continents: Minimalist, Ultra-Cute, Smooth 'Asian Hemisphere' */}
                
-               {/* Giant Eurasia Mass (Korea Peninsula strongly sticking out at the center-right) */}
-               <path d="M -5 35 
-                        C 15 15, 60 -5, 80 15 
-                        C 85 25, 75 30, 65 35 
-                        C 75 40, 75 55, 68 55 
-                        C 62 55, 55 45, 50 40 
-                        C 55 55, 60 70, 50 72 
-                        C 42 70, 45 60, 40 55 
-                        C 38 65, 28 65, 25 60 
-                        C 20 50, 15 50, -5 40 Z" 
-                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" />
+               {/* Giant Eurasia Mass (Smooth sweeping curve ending in a cute Korea Peninsula tip) */}
+               <path d="M -10 10 
+                        C 40 -10, 75 10, 75 25 
+                        C 75 35, 80 50, 70 50 
+                        C 60 50, 65 35, 55 35 
+                        C 45 35, 45 55, 30 55 
+                        C 15 55, 0 40, -10 40 Z" 
+                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" />
 
-               {/* Japan (Archipelago right next to Korea) */}
-               <path d="M 85 35 C 90 40, 85 60, 78 58 C 80 50, 82 42, 85 35 Z" 
-                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" />
+               {/* Japan (Tiny smooth crescent shaped island right next to Korea) */}
+               <path d="M 82 30 C 90 35, 90 50, 82 48 C 80 40, 78 35, 82 30 Z" 
+                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" />
 
-               {/* Australia (Bottom Right block) */}
-               <path d="M 65 75 Q 85 65, 90 85 Q 92 105, 75 98 Q 50 90, 65 75 Z" 
-                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" />
+               {/* Australia / Oceania (Plump bouncy hill on the bottom right) */}
+               <path d="M 45 75 C 65 65, 85 70, 85 85 C 85 105, 55 100, 45 75 Z" 
+                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" />
 
-               {/* Africa / Middle East (Left side edge) */}
-               <path d="M -10 50 C 15 50, 25 65, 15 85 C 5 95, -10 95, -10 50 Z" 
-                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" />
+               {/* Africa / Middle East (Soft bump entering from left edge) */}
+               <path d="M 0 60 C 25 50, 30 75, 15 90 C 5 100, -10 80, 0 60 Z" 
+                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" />
                      
-               {/* Taiwan / Indonesia tiny islands */}
-               <circle cx="62" cy="62" r="2.5" fill="#bae498" stroke="#1e293b" strokeWidth="4" />
-               <circle cx="50" cy="85" r="3" fill="#bae498" stroke="#1e293b" strokeWidth="4" />
+               {/* Tiny floating minimalist round islands */}
+               <circle cx="35" cy="72" r="3" fill="#bae498" stroke="#1e293b" strokeWidth="4" />
+               <circle cx="80" cy="65" r="2.5" fill="#bae498" stroke="#1e293b" strokeWidth="4" />
             </g>
 
             {/* 4. The Super Thick Mastering Globe Border (Fusing everything safely) */}
