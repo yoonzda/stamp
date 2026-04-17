@@ -68,23 +68,25 @@ export default function Splash({ onFinish }) {
           </h1>
           
           {/* Authentic, Highly Dynamic Korean Bokjumeoni 
-              (Perfectly balanced Bezier Curves for beautiful smooth organic shapes) */}
+              (Natural wrinkled fabric spreading out softly, with the Super Fat Bottom kept intact) */}
           <svg viewBox="0 0 100 100" className="w-[3.7rem] h-[3.7rem] text-[#0f172a] transform -translate-y-[2px]" fill="rgba(255,255,255,0.97)" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(1px 2px 3px rgba(255,255,255,0.8))" }}>
             
-            {/* Elegant Fan Top (Soft organic curves spreading outwards) */}
-            <path d="M 35 34 C 32 25, 23 18, 16 15 Q 50 4, 84 15 C 77 18, 68 25, 65 34 Z" fill="rgba(255,255,255,0.97)" />
+            {/* Elegant Ruffled Fabric Top (3 Soft scalloped folds spreading outwards in a deeply organic way) */}
+            <path d="M 35 34 C 28 22, 20 18, 14 15 C 25 5, 38 10, 42 16 C 45 5, 55 5, 58 16 C 62 10, 75 5, 86 15 C 80 18, 72 22, 65 34 Z" fill="rgba(255,255,255,0.97)" />
 
-            {/* Completely Balanced, Super Fat & Plump Droplet Body (둥둥한 밑단) */}
-            {/* Control points geometrically spaced to guarantee a perfect pear-like drop shape */}
+            {/* Inner Fabric Wrinkles (Drawn softly to make it look tied and naturally ruffled) */}
+            <path d="M 42 16 Q 44 25, 46 32 M 58 16 Q 56 25, 54 32 M 50 11 L 50 32" fill="none" strokeWidth="3" />
+
+            {/* Completely Balanced, Super Fat & Plump Droplet Body (둥둥한 밑단 그대로 유지!) */}
             <path d="M 35 32 C 15 45, 5 95, 50 95 C 95 95, 85 45, 65 32 Z" fill="rgba(255,255,255,0.97)" />
 
-            {/* Crisp Ribbon Neck Tie */}
+            {/* Crisp Ribbon Neck Tie tying the fabric tightly */}
             <path d="M 28 35 Q 50 43, 72 35" fill="none" strokeWidth="6" />
 
             {/* Prominent Circular Knot */}
             <circle cx="50" cy="39" r="4.5" fill="currentColor" stroke="none" />
 
-            {/* Elegant wavy Tassels */}
+            {/* Elegant wavy Tassels loosely falling down */}
             <path d="M 50 43 Q 40 55, 45 70 M 50 43 Q 60 55, 55 70" fill="none" strokeWidth="4.5" />
 
           </svg>
