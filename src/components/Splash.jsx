@@ -49,10 +49,29 @@ export default function Splash({ onFinish }) {
           옹진군
         </h2>
         
-        {/* Text 2: 여행 주머니 - GUARANTEED Jeju Doldam via inline style */}
-        <h1 className="text-[#0f172a] text-[3.25rem] leading-[1.1] text-center mb-6" style={{ fontFamily: "'EF_jejudoldam', sans-serif", textShadow: "1px 2px 4px rgba(255,255,255,0.9)" }}>
-          여행 주머니
-        </h1>
+        {/* Text 2: 여행 [아이콘] 주머니 - Flex & Jeju Doldam matched SVG */}
+        <div className="flex items-center justify-center gap-2 mb-6">
+          <h1 className="text-[#0f172a] text-[3.25rem] leading-[1.1]" style={{ fontFamily: "'EF_jejudoldam', sans-serif", textShadow: "1px 2px 4px rgba(255,255,255,0.9)" }}>
+            여행
+          </h1>
+          
+          {/* Handdrawn Chunky Pouch matched to Jeju Doldam aesthetic */}
+          <svg viewBox="0 0 100 100" className="w-[3.4rem] h-[3.4rem] text-[#0f172a] mt-2" fill="rgba(255,255,255,0.8)" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(1px 2px 3px rgba(255,255,255,0.8))" }}>
+            {/* Top frills */}
+            <path d="M 25 35 Q 35 15, 45 30 Q 50 20, 55 30 Q 65 15, 75 35" />
+            {/* Dumpling body */}
+            <path d="M 25 35 C 5 50, 15 90, 50 92 C 85 90, 95 50, 75 35 Z" />
+            {/* Wrap string */}
+            <path d="M 23 35 Q 50 45, 77 35" fill="none" />
+            {/* Ribbon ends */}
+            <path d="M 42 41 C 35 50, 38 60, 32 65" fill="none" strokeWidth="5.5" />
+            <path d="M 58 41 C 65 50, 62 60, 68 65" fill="none" strokeWidth="5.5" />
+          </svg>
+
+          <h1 className="text-[#0f172a] text-[3.25rem] leading-[1.1]" style={{ fontFamily: "'EF_jejudoldam', sans-serif", textShadow: "1px 2px 4px rgba(255,255,255,0.9)" }}>
+            주머니
+          </h1>
+        </div>
         
         {/* Long, Meaningful English Phrase */}
         <div className="flex flex-col items-center max-w-[280px]">
