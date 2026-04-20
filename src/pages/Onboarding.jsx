@@ -78,10 +78,10 @@ export default function Onboarding({ onFinish }) {
       />
 
       {/* Content wrapper - Centered */}
-      <div className="flex-1 flex flex-col justify-center items-center w-full max-w-md mx-auto z-10 px-6 select-none">
+      <div className="flex-1 flex flex-col justify-center items-center w-full max-w-md mx-auto z-10 select-none">
         
-        {/* Centered Rectangle Card, solid white */}
-        <div className="flex flex-col bg-white w-full rounded-[2rem] pt-10 pb-8 px-8 shadow-[0_8px_30px_rgba(0,0,0,0.15)] transition-all duration-300">
+        {/* Centered Rectangle Card, solid white, edge-to-edge */}
+        <div className="flex flex-col bg-white w-full pt-10 pb-8 px-8 shadow-[0_8px_30px_rgba(0,0,0,0.15)] transition-all duration-300">
           
           {/* Animated Text Area reflecting current Step - Left Aligned */}
           <div key={step} className="animate-fade-in text-left flex flex-col justify-center mb-4">
