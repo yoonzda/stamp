@@ -84,24 +84,24 @@ export default function Onboarding({ onFinish }) {
       <div className="relative z-10 w-full h-full flex flex-col justify-end px-8 pb-[8vh] max-w-md mx-auto select-none">
         
         {/* Step Indicator (Dots) */}
-        <div className="flex items-center gap-2.5 mb-6">
+        <div className="flex items-center gap-2.5 mb-5">
           {ONBOARDING_STEPS.map((_, i) => (
             <div 
               key={i} 
-              className={`h-1.5 rounded-full transition-all duration-500 ease-out ${
-                i === step ? 'w-8 bg-[#0f172a]' : 'w-2 bg-gray-300'
+              className={`h-1.5 rounded-full transition-all duration-500 ease-out shadow-[0_1px_2px_rgba(0,0,0,0.1)] ${
+                i === step ? 'w-8 bg-[#0f172a]' : 'w-2 bg-gray-400/80'
               }`} 
             />
           ))}
         </div>
 
         {/* Text Area */}
-        <div key={step} className="animate-fade-in-up text-left mb-10 h-[8rem]">
-          <h2 className="text-[2rem] font-extrabold text-gray-900 mb-3 leading-[1.25] tracking-tight whitespace-pre-line break-keep">
+        <div key={step} className="animate-fade-in-up text-left mb-6 h-[12.5rem]">
+          <h2 className="text-[1.9rem] font-extrabold text-gray-900 mb-3.5 leading-[1.3] tracking-tight whitespace-pre-line break-keep drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
             {ONBOARDING_STEPS[step].title}
           </h2>
-          <p className="text-gray-600 text-[1.1rem] break-keep leading-[1.6] font-medium pr-2">
-            {ONBOARDING_STEPS[step].description}
+          <p className="text-gray-700 text-[1.1rem] break-keep leading-[1.65] font-medium pr-2 drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
+             {ONBOARDING_STEPS[step].description}
           </p>
         </div>
 
