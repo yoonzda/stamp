@@ -91,9 +91,10 @@ export default function Collection() {
                       {isDone ? (
                         /* Collected Badge (Unique location art representation) */
                         <div className="w-[4.8rem] h-[4.8rem] rounded-full border-[2.5px] border-[#2c3e50] shadow-[0_4px_10px_rgba(0,0,0,0.15)] overflow-hidden relative bg-[#2c3e50] transition-transform group-hover:-translate-y-0.5">
-                          {/* We use picsum with specific seed for reliable unique beautiful landscapes */}
+                          {/* We use specific spot art if available, otherwise fallback */}
                           <img 
-                            src={`https://picsum.photos/seed/${spot.code}landscape/200/200`} 
+                            src={`/images/spots/${spot.code}.jpg`}
+                            onError={(e) => { e.target.onerror = null; e.target.src = `https://picsum.photos/seed/${spot.code}landscape/200/200` }}
                             className="absolute inset-0 w-full h-full object-cover filter saturate-[1.2] contrast-[1.1] opacity-90" 
                             alt="stamp" 
                           />
