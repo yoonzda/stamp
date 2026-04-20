@@ -98,12 +98,25 @@ export default function Collection() {
                             className="absolute inset-0 w-full h-full object-cover filter saturate-[1.2] contrast-[1.1] opacity-90" 
                             alt="stamp" 
                           />
-                          {/* Badge text overlay */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#1a252f]/90 via-[#1a252f]/20 to-transparent pointer-events-none" />
-                          <div className="absolute inset-0 flex flex-col items-center justify-end pb-2 pointer-events-none">
-                             <span className="text-[#f4ecdf] text-[0.55rem] font-extrabold tracking-widest px-1 text-center leading-tight drop-shadow-md">
-                               {spot.name}
-                             </span>
+                          {/* Curved Text Overlay for pure scout badge aesthetic */}
+                          <div className="absolute inset-0 pointer-events-none drop-shadow-[0_1px_1.5px_rgba(0,0,0,0.8)] z-20">
+                            <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible">
+                               {/* Top Curve (Left to Right) */}
+                               <path id={`topCurve_${spot.code}`} d="M 12 52 a 38 38 0 1 1 76 0" fill="transparent" />
+                               {/* Bottom Curve (Right to Left) */}
+                               <path id={`bottomCurve_${spot.code}`} d="M 88 48 a 38 38 0 0 1 -76 0" fill="transparent" />
+                               
+                               <text className="text-[12px] font-black tracking-widest" fill="#f4ecdf" dominantBaseline="middle">
+                                 <textPath href={`#topCurve_${spot.code}`} startOffset="50%" textAnchor="middle">
+                                   {spot.name}
+                                 </textPath>
+                               </text>
+                               <text className="text-[9px] font-bold tracking-[0.2em] opacity-80" fill="#f4ecdf" dominantBaseline="middle">
+                                 <textPath href={`#bottomCurve_${spot.code}`} startOffset="50%" textAnchor="middle">
+                                   ONGJIN
+                                 </textPath>
+                               </text>
+                            </svg>
                           </div>
                           {/* Inner gold ring */}
                           <div className="absolute inset-[3px] border-[1px] border-[#e8c37d]/60 rounded-full z-10 pointer-events-none" />
