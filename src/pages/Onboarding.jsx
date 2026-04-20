@@ -78,30 +78,16 @@ export default function Onboarding({ onFinish }) {
       />
 
       {/* Content wrapper - Centered */}
-      <div className="flex-1 flex flex-col justify-center items-center w-full max-w-md mx-auto z-10 select-none">
+      <div className="flex-1 flex flex-col justify-center items-center w-full mx-auto z-10 select-none px-6">
         
-        {/* Centered Rectangle Card, solid white, edge-to-edge */}
-        <div className="flex flex-col bg-white w-full pt-10 pb-8 px-8 shadow-[0_8px_30px_rgba(0,0,0,0.15)] transition-all duration-300 relative">
+        {/* Paper Memo Card Container */}
+        <div className="flex flex-col w-full max-w-[22rem] pt-12 pb-10 px-8 relative transition-all duration-300">
           
-          {/* Top Torn Edge - Organic Curve Tear */}
-          <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] rotate-180 -translate-y-[98%] z-[-1]">
-            <svg viewBox="0 0 1000 30" preserveAspectRatio="none" className="block w-full h-[14px] fill-white" style={{ filter: 'drop-shadow(0px 3px 3px rgba(0,0,0,0.08))' }}>
-              <path d="M0,30 L0,15 Q12,25 25,12 T50,20 T75,10 T100,22 T125,5 T150,18 T175,25 T200,8 T225,20 T250,5 T275,15 T300,25 T325,10 T350,18 T375,5 T400,22 T425,12 T450,20 T475,8 T500,25 T525,15 T550,5 T575,18 T600,22 T625,10 T650,20 T675,5 T700,15 T725,25 T750,10 T775,18 T800,22 T825,8 T850,20 T875,12 T900,25 T925,5 T950,18 T975,10 T1000,15 L1000,30 Z" />
-            </svg>
-            <svg viewBox="0 0 1000 30" preserveAspectRatio="none" className="block w-full h-[14px] fill-white absolute top-[2px] -left-[5px] opacity-40">
-              <path d="M0,30 L0,15 Q12,25 25,12 T50,20 T75,10 T100,22 T125,5 T150,18 T175,25 T200,8 T225,20 T250,5 T275,15 T300,25 T325,10 T350,18 T375,5 T400,22 T425,12 T450,20 T475,8 T500,25 T525,15 T550,5 T575,18 T600,22 T625,10 T650,20 T675,5 T700,15 T725,25 T750,10 T775,18 T800,22 T825,8 T850,20 T875,12 T900,25 T925,5 T950,18 T975,10 T1000,15 L1000,30 Z" />
-            </svg>
-          </div>
-
-          {/* Bottom Torn Edge - Organic Curve Tear */}
-          <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] translate-y-[98%] z-[-2]">
-            <svg viewBox="0 0 1000 30" preserveAspectRatio="none" className="block w-full h-[14px] fill-white" style={{ filter: 'drop-shadow(0px 3px 3px rgba(0,0,0,0.08))' }}>
-              <path d="M0,0 L0,15 Q12,5 25,18 T50,10 T75,20 T100,8 T125,25 T150,12 T175,5 T200,22 T225,10 T250,25 T275,15 T300,5 T325,20 T350,12 T375,25 T400,8 T425,18 T450,10 T475,22 T500,5 T525,15 T550,25 T575,12 T600,8 T625,20 T650,10 T675,25 T700,15 T725,5 T750,20 T775,12 T800,8 T825,22 T850,10 T875,18 T900,5 T925,25 T950,12 T975,20 T1000,15 L1000,0 Z" />
-            </svg>
-            <svg viewBox="0 0 1000 30" preserveAspectRatio="none" className="block w-full h-[14px] fill-white absolute top-[2px] left-[5px] opacity-40">
-              <path d="M0,0 L0,15 Q12,5 25,18 T50,10 T75,20 T100,8 T125,25 T150,12 T175,5 T200,22 T225,10 T250,25 T275,15 T300,5 T325,20 T350,12 T375,25 T400,8 T425,18 T450,10 T475,22 T500,5 T525,15 T550,25 T575,12 T600,8 T625,20 T650,10 T675,25 T700,15 T725,5 T750,20 T775,12 T800,8 T825,22 T850,10 T875,18 T900,5 T925,25 T950,12 T975,20 T1000,15 L1000,0 Z" />
-            </svg>
-          </div>
+          {/* Crooked Paper Background */}
+          <div className="absolute inset-0 bg-[#fefdfa] shadow-[0_12px_40px_rgba(0,0,0,0.14),0_4px_12px_rgba(0,0,0,0.06)] rounded-[2px] -rotate-1 z-[-1] border border-gray-200/60" />
+          
+          {/* Masking Tape Design */}
+          <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 w-24 h-[1.8rem] bg-[#eceade]/80 backdrop-blur-md shadow-[0_2px_4px_rgba(0,0,0,0.1)] rotate-2 z-[-1] rounded-[1px] border-t border-b border-white/40" style={{ backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.4) 0%, transparent 10%, transparent 90%, rgba(255,255,255,0.4) 100%)' }} />
 
           
           {/* Animated Text Area reflecting current Step - Left Aligned */}
