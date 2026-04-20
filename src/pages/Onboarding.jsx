@@ -91,106 +91,80 @@ export default function Onboarding({ onFinish }) {
 
           
           {/* Animated Text Area reflecting current Step - Left Aligned */}
-          <div key={step} className="animate-fade-in text-left flex flex-col justify-center mb-4">
-            <h2 className="text-[1.7rem] font-extrabold text-gray-900 mb-5 leading-[1.3] tracking-tight whitespace-pre-line break-keep">
+          <div key={step} className="animate-fade-in text-left flex flex-col justify-start min-h-[10rem] mb-2 pt-2">
+            <h2 className="text-[1.7rem] font-extrabold text-[#1a202c] mb-4 leading-[1.3] tracking-tight whitespace-pre-line break-keep">
               {ONBOARDING_STEPS[step].title}
             </h2>
-            <p className="text-gray-600 text-[1.05rem] break-keep leading-[1.7] font-medium pr-2">
+            <p className="text-[#4a5568] text-[1.05rem] break-keep leading-[1.7] font-medium pr-2">
               {ONBOARDING_STEPS[step].description}
             </p>
           </div>
           
-          {/* Controls Area */}
-          <div className="flex flex-col w-full mt-6">
-            
-            {step === ONBOARDING_STEPS.length - 1 ? (
-              <div className="flex flex-col gap-8 w-full">
-                {/* Dots */}
-                <div className="flex justify-center gap-2">
-                  {ONBOARDING_STEPS.map((_, i) => (
-                    <div 
-                      key={i} 
-                      className={`h-2 rounded-full transition-all duration-500 ease-out ${
-                        i === step ? 'w-8 bg-[#0f172a]' : 'w-2 bg-gray-200'
-                      }`} 
-                    />
-                  ))}
-                </div>
-                
-                {/* Start & Prev Buttons */}
-                <div className="flex items-center gap-3">
-                  {/* Previous Button */}
-                  <button 
-                    onClick={() => setStep(step - 1)} 
-                    className="w-[3.5rem] h-[3.5rem] shrink-0 flex items-center justify-center bg-gray-100 text-gray-600 rounded-2xl hover:bg-gray-200 active:scale-95 transition-all"
-                  >
-                    <svg className="w-6 h-6 mr-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
-                  </button>
-                  {/* Start Button */}
-                  <button 
-                    onClick={startTour}
-                    className="group relative flex-1 h-[3.5rem] bg-[#0f172a] text-white rounded-2xl font-bold shadow-md hover:shadow-lg active:scale-95 transition-all outline-none overflow-hidden"
-                  >
-                    <span className="relative flex items-center justify-center gap-2 text-[1.1rem] tracking-wide">
-                      투어 시작하기
-                      <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                      </svg>
-                    </span>
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="flex w-full items-center justify-between pl-1">
-                 {/* Navigation Action Left (Previous Arrow) */}
-                 {step > 0 ? (
-                   <button 
-                     onClick={() => setStep(step - 1)} 
-                     className="w-14 h-14 flex items-center justify-center bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 active:scale-95 transition-all"
-                   >
-                     <svg className="w-6 h-6 mr-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
-                   </button>
-                 ) : (
-                   <div className="w-14 h-14" /> /* Empty Placeholder for Layout Balance */
-                 )}
+          {/* Controls Area (Uniform across all steps) */}
+          <div className="flex w-full items-center justify-between mt-2">
+             {/* Navigation Action Left (Previous Arrow) */}
+             {step > 0 ? (
+               <button 
+                 onClick={() => setStep(step - 1)} 
+                 className="w-12 h-12 flex items-center justify-center text-gray-400 hover:text-gray-700 active:scale-95 transition-all"
+               >
+                 <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
+               </button>
+             ) : (
+               <div className="w-12 h-12" /> /* Empty Placeholder for Layout Balance */
+             )}
 
-                 {/* Dots Centered */}
-                 <div className="flex items-center gap-2">
-                   {ONBOARDING_STEPS.map((_, i) => (
-                     <div 
-                       key={i} 
-                       className={`h-2 rounded-full transition-all duration-500 ease-out ${
-                         i === step ? 'w-8 bg-[#0f172a]' : 'w-2 bg-gray-200'
-                       }`} 
-                     />
-                   ))}
-                 </div>
-                 
-                 {/* Navigation Action Right (Next) */}
-                 <button 
-                   onClick={() => setStep(step + 1)} 
-                   className="w-14 h-14 flex items-center justify-center bg-[#0f172a] text-white rounded-full hover:scale-105 active:scale-95 transition-all shadow-[0_4px_14px_rgba(15,23,42,0.4)]"
-                 >
-                   <svg className="w-7 h-7 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg>
-                 </button>
-              </div>
-            )}
+             {/* Dots Centered */}
+             <div className="flex items-center gap-2">
+               {ONBOARDING_STEPS.map((_, i) => (
+                 <div 
+                   key={i} 
+                   className={`h-2 rounded-full transition-all duration-500 ease-out ${
+                     i === step ? 'w-8 bg-[#2d3748]' : 'w-2 bg-gray-200'
+                   }`} 
+                 />
+               ))}
+             </div>
+             
+             {/* Navigation Action Right (Next) */}
+             {step < ONBOARDING_STEPS.length - 1 ? (
+               <button 
+                 onClick={() => setStep(step + 1)} 
+                 className="w-12 h-12 flex items-center justify-center text-gray-700 hover:text-gray-900 hover:scale-110 active:scale-95 transition-all"
+               >
+                 <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg>
+               </button>
+             ) : (
+               <div className="w-12 h-12" /> /* Empty Placeholder on last step */
+             )}
           </div>
 
         </div>
       </div>
       
-      {/* Separated Skip Button at the very bottom */}
-      {step < ONBOARDING_STEPS.length - 1 && (
-        <div className="absolute bottom-[6vh] left-0 w-full flex justify-center z-20 animate-fade-in">
+      {/* Separated Bottom Action Area (Skip / Start Tour) */}
+      <div className="absolute bottom-[7vh] left-0 w-full flex justify-center z-20 animate-fade-in-up">
+        {step < ONBOARDING_STEPS.length - 1 ? (
            <button 
              onClick={skip}
              className="text-white/60 hover:text-white/90 text-[0.95rem] font-medium border-b border-transparent hover:border-white/50 transition-all pb-0.5 tracking-wide"
            >
              건너뛰기
            </button>
-        </div>
-      )}
+        ) : (
+           <button 
+             onClick={startTour}
+             className="group relative flex items-center justify-center gap-2 px-10 py-4 bg-[#0f172a] text-white rounded-full font-bold shadow-[0_8px_20px_rgba(0,0,0,0.4)] hover:shadow-[0_12px_25px_rgba(0,0,0,0.5)] hover:-translate-y-1 active:scale-95 transition-all outline-none"
+           >
+             <span className="text-[1.15rem] tracking-wide">
+               투어 시작하기
+             </span>
+             <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+             </svg>
+           </button>
+        )}
+      </div>
     </div>
   );
 }
