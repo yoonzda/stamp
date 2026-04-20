@@ -24,67 +24,69 @@ export default function Splash({ onFinish }) {
       {/* Main Content Group - Optically centered by lifting it up (-mt-12) */}
       <div className="relative z-10 flex flex-col items-center animate-fade-in-up w-full px-6 -mt-12">
         
-        {/* Large, Beautiful Standard Travel Loader (Flight + 2D Sticker Globe) */}
-        <div className="relative w-32 h-32 mb-2 flex items-center justify-center drop-shadow-lg">
+        {/* Compact, Modern Travel Loader (Flight + Fresh Minimalist Globe) */}
+        <div className="relative w-28 h-28 mb-3 flex items-center justify-center drop-shadow-md">
           
-          {/* Authentic Doodle Torn-Paper Sticker Globe */}
-          <svg className="absolute w-[5.5rem] h-[5.5rem] drop-shadow-md z-0" viewBox="0 0 100 100">
+          {/* New Polished Globe Image (Smaller & Cleaner) */}
+          <svg className="absolute w-[4.5rem] h-[4.5rem] drop-shadow-sm z-0" viewBox="0 0 100 100">
+            {/* Base halo to separate from background */}
+            <circle cx="50" cy="50" r="48" fill="#f8fafc" opacity="0.9" />
+
+            <defs>
+              <radialGradient id="earthGlow" cx="30%" cy="30%" r="70%">
+                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.4"/>
+                <stop offset="70%" stopColor="#ffffff" stopOpacity="0"/>
+                <stop offset="100%" stopColor="#020617" stopOpacity="0.15"/>
+              </radialGradient>
+              <clipPath id="new-globe-clip">
+                <circle cx="50" cy="50" r="44" />
+              </clipPath>
+            </defs>
+
+            {/* Earth Ocean Base */}
+            <circle cx="50" cy="50" r="44" fill="#7dd3fc" />
             
-            {/* 1. Perfect Smooth Clean White Sticker Border */}
-            <circle cx="50" cy="50" r="48" fill="#ffffff" />
-            
-            {/* 2. Clipping Mask for the globe's inner boundaries */}
-            <clipPath id="globe-clip">
-              <circle cx="50" cy="50" r="42" />
-            </clipPath>
-
-            {/* 3. The intricately doodled EARTH content (Clipped safely into the smaller globe) */}
-            <g clipPath="url(#globe-clip)">
-               {/* Base Ocean (Clear, Pretty Warm Pastel Teal) */}
-               <circle cx="50" cy="50" r="42" fill="#89cbd6" />
-
-               {/* Hand-drawn Earth Continents: Minimalist, Ultra-Cute, Smooth 'Asian Hemisphere' */}
-               
-               {/* Giant Eurasia Mass (Smooth sweeping curve ending in a cute Korea Peninsula tip) */}
-               <path d="M -10 10 
-                        C 40 -10, 75 10, 75 25 
-                        C 75 35, 80 50, 70 50 
-                        C 60 50, 65 35, 55 35 
-                        C 45 35, 45 55, 30 55 
-                        C 15 55, 0 40, -10 40 Z" 
-                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" />
-
-               {/* Japan (Tiny smooth crescent shaped island right next to Korea) */}
-               <path d="M 82 30 C 90 35, 90 50, 82 48 C 80 40, 78 35, 82 30 Z" 
-                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" />
-
-               {/* Australia / Oceania (Plump bouncy hill on the bottom right) */}
-               <path d="M 45 75 C 65 65, 85 70, 85 85 C 85 105, 55 100, 45 75 Z" 
-                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" />
-
-               {/* Africa / Middle East (Soft bump entering from left edge) */}
-               <path d="M 0 60 C 25 50, 30 75, 15 90 C 5 100, -10 80, 0 60 Z" 
-                     fill="#bae498" stroke="#1e293b" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" />
-                     
-               {/* Tiny floating minimalist round islands */}
-               <circle cx="35" cy="72" r="3" fill="#bae498" stroke="#1e293b" strokeWidth="4" />
-               <circle cx="80" cy="65" r="2.5" fill="#bae498" stroke="#1e293b" strokeWidth="4" />
+            {/* New Continents (Smooth, abstract vectors with vibrant colors) */}
+            <g clipPath="url(#new-globe-clip)">
+              {/* Top left continent */}
+              <path d="M 0 5 
+                       C 30 -10, 45 20, 35 40 
+                       C 25 55, 5 45, 0 35 Z" fill="#86efac" />
+              
+              {/* Right giant shape */}
+              <path d="M 60 5 
+                       C 95 10, 105 50, 85 75 
+                       C 60 95, 50 45, 60 5 Z" fill="#86efac" />
+                       
+              {/* Bottom left islands */}
+              <path d="M 12 70 
+                       C 25 60, 35 85, 20 95 
+                       C 5 100, -5 75, 12 70 Z" fill="#86efac" />
+              <circle cx="45" cy="78" r="4" fill="#86efac" />
+              
+              {/* Subtle contour lines for islands */}
+              <path d="M 0 5 C 30 -10, 45 20, 35 40 C 25 55, 5 45, 0 35 Z" fill="none" stroke="#22c55e" strokeWidth="2" opacity="0.3" />
+              <path d="M 60 5 C 95 10, 105 50, 85 75 C 60 95, 50 45, 60 5 Z" fill="none" stroke="#22c55e" strokeWidth="2" opacity="0.3" />
+              <path d="M 12 70 C 25 60, 35 85, 20 95 C 5 100, -5 75, 12 70 Z" fill="none" stroke="#22c55e" strokeWidth="2" opacity="0.3" />
             </g>
 
-            {/* 4. The Super Thick Mastering Globe Border (Fusing everything safely) */}
-            <circle cx="50" cy="50" r="42" fill="none" stroke="#1e293b" strokeWidth="5" />
+            {/* Inner Glow / Spherical Shadow applied on top */}
+            <circle cx="50" cy="50" r="44" fill="url(#earthGlow)" className="mix-blend-multiply" />
+            
+            {/* Outline to keep it crisp */}
+            <circle cx="50" cy="50" r="44" fill="none" stroke="#38bdf8" strokeWidth="2" opacity="0.5" />
           </svg>
           
-          {/* Rotating Airplane & Smooth Fluffy Contrail Group */}
+          {/* Rotating Airplane & Adjusted Smooth Fluffy Contrail */}
           <div className="absolute inset-0 w-full h-full z-10" style={{ animation: "spinAccelerate 3.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite" }}>
             
-            {/* Fading Fluffy Cloud Trail (Dense overlapping array to simulate a solid dissipating gas trail) */}
+            {/* Fading Fluffy Cloud Trail fitted to w-28 container orbit */}
             <svg className="absolute inset-0 w-full h-full text-white pointer-events-none drop-shadow-sm blur-[1px]" viewBox="0 0 100 100">
                {[...Array(40)].map((_, i) => (
                  <circle 
                    key={i} 
-                   cx="50" cy="12" /* Center orbit at r=38 */
-                   r={3.5 - i * 0.08} /* Starts thick and naturally tapers to a fine point */
+                   cx="50" cy="15" /* Tighter orbit for new w-28 scale */
+                   r={3 - i * 0.07} /* Beautiful tapering */
                    fill="currentColor" 
                    opacity={Math.max((1 - i/40), 0) * 0.85}
                    style={{ transformOrigin: "50px 50px", transform: `rotate(${-i * 2}deg)` }} 
@@ -92,8 +94,8 @@ export default function Splash({ onFinish }) {
                ))}
             </svg>
 
-            {/* Airplane Icon tracking the orbit (Restored to the ultra-simple, classic, reliable flat flight icon!) */}
-            <svg className="absolute top-[3px] left-1/2 -ml-[14px] w-7 h-7 text-[#334155] transform rotate-[90deg] drop-shadow-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            {/* Airplane Icon */}
+            <svg className="absolute top-[6px] left-1/2 -ml-[12px] w-6 h-6 text-[#334155] transform rotate-[90deg] drop-shadow-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
             </svg>
           </div>
