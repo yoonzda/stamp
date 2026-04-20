@@ -77,77 +77,56 @@ export default function Onboarding({ onFinish }) {
          className="absolute inset-0 w-full h-full object-cover -z-10 animate-fade-in scale-[1.15]" 
       />
 
-      {/* Content wrapper - Centered */}
-      <div className="flex-1 flex flex-col justify-center items-center w-full mx-auto z-10 select-none px-6">
+      {/* Subtle White Gradient at the bottom to ensure text readability */}
+      <div className="absolute bottom-0 left-0 w-full h-[60%] bg-gradient-to-t from-white via-white/85 to-transparent z-0 pointer-events-none" />
+
+      {/* Content wrapper - Anchored to bottom */}
+      <div className="relative z-10 w-full h-full flex flex-col justify-end px-8 pb-[8vh] max-w-md mx-auto select-none">
         
-        {/* Standard Clean Card Container */}
-        <div className="flex flex-col bg-white/95 backdrop-blur-md w-full max-w-[22rem] pt-10 pb-8 px-8 shadow-[0_16px_40px_rgba(0,0,0,0.12)] transition-all duration-500 rounded-[1.75rem] border border-white/60">
-          
-          {/* Animated Text Area reflecting current Step - Left Aligned */}
-          <div key={step} className="animate-fade-in-up text-left flex flex-col justify-start h-[10.5rem] mb-2">
-            <h2 className="text-[1.75rem] font-extrabold text-gray-900 mb-4 leading-[1.3] tracking-tight whitespace-pre-line break-keep">
-              {ONBOARDING_STEPS[step].title}
-            </h2>
-            <p className="text-gray-600 text-[1.05rem] break-keep leading-[1.7] font-medium pr-1">
-              {ONBOARDING_STEPS[step].description}
-            </p>
-          </div>
-          
-          {/* Controls Area (Uniform across all steps) */}
-          <div className="flex w-full items-center justify-between mt-4">
-             {/* Navigation Action Left (Previous Arrow) */}
-             {step > 0 ? (
-               <button 
-                 onClick={() => setStep(step - 1)} 
-                 className="w-12 h-12 flex items-center justify-center text-gray-400 hover:text-gray-800 active:scale-95 transition-all"
-               >
-                 <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
-               </button>
-             ) : (
-               <div className="w-12 h-12" /> /* Empty Placeholder for Layout Balance */
-             )}
-
-             {/* Dots Centered */}
-             <div className="flex items-center gap-2.5">
-               {ONBOARDING_STEPS.map((_, i) => (
-                 <div 
-                   key={i} 
-                   className={`h-2 rounded-full transition-all duration-500 ease-out ${
-                     i === step ? 'w-8 bg-[#0f172a]' : 'w-2 bg-gray-200'
-                   }`} 
-                 />
-               ))}
-             </div>
-             
-             {/* Navigation Action Right (Next) */}
-             {step < ONBOARDING_STEPS.length - 1 ? (
-               <button 
-                 onClick={() => setStep(step + 1)} 
-                 className="w-12 h-12 flex items-center justify-center text-gray-800 hover:text-[#0f172a] hover:scale-110 active:scale-95 transition-all"
-               >
-                 <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg>
-               </button>
-             ) : (
-               <div className="w-12 h-12" /> /* Empty Placeholder on last step */
-             )}
-          </div>
-
+        {/* Step Indicator (Dots) */}
+        <div className="flex items-center gap-2.5 mb-6">
+          {ONBOARDING_STEPS.map((_, i) => (
+            <div 
+              key={i} 
+              className={`h-1.5 rounded-full transition-all duration-500 ease-out ${
+                i === step ? 'w-8 bg-[#0f172a]' : 'w-2 bg-gray-300'
+              }`} 
+            />
+          ))}
         </div>
-      </div>
-      
-      {/* Separated Bottom Action Area (Skip / Start Tour) */}
-      <div className="absolute bottom-[6vh] left-0 w-full flex justify-center z-20 animate-fade-in-up">
-        <button 
-          onClick={step === ONBOARDING_STEPS.length - 1 ? startTour : skip}
-          className="group relative flex items-center justify-center gap-2 w-[16rem] h-[3.8rem] bg-[#0f172a]/95 backdrop-blur-md text-white rounded-[1.2rem] font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:scale-95 transition-all outline-none border border-white/10"
-        >
-          <span className="text-[1.12rem] tracking-wide">
-            {step === ONBOARDING_STEPS.length - 1 ? '투어 시작하기' : '건너뛰기'}
-          </span>
-          <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-          </svg>
-        </button>
+
+        {/* Text Area */}
+        <div key={step} className="animate-fade-in-up text-left mb-10 h-[8rem]">
+          <h2 className="text-[2rem] font-extrabold text-gray-900 mb-3 leading-[1.25] tracking-tight whitespace-pre-line break-keep">
+            {ONBOARDING_STEPS[step].title}
+          </h2>
+          <p className="text-gray-600 text-[1.1rem] break-keep leading-[1.6] font-medium pr-2">
+            {ONBOARDING_STEPS[step].description}
+          </p>
+        </div>
+
+        {/* Bottom Actions Row */}
+        <div className="flex w-full items-center justify-between">
+          <button 
+            onClick={step > 0 ? () => setStep(step - 1) : skip}
+            className="text-gray-500 hover:text-gray-800 font-medium px-2 py-2 transition-colors tracking-wide text-[1.05rem]"
+          >
+            {step > 0 ? '이전' : '건너뛰기'}
+          </button>
+          
+          <button 
+            onClick={step === ONBOARDING_STEPS.length - 1 ? startTour : () => setStep(step + 1)}
+            className="group flex items-center justify-center gap-2 h-[3.5rem] px-8 bg-[#0f172a] text-white rounded-full font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-95 transition-all outline-none"
+          >
+            <span className="text-[1.1rem] tracking-wide">
+              {step === ONBOARDING_STEPS.length - 1 ? '시작하기' : '다음'}
+            </span>
+            <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </button>
+        </div>
+
       </div>
     </div>
   );
