@@ -82,9 +82,20 @@ export default function Splash({ onFinish }) {
                ))}
             </svg>
 
-            {/* Airplane Icon (Matched to #0f172a ink outline) */}
-            <svg className="absolute top-[-6px] left-1/2 -ml-[14px] w-7 h-7 text-[#0f172a] transform rotate-[90deg] drop-shadow-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-               <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+            {/* Chubby Hand-Drawn Doodle Airplane (Matches the globe and pouch perfectly) */}
+            <svg className="absolute top-[-8px] left-1/2 -ml-[16px] w-8 h-8 text-[#0f172a] transform rotate-[90deg] drop-shadow-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="rgba(255,255,255,0.95)" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round">
+               {/* Left Wing */}
+               <path d="M 35 45 L 8 65 C 2 70, 4 80, 12 75 L 34 68" />
+               {/* Right Wing */}
+               <path d="M 65 45 L 92 65 C 98 70, 96 80, 88 75 L 66 68" />
+               {/* Left Tail */}
+               <path d="M 38 78 L 15 90 C 12 92, 16 98, 22 93 L 42 85" />
+               {/* Right Tail */}
+               <path d="M 62 78 L 85 90 C 88 92, 84 98, 78 93 L 58 85" />
+               {/* Fat Bullet Body */}
+               <path d="M 50 5 C 70 5, 75 30, 70 65 C 65 95, 55 98, 50 98 C 45 98, 35 95, 30 65 C 25 30, 30 5, 50 5 Z" />
+               {/* Pilot Window (Cute Teal Glass) */}
+               <path d="M 40 25 C 40 18, 60 18, 60 25 C 60 30, 40 30, 40 25 Z" fill="#89cbd6" stroke="currentColor" strokeWidth="4" />
             </svg>
           </div>
         </div>
