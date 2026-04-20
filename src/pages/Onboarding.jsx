@@ -84,12 +84,12 @@ export default function Onboarding({ onFinish }) {
       <div className="relative z-10 w-full h-full flex flex-col justify-end px-8 pb-[8vh] max-w-md mx-auto select-none">
         
         {/* Step Indicator (Dots) */}
-        <div className="flex items-center gap-2.5 mb-5">
+        <div className="flex items-center gap-2 mb-6 ml-1">
           {ONBOARDING_STEPS.map((_, i) => (
             <div 
               key={i} 
-              className={`h-1.5 rounded-full transition-all duration-500 ease-out shadow-[0_1px_2px_rgba(0,0,0,0.1)] ${
-                i === step ? 'w-8 bg-[#0f172a]' : 'w-2 bg-gray-400/80'
+              className={`h-2 rounded-full transition-all duration-300 ease-out shadow-[0_1px_3px_rgba(0,0,0,0.15)] ${
+                i === step ? 'w-6 bg-[#0f172a]' : 'w-2 bg-gray-400'
               }`} 
             />
           ))}
