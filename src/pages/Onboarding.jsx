@@ -195,13 +195,13 @@ export default function Onboarding({ onFinish }) {
       </div>
       
       {/* Separated Skip Button at the very bottom */}
-      {step === 0 && (
-        <div className="absolute bottom-[8vh] left-0 w-full flex justify-center z-20 animate-fade-in-up">
+      {step < ONBOARDING_STEPS.length - 1 && (
+        <div className="absolute bottom-[6vh] left-0 w-full flex justify-center z-20 animate-fade-in">
            <button 
              onClick={skip}
-             className="text-white/90 bg-black/40 backdrop-blur-md px-6 py-2.5 rounded-full text-[0.95rem] font-bold hover:bg-black/60 shadow-lg border border-white/20 transition-all tracking-wide active:scale-95"
+             className="text-white/60 hover:text-white/90 text-[0.95rem] font-medium border-b border-transparent hover:border-white/50 transition-all pb-0.5 tracking-wide"
            >
-             설명 건너뛰기
+             건너뛰기
            </button>
         </div>
       )}
