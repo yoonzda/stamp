@@ -76,9 +76,9 @@ export default function Splash({ onFinish }) {
         <div className="flex flex-col items-center max-w-[320px]">
            <div className="w-8 h-[2px] bg-[#64748b] rounded-full mb-3"></div>
            <p className="text-[#475569] font-sans text-[0.75rem] tracking-[0.02em] font-medium drop-shadow-sm text-center leading-[1.7] break-keep">
-             아름다운 옹진군으로 떠나는 시간,<br/> 
-             당신의 완벽한 여행을 위해 꼭 필요한<br/>
-             모든 것들이 이 주머니에 담겨있습니다.
+             발걸음마다 완성되는 특별한 여정,<br/> 
+             당신의 여행 주머니를 활짝 열어<br/>
+             설레는 여행의 즐거움을 찾아보세요.
            </p>
            <div className="w-8 h-[2px] bg-[#64748b] rounded-full mt-3 mb-6"></div>
            
@@ -87,8 +87,8 @@ export default function Splash({ onFinish }) {
              <div className="absolute top-0 left-0 h-full bg-[#1e293b] rounded-full animate-loader-draw"></div>
            </div>
            {/* Loading Text */}
-           <p className="text-[#64748b] font-sans text-[0.6rem] tracking-[0.1em] font-medium mt-2 animate-pulse">
-             여행 준비 중...
+           <p className="text-[#64748b] font-sans text-[0.55rem] tracking-[0.3em] font-bold uppercase mt-2 animate-pulse">
+             Loading...
            </p>
         </div>
 
