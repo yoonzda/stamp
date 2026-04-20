@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <circle cx="50" cy="50" r="50" fill="#89cbd6" />
-  <g transform="translate(15, 15) scale(0.7)">
-    <g fill="#ffffff" stroke="#0f172a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+  <g transform="translate(18, 22) scale(0.64)">
+    <g fill="#ffffff" stroke="#0f172a" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round">
       <path d="M 35 38 C 28 25, 20 20, 24 14 C 30 8, 40 18, 50 12 C 60 6, 75 12, 78 16 C 82 22, 72 28, 65 38 Z" />
       <path d="M 35 38 C 10 45, 0 75, 15 88 C 30 100, 70 100, 85 88 C 100 75, 90 45, 65 38 Z" />
     </g>
-    <path d="M 26 38 Q 48 45, 74 38" fill="none" stroke="#0f172a" stroke-width="7" stroke-linecap="round" />
+    <path d="M 26 38 Q 48 45, 74 38" fill="none" stroke="#0f172a" stroke-width="7.5" stroke-linecap="round" />
     <circle cx="48" cy="42" r="7" fill="#0f172a" stroke="none" />
-    <path d="M 46 45 C 42 55, 40 65, 45 75 M 52 45 C 56 55, 60 65, 55 70" fill="none" stroke="#0f172a" stroke-width="7" stroke-linecap="round" />
+    <path d="M 46 45 C 42 55, 40 65, 45 75 M 52 45 C 56 55, 60 65, 55 70" fill="none" stroke="#0f172a" stroke-width="7.5" stroke-linecap="round" />
   </g>
 </svg>
