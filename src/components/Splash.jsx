@@ -24,78 +24,66 @@ export default function Splash({ onFinish }) {
       {/* Main Content Group - Optically centered by lifting it up (-mt-12) */}
       <div className="relative z-10 flex flex-col items-center animate-fade-in-up w-full px-6 -mt-12">
         
-        {/* Compact, Modern Travel Loader (Flight + Fresh Minimalist Globe) */}
-        <div className="relative w-28 h-28 mb-3 flex items-center justify-center drop-shadow-md">
+        {/* Compact, Travel Loader (Flight + Doodle Patch Globe) */}
+        <div className="relative w-32 h-32 mb-2 flex items-center justify-center drop-shadow-md">
           
-          {/* New Polished Globe Image (Smaller & Cleaner) */}
-          <svg className="absolute w-[4.5rem] h-[4.5rem] drop-shadow-sm z-0" viewBox="0 0 100 100">
-            {/* Base halo to separate from background */}
-            <circle cx="50" cy="50" r="48" fill="#f8fafc" opacity="0.9" />
-
-            <defs>
-              <radialGradient id="earthGlow" cx="30%" cy="30%" r="70%">
-                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.4"/>
-                <stop offset="70%" stopColor="#ffffff" stopOpacity="0"/>
-                <stop offset="100%" stopColor="#020617" stopOpacity="0.15"/>
-              </radialGradient>
-              <clipPath id="new-globe-clip">
-                <circle cx="50" cy="50" r="44" />
-              </clipPath>
-            </defs>
-
-            {/* Earth Ocean Base */}
-            <circle cx="50" cy="50" r="44" fill="#7dd3fc" />
+          {/* Authentic Hand-Drawn "Stamp/Pouch" Style Globe (Matches Bokjumeoni) */}
+          <svg className="absolute w-[4.25rem] h-[4.25rem] z-0" viewBox="0 0 100 100" fill="rgba(255,255,255,0.95)" stroke="#0f172a" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(1px 2px 3px rgba(255,255,255,0.8))" }}>
             
-            {/* New Continents (Smooth, abstract vectors with vibrant colors) */}
-            <g clipPath="url(#new-globe-clip)">
-              {/* Top left continent */}
-              <path d="M 0 5 
-                       C 30 -10, 45 20, 35 40 
-                       C 25 55, 5 45, 0 35 Z" fill="#86efac" />
+            {/* Thick rugged imperfect circle for the earth boundary */}
+            <path d="M 50 5 
+                     C 75 2, 95 20, 95 48 
+                     C 95 80, 70 95, 48 95 
+                     C 20 95, 5 75, 5 48 
+                     C 5 20, 20 5, 50 5 Z" />
+
+            {/* Clipping path for the landmasses */}
+            <clipPath id="rugged-globe">
+               <path d="M 50 5 C 75 2, 95 20, 95 48 C 95 80, 70 95, 48 95 C 20 95, 5 75, 5 48 C 5 20, 20 5, 50 5 Z" />
+            </clipPath>
+
+            {/* Continents drawn with raw lines and filled with the previous #bae498 pastel green */}
+            <g clipPath="url(#rugged-globe)">
+              {/* Ocean base color */}
+              <rect x="0" y="0" width="100" height="100" fill="#89cbd6" stroke="none" />
               
-              {/* Right giant shape */}
-              <path d="M 60 5 
-                       C 95 10, 105 50, 85 75 
-                       C 60 95, 50 45, 60 5 Z" fill="#86efac" />
-                       
-              {/* Bottom left islands */}
-              <path d="M 12 70 
-                       C 25 60, 35 85, 20 95 
-                       C 5 100, -5 75, 12 70 Z" fill="#86efac" />
-              <circle cx="45" cy="78" r="4" fill="#86efac" />
+              {/* Eurasia / Asia side (right) */}
+              <path d="M 60 5 C 80 15, 95 40, 80 60 C 65 75, 50 65, 55 45 C 60 30, 45 20, 60 5 Z" fill="#bae498" />
               
-              {/* Subtle contour lines for islands */}
-              <path d="M 0 5 C 30 -10, 45 20, 35 40 C 25 55, 5 45, 0 35 Z" fill="none" stroke="#22c55e" strokeWidth="2" opacity="0.3" />
-              <path d="M 60 5 C 95 10, 105 50, 85 75 C 60 95, 50 45, 60 5 Z" fill="none" stroke="#22c55e" strokeWidth="2" opacity="0.3" />
-              <path d="M 12 70 C 25 60, 35 85, 20 95 C 5 100, -5 75, 12 70 Z" fill="none" stroke="#22c55e" strokeWidth="2" opacity="0.3" />
+              {/* Europe/Africa side (left) */}
+              <path d="M 10 20 C 35 15, 40 40, 25 55 C 10 70, 0 50, 10 20 Z" fill="#bae498" />
+              
+              {/* Bottom island (Australia-ish) */}
+              <path d="M 65 85 C 80 80, 90 95, 75 100 C 60 100, 55 90, 65 85 Z" fill="#bae498" />
+
+              {/* Dots for cute small islands */}
+              <circle cx="35" cy="75" r="4" fill="#bae498" />
+              <circle cx="20" cy="85" r="3" fill="#bae498" />
             </g>
-
-            {/* Inner Glow / Spherical Shadow applied on top */}
-            <circle cx="50" cy="50" r="44" fill="url(#earthGlow)" className="mix-blend-multiply" />
             
-            {/* Outline to keep it crisp */}
-            <circle cx="50" cy="50" r="44" fill="none" stroke="#38bdf8" strokeWidth="2" opacity="0.5" />
+            {/* Re-draw border to ensure clean thick mastering lines */}
+            <path d="M 50 5 C 75 2, 95 20, 95 48 C 95 80, 70 95, 48 95 C 20 95, 5 75, 5 48 C 5 20, 20 5, 50 5 Z" fill="none" />
           </svg>
           
-          {/* Rotating Airplane & Adjusted Smooth Fluffy Contrail */}
+          {/* Super Wide Rotating Airplane Orbit */}
           <div className="absolute inset-0 w-full h-full z-10" style={{ animation: "spinAccelerate 3.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite" }}>
             
-            {/* Fading Fluffy Cloud Trail fitted to w-28 container orbit */}
+            {/* Fading Fluffy Cloud Trail fitted to cy=6 for extremely wide orbit */}
             <svg className="absolute inset-0 w-full h-full text-white pointer-events-none drop-shadow-sm blur-[1px]" viewBox="0 0 100 100">
-               {[...Array(40)].map((_, i) => (
+               {[...Array(45)].map((_, i) => (
                  <circle 
                    key={i} 
-                   cx="50" cy="15" /* Tighter orbit for new w-28 scale */
-                   r={3 - i * 0.07} /* Beautiful tapering */
+                   cx="50" cy="6" /* Beautiful vast orbit gap */
+                   r={3.5 - i * 0.07} 
                    fill="currentColor" 
-                   opacity={Math.max((1 - i/40), 0) * 0.85}
+                   opacity={Math.max((1 - i/45), 0) * 0.85}
                    style={{ transformOrigin: "50px 50px", transform: `rotate(${-i * 2}deg)` }} 
                  />
                ))}
             </svg>
 
-            {/* Airplane Icon */}
-            <svg className="absolute top-[6px] left-1/2 -ml-[12px] w-6 h-6 text-[#334155] transform rotate-[90deg] drop-shadow-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            {/* Airplane Icon (Matched to #0f172a ink outline) */}
+            <svg className="absolute top-[-6px] left-1/2 -ml-[14px] w-7 h-7 text-[#0f172a] transform rotate-[90deg] drop-shadow-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
             </svg>
           </div>
