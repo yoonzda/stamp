@@ -62,67 +62,60 @@ export default function Collection() {
           </p>
         </div>
 
-        {/* Postage Stamp Sheet Groups by Island */}
-        <div className="w-full max-w-[24rem] px-2 mb-8 flex flex-col gap-8">
+        {/* Circular Badge Stamp Groups by Island */}
+        <div className="w-full max-w-[24rem] px-2 mb-10 flex flex-col gap-8">
           {ISLANDS.map(island => (
-            <div key={island.id} className="w-full bg-[#1e1e1c] rounded-lg p-5 shadow-xl flex flex-col items-center">
+            <div key={island.id} className="w-full bg-white/70 backdrop-blur-md rounded-[1.5rem] p-6 shadow-sm border border-[#e8dfcf] flex flex-col items-center">
               
-              {/* Sheet Title */}
-              <div className="mb-5 flex flex-col items-center">
-                <span className="text-[#a39585] text-[0.6rem] tracking-[0.2em] mb-1">ONGJIN STAMP COLLECTION</span>
-                <h3 className="text-[#f4ecdf] text-lg font-bold font-['Nanum_Myeongjo'] pb-1 border-b border-[#a39585]/30 px-6 tracking-widest">{island.name}</h3>
+              {/* Island Title */}
+              <div className="mb-6 flex flex-col items-center w-full">
+                <h3 className="text-[#3e342b] text-[1.15rem] font-bold font-['Nanum_Myeongjo'] pb-1.5 border-b-[1.5px] border-[#3e342b]/80 px-8 tracking-widest">{island.name}</h3>
               </div>
               
-              {/* Connected Stamp Grid */}
-              <div className="flex flex-wrap items-center justify-center bg-[#1e1e1c]">
+              {/* Circular Badge Grid */}
+              <div className="flex flex-wrap items-center justify-center gap-5">
                 {island.spots.map((spot, idx) => {
                   const isDone = stamps.some(st => st.code === spot.code);
-                  const stampData = isDone ? stamps.find(st => st.code === spot.code) : null;
                   const sym = SYMBOLS[spot.category];
                   
                   return (
                     <motion.button 
                       onClick={() => setSelectedSpot({ spot, isDone, sym })}
                       key={spot.code}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
                       whileTap={{ scale: 0.95 }}
-                      transition={{ delay: idx * 0.05 + 0.1, duration: 0.4 }}
-                      className="relative flex font-['Pretendard'] m-[1px] shadow-sm select-none"
+                      transition={{ delay: idx * 0.05 + 0.1, type: 'spring' }}
+                      className="relative flex flex-col items-center justify-center font-['Pretendard'] group focus:outline-none"
                     >
-                      {/* Stamp Outer Card */}
-                      <div className="w-[5.8rem] h-[7.8rem] bg-[#fefdfa] p-1.5 flex flex-col justify-between relative overflow-hidden" 
-                           style={{ boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.05)' }}>
-                        
-                        {/* Perforation Cutouts - Illusion formed by matching the dark background color */}
-                        <div className="absolute -inset-[3px] border-[5px] border-dotted border-[#1e1e1c] pointer-events-none z-20 opacity-95" />
-
-                        {/* Image / Artwork Area */}
-                        <div className={`w-full h-[65%] flex flex-col items-center justify-center overflow-hidden border border-[#d5ccbe]/70 relative bg-[#f7f4ed]`}>
-                          {isDone && stampData?.photoUrl ? (
-                            <img src={stampData.photoUrl} className="absolute inset-0 w-full h-full object-cover filter contrast-110 saturate-110" alt="stamp" />
-                          ) : (
-                            <div className="flex flex-col items-center justify-center opacity-40 mix-blend-multiply transition-transform" style={{color: sym.color}}>
-                              <span className="w-8 h-8 drop-shadow-sm"><SymbolIcon type={sym.id} /></span>
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Text / Stamp Value Area */}
-                        <div className="flex flex-col mt-auto bg-transparent pt-1 items-start justify-end flex-1">
-                          <span className={`text-[0.6rem] font-bold tracking-tight leading-none break-keep text-left w-full
-                            ${isDone ? 'text-gray-900' : 'text-gray-400'}`}>
-                            {spot.name}
-                          </span>
-                          <div className="flex justify-between items-end w-full mt-auto mb-0.5">
-                            <span className="text-[0.45rem] font-bold text-gray-400">2026</span>
-                            <span className="text-[0.6rem] font-['Nanum_Myeongjo'] font-extrabold" style={{color: isDone ? sym.color : '#a3a3a3'}}>
-                              {isDone ? '1 ¢' : '-'}
-                            </span>
+                      {isDone ? (
+                        /* Collected Badge (Unique location art representation) */
+                        <div className="w-[4.8rem] h-[4.8rem] rounded-full border-[2.5px] border-[#2c3e50] shadow-[0_4px_10px_rgba(0,0,0,0.15)] overflow-hidden relative bg-[#2c3e50] transition-transform group-hover:-translate-y-0.5">
+                          {/* We use picsum with specific seed for reliable unique beautiful landscapes */}
+                          <img 
+                            src={`https://picsum.photos/seed/${spot.code}landscape/200/200`} 
+                            className="absolute inset-0 w-full h-full object-cover filter saturate-[1.2] contrast-[1.1] opacity-90" 
+                            alt="stamp" 
+                          />
+                          {/* Badge text overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#1a252f]/90 via-[#1a252f]/20 to-transparent pointer-events-none" />
+                          <div className="absolute inset-0 flex flex-col items-center justify-end pb-2 pointer-events-none">
+                             <span className="text-[#f4ecdf] text-[0.55rem] font-extrabold tracking-widest px-1 text-center leading-tight drop-shadow-md">
+                               {spot.name}
+                             </span>
                           </div>
+                          {/* Inner gold ring */}
+                          <div className="absolute inset-[3px] border-[1px] border-[#e8c37d]/60 rounded-full z-10 pointer-events-none" />
                         </div>
-
-                      </div>
+                      ) : (
+                        /* Empty Slot Envelope/Circle */
+                        <div className="w-[4.8rem] h-[4.8rem] rounded-full border-[1.5px] border-dashed border-[#a39585]/60 flex flex-col items-center justify-center bg-[#f4ecdf]/40 transition-colors group-hover:bg-[#f4ecdf]/70 shadow-inner">
+                          <div className="w-9 h-9 rounded-full border border-[#a39585]/20 flex items-center justify-center bg-white/50">
+                            <span className="text-[#a39585]/40 text-lg font-bold font-['Nanum_Myeongjo']">?</span>
+                          </div>
+                          <span className="text-[#a39585]/60 text-[0.45rem] mt-1 tracking-widest">{spot.name}</span>
+                        </div>
+                      )}
                     </motion.button>
                   );
                 })}
