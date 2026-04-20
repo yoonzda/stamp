@@ -82,20 +82,21 @@ export default function Splash({ onFinish }) {
                ))}
             </svg>
 
-            {/* Chubby Hand-Drawn Doodle Airplane (Matches the globe and pouch perfectly) */}
-            <svg className="absolute top-[-8px] left-1/2 -ml-[16px] w-8 h-8 text-[#0f172a] transform rotate-[90deg] drop-shadow-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="rgba(255,255,255,0.95)" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round">
-               {/* Left Wing */}
-               <path d="M 35 45 L 8 65 C 2 70, 4 80, 12 75 L 34 68" />
-               {/* Right Wing */}
-               <path d="M 65 45 L 92 65 C 98 70, 96 80, 88 75 L 66 68" />
-               {/* Left Tail */}
-               <path d="M 38 78 L 15 90 C 12 92, 16 98, 22 93 L 42 85" />
-               {/* Right Tail */}
-               <path d="M 62 78 L 85 90 C 88 92, 84 98, 78 93 L 58 85" />
-               {/* Fat Bullet Body */}
-               <path d="M 50 5 C 70 5, 75 30, 70 65 C 65 95, 55 98, 50 98 C 45 98, 35 95, 30 65 C 25 30, 30 5, 50 5 Z" />
-               {/* Pilot Window (Cute Teal Glass) */}
-               <path d="M 40 25 C 40 18, 60 18, 60 25 C 60 30, 40 30, 40 25 Z" fill="#89cbd6" stroke="currentColor" strokeWidth="4" />
+            {/* Small Elegant Hand-Drawn Silhouette Airplane */}
+            <svg className="absolute top-[-4px] left-1/2 -ml-[12px] w-6 h-6 text-[#0f172a] transform rotate-[90deg] drop-shadow-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="rgba(255,255,255,0.95)" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round">
+               <path d="M 50 5 
+                        C 58 5, 60 15, 60 35 
+                        L 95 60 L 95 70 
+                        L 60 60 
+                        L 60 80 
+                        L 75 90 L 75 95
+                        L 50 90 
+                        L 25 95 L 25 90
+                        L 40 80
+                        L 40 60
+                        L 5 70 L 5 60
+                        L 40 35
+                        C 40 15, 42 5, 50 5 Z" />
             </svg>
           </div>
         </div>
