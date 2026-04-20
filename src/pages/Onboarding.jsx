@@ -87,11 +87,11 @@ export default function Onboarding({ onFinish }) {
           <div className="absolute inset-0 bg-[#fefdfa] shadow-[0_12px_40px_rgba(0,0,0,0.14),0_4px_12px_rgba(0,0,0,0.06)] rounded-[2px] -rotate-1 z-[-1] border border-gray-200/60" />
           
           {/* Masking Tape Design */}
-          <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 w-24 h-[1.8rem] bg-[#eceade]/80 backdrop-blur-md shadow-[0_2px_4px_rgba(0,0,0,0.1)] rotate-2 z-[-1] rounded-[1px] border-t border-b border-white/40" style={{ backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.4) 0%, transparent 10%, transparent 90%, rgba(255,255,255,0.4) 100%)' }} />
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-[6.5rem] h-[1.8rem] bg-white/20 backdrop-blur-[3px] shadow-[0_1px_3px_rgba(0,0,0,0.1)] rotate-2 z-10 rounded-[1px] border border-white/30" style={{ backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.1) 0%, transparent 10%, transparent 90%, rgba(255,255,255,0.1) 100%)' }} />
 
           
           {/* Animated Text Area reflecting current Step - Left Aligned */}
-          <div key={step} className="animate-fade-in text-left flex flex-col justify-start min-h-[10rem] mb-2 pt-2">
+          <div key={step} className="animate-fade-in text-left flex flex-col justify-start h-[11.5rem] mb-2 pt-2">
             <h2 className="text-[1.7rem] font-extrabold text-[#1a202c] mb-4 leading-[1.3] tracking-tight whitespace-pre-line break-keep">
               {ONBOARDING_STEPS[step].title}
             </h2>
@@ -144,26 +144,17 @@ export default function Onboarding({ onFinish }) {
       
       {/* Separated Bottom Action Area (Skip / Start Tour) */}
       <div className="absolute bottom-[7vh] left-0 w-full flex justify-center z-20 animate-fade-in-up">
-        {step < ONBOARDING_STEPS.length - 1 ? (
-           <button 
-             onClick={skip}
-             className="text-white/60 hover:text-white/90 text-[0.95rem] font-medium border-b border-transparent hover:border-white/50 transition-all pb-0.5 tracking-wide"
-           >
-             건너뛰기
-           </button>
-        ) : (
-           <button 
-             onClick={startTour}
-             className="group relative flex items-center justify-center gap-2 px-10 py-4 bg-[#0f172a] text-white rounded-full font-bold shadow-[0_8px_20px_rgba(0,0,0,0.4)] hover:shadow-[0_12px_25px_rgba(0,0,0,0.5)] hover:-translate-y-1 active:scale-95 transition-all outline-none"
-           >
-             <span className="text-[1.15rem] tracking-wide">
-               투어 시작하기
-             </span>
-             <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-             </svg>
-           </button>
-        )}
+        <button 
+          onClick={step === ONBOARDING_STEPS.length - 1 ? startTour : skip}
+          className="group relative flex items-center justify-center gap-2 w-[16rem] h-[3.8rem] bg-[#0f172a]/95 backdrop-blur-md text-white rounded-full font-bold shadow-[0_8px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_12px_25px_rgba(0,0,0,0.4)] hover:-translate-y-0.5 active:scale-95 transition-all outline-none border border-white/10"
+        >
+          <span className="text-[1.12rem] tracking-wide">
+            {step === ONBOARDING_STEPS.length - 1 ? '투어 시작하기' : '건너뛰기'}
+          </span>
+          <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
       </div>
     </div>
   );
