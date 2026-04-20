@@ -10,24 +10,7 @@ export default function Collection() {
   const navigate = useNavigate();
   const [selectedSpot, setSelectedSpot] = useState(null);
 
-  // Flatten all available spots into one big list and sort: Completed first!
-  const allSortedSpots = useMemo(() => {
-    let allSpots = ISLANDS.flatMap(island => island.spots);
-    
-    allSpots.sort((a, b) => {
-      const aStamp = stamps.find(st => st.code === a.code);
-      const bStamp = stamps.find(st => st.code === b.code);
-      const aDone = !!aStamp;
-      const bDone = !!bStamp;
-
-      if (aDone && bDone) return aStamp.timestamp - bStamp.timestamp;
-      if (aDone && !bDone) return -1;
-      if (!aDone && bDone) return 1;
-      return 0; // maintain default order amongst the same group
-    });
-
-    return allSpots;
-  }, [stamps]);
+  // Grouping is now natively handled by mapping over ISLANDS object directly.
 
   const couponsAvailable = getAvailableCoupons(state);
 
@@ -79,50 +62,73 @@ export default function Collection() {
           </p>
         </div>
 
-        {/* 4x4 Master Grid of ALL SPOTS */}
-        <div className="w-full max-w-sm px-2 mb-8">
-          <div className="grid grid-cols-4 gap-y-6 gap-x-2">
-            {allSortedSpots.map((spot, i) => {
-              const isDone = stamps.some(st => st.code === spot.code);
-              const sym = SYMBOLS[spot.category];
+        {/* Postage Stamp Sheet Groups by Island */}
+        <div className="w-full max-w-[24rem] px-2 mb-8 flex flex-col gap-8">
+          {ISLANDS.map(island => (
+            <div key={island.id} className="w-full bg-[#1e1e1c] rounded-lg p-5 shadow-xl flex flex-col items-center">
               
-              return (
-                <motion.button 
-                  onClick={() => setSelectedSpot({ spot, isDone, sym })}
-                  key={spot.code}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  whileTap={{ scale: 0.9 }}
-                  transition={{ delay: i * 0.03, type: 'spring', damping: 20 }}
-                  className="flex flex-col items-center focus:outline-none"
-                >
-                  <div className={`w-[3.6rem] h-[3.6rem] rounded-full flex items-center justify-center relative transition-all duration-300
-                    ${isDone ? 'shadow-inner mix-blend-multiply border border-transparent cursor-pointer hover:shadow-md' : 'border border-[#d1c8b4] border-dashed opacity-40 cursor-pointer hover:opacity-70'}`}
-                       style={{ backgroundColor: isDone ? sym.color + '25' : 'transparent' }}>
-                    
-                    {/* The Icon */}
-                    <span className={`w-8 h-8 flex items-center justify-center ${isDone ? 'drop-shadow-sm' : 'opacity-80 mix-blend-multiply'}`} 
-                          style={{ color: isDone ? sym.color : '#a39889' }}>
-                      <SymbolIcon type={sym.id} />
-                    </span>
-                    
-                    {/* Checkmark overlay for completed ones */}
-                    {isDone && (
-                      <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-[#8a7a6b] rounded-full flex items-center justify-center shadow-sm">
-                        <span className="text-[0.55rem] text-[#f4ecdf] font-bold">✓</span>
-                      </div>
-                    )}
-                  </div>
+              {/* Sheet Title */}
+              <div className="mb-5 flex flex-col items-center">
+                <span className="text-[#a39585] text-[0.6rem] tracking-[0.2em] mb-1">ONGJIN STAMP COLLECTION</span>
+                <h3 className="text-[#f4ecdf] text-lg font-bold font-['Nanum_Myeongjo'] pb-1 border-b border-[#a39585]/30 px-6 tracking-widest">{island.name}</h3>
+              </div>
+              
+              {/* Connected Stamp Grid */}
+              <div className="flex flex-wrap items-center justify-center bg-[#1e1e1c]">
+                {island.spots.map((spot, idx) => {
+                  const isDone = stamps.some(st => st.code === spot.code);
+                  const stampData = isDone ? stamps.find(st => st.code === spot.code) : null;
+                  const sym = SYMBOLS[spot.category];
                   
-                  {/* Spot Name */}
-                  <span className={`mt-2 text-[0.6rem] font-bold text-center leading-tight w-[4rem] mix-blend-multiply break-keep
-                    ${isDone ? 'text-[#3e342b]' : 'text-[#a39889] opacity-70'}`}>
-                    {spot.name}
-                  </span>
-                </motion.button>
-              );
-            })}
-          </div>
+                  return (
+                    <motion.button 
+                      onClick={() => setSelectedSpot({ spot, isDone, sym })}
+                      key={spot.code}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ delay: idx * 0.05 + 0.1, duration: 0.4 }}
+                      className="relative flex font-['Pretendard'] m-[1px] shadow-sm select-none"
+                    >
+                      {/* Stamp Outer Card */}
+                      <div className="w-[5.8rem] h-[7.8rem] bg-[#fefdfa] p-1.5 flex flex-col justify-between relative overflow-hidden" 
+                           style={{ boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.05)' }}>
+                        
+                        {/* Perforation Cutouts - Illusion formed by matching the dark background color */}
+                        <div className="absolute -inset-[3px] border-[5px] border-dotted border-[#1e1e1c] pointer-events-none z-20 opacity-95" />
+
+                        {/* Image / Artwork Area */}
+                        <div className={`w-full h-[65%] flex flex-col items-center justify-center overflow-hidden border border-[#d5ccbe]/70 relative bg-[#f7f4ed]`}>
+                          {isDone && stampData?.photoUrl ? (
+                            <img src={stampData.photoUrl} className="absolute inset-0 w-full h-full object-cover filter contrast-110 saturate-110" alt="stamp" />
+                          ) : (
+                            <div className="flex flex-col items-center justify-center opacity-40 mix-blend-multiply transition-transform" style={{color: sym.color}}>
+                              <span className="w-8 h-8 drop-shadow-sm"><SymbolIcon type={sym.id} /></span>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Text / Stamp Value Area */}
+                        <div className="flex flex-col mt-auto bg-transparent pt-1 items-start justify-end flex-1">
+                          <span className={`text-[0.6rem] font-bold tracking-tight leading-none break-keep text-left w-full
+                            ${isDone ? 'text-gray-900' : 'text-gray-400'}`}>
+                            {spot.name}
+                          </span>
+                          <div className="flex justify-between items-end w-full mt-auto mb-0.5">
+                            <span className="text-[0.45rem] font-bold text-gray-400">2026</span>
+                            <span className="text-[0.6rem] font-['Nanum_Myeongjo'] font-extrabold" style={{color: isDone ? sym.color : '#a3a3a3'}}>
+                              {isDone ? '1 ¢' : '-'}
+                            </span>
+                          </div>
+                        </div>
+
+                      </div>
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
         
         {/* Simple Call to Action logic */}
@@ -229,10 +235,10 @@ export default function Collection() {
                       </button>
                     </div>
                     <button 
-                      onClick={() => navigate('/scanner')}
-                      className="w-full text-[#3e342b] bg-[#e8dfcf] font-bold py-4 rounded-none shadow-md active:scale-95 transition-transform text-[0.95rem] tracking-widest hover:bg-white"
+                      onClick={() => navigate(`/photo-verify/${selectedSpot.spot.code}`)}
+                      className="w-full text-[#3e342b] bg-[#e8dfcf] font-bold py-4 rounded-none shadow-md active:scale-95 transition-transform text-[0.95rem] tracking-widest hover:bg-white flex items-center justify-center gap-2"
                     >
-                      스탬프 획득하기
+                      <span>📸 카메라로 사진 찍고 인증하기</span>
                     </button>
                   </>
                 )}
