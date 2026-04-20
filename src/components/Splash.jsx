@@ -161,7 +161,7 @@ export default function Splash({ onFinish }) {
         /* Import Jeju Doldam Font */
         @font-face {
           font-family: 'EF_jejudoldam';
-          src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-2@1.0/EF_jejudoldam.woff2') format('woff2');
+          src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-EF@1.0/EF_jejudoldam.woff2') format('woff2');
           font-weight: normal;
           font-style: normal;
         }
