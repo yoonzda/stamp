@@ -225,7 +225,7 @@ export default function IslandDetail() {
                   className="absolute inset-0 z-20 pointer-events-none flex flex-col"
                 >
                   {/* TOP AREA: Title & Description */}
-                  <div className="flex flex-col items-center justify-end text-center px-8 w-full shrink-0 pb-4" style={{ height: `calc(50vh - ${finalRadius}px)` }}>
+                  <div className="flex-1 flex flex-col items-center justify-end text-center px-8 w-full pb-4">
                     <h2 className="text-[1.8rem] font-bold text-[#3e342b] mb-2 font-['Nanum_Myeongjo'] tracking-wide break-keep">
                       {selectedSpot.spot.name}
                     </h2>
@@ -239,7 +239,7 @@ export default function IslandDetail() {
                   <div className="shrink-0" style={{ height: finalDiameter }} />
 
                   {/* BOTTOM AREA: Address & Map Buttons */}
-                  <div className="flex flex-col items-center justify-start w-full shrink-0 pt-6 px-8 pointer-events-auto" style={{ height: `calc(50vh - ${finalRadius}px)` }}>
+                  <div className="flex-1 flex flex-col items-center justify-start w-full pt-6 px-8 pointer-events-auto">
                     <div className="flex items-center gap-1.5 text-[#a39585] mb-6">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                       <p className="text-[0.8rem] font-medium tracking-wide">
