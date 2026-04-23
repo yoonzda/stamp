@@ -30,10 +30,17 @@ export default function IslandDetail() {
   const island = ISLANDS.find(i => i.id === id);
   const [selectedSpot, setSelectedSpot] = useState(null);
   const [galleryCount, setGalleryCount] = useState(6);
+  const [containerWidth, setContainerWidth] = useState(window.innerWidth > 448 ? 448 : window.innerWidth);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    const handleResize = () => setContainerWidth(Math.min(window.innerWidth, 448));
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const finalRadius = containerWidth * 0.38; // 76% of container width diameter
+  const finalDiameter = finalRadius * 2;
 
   if (!island) return <div className="p-10 text-center">섬을 찾을 수 없습니다.</div>;
 
@@ -153,7 +160,7 @@ export default function IslandDetail() {
               {/* Floating Camera Button (Bottom Left) */}
               <button 
                 onClick={() => navigate(`/photo-verify/${selectedSpot.spot.code}`)}
-                className="absolute bottom-6 left-5 w-14 h-14 rounded-full flex items-center justify-center bg-white/60 text-[#3e342b] shadow-sm backdrop-blur-md pointer-events-auto active:scale-95 transition-transform border border-white/50"
+                className="absolute bottom-6 left-5 w-14 h-14 rounded-full flex items-center justify-center bg-[#e06a4e] text-white shadow-[0_4px_15px_rgba(224,106,78,0.3)] pointer-events-auto active:scale-95 transition-transform border border-white/20"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
               </button>
@@ -182,7 +189,7 @@ export default function IslandDetail() {
                         cx="50%" 
                         cy="50%" 
                         initial={{ r: 2000 }}
-                        animate={{ r: 160 }}
+                        animate={{ r: finalRadius }}
                         transition={{ duration: 2.5, ease: "easeInOut", delay: 0.8 }}
                         fill="black" 
                       />
@@ -194,7 +201,7 @@ export default function IslandDetail() {
                 {/* Inner Shadow Overlay for Window Effect (Shrinks with the Mask) */}
                 <motion.div
                   initial={{ width: 4000, height: 4000 }}
-                  animate={{ width: 320, height: 320 }}
+                  animate={{ width: finalDiameter, height: finalDiameter }}
                   transition={{ duration: 2.5, ease: "easeInOut", delay: 0.8 }}
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full z-10 pointer-events-none"
                   style={{ boxShadow: 'inset 0 4px 15px rgba(0,0,0,0.15)' }}
@@ -208,7 +215,7 @@ export default function IslandDetail() {
                   className="absolute inset-0 z-20 pointer-events-none flex flex-col"
                 >
                   {/* TOP AREA: Title & Description */}
-                  <div className="flex flex-col items-center justify-end text-center px-8 w-full shrink-0 pb-4" style={{ height: 'calc(50vh - 160px)' }}>
+                  <div className="flex flex-col items-center justify-end text-center px-8 w-full shrink-0 pb-4" style={{ height: `calc(50vh - ${finalRadius}px)` }}>
                     <h2 className="text-[1.8rem] font-bold text-[#3e342b] mb-2 font-['Nanum_Myeongjo'] tracking-wide break-keep">
                       {selectedSpot.spot.name}
                     </h2>
@@ -219,10 +226,10 @@ export default function IslandDetail() {
                   </div>
 
                   {/* Spacer jumping over the circle */}
-                  <div className="shrink-0" style={{ height: '320px' }} />
+                  <div className="shrink-0" style={{ height: finalDiameter }} />
 
                   {/* BOTTOM AREA: Address & Map Buttons */}
-                  <div className="flex flex-col items-center justify-start w-full shrink-0 pt-6 px-8 pointer-events-auto" style={{ height: 'calc(50vh - 160px)' }}>
+                  <div className="flex flex-col items-center justify-start w-full shrink-0 pt-6 px-8 pointer-events-auto" style={{ height: `calc(50vh - ${finalRadius}px)` }}>
                     <div className="flex items-center gap-1.5 text-[#a39585] mb-6">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                       <p className="text-[0.8rem] font-medium tracking-wide">
@@ -230,21 +237,22 @@ export default function IslandDetail() {
                       </p>
                     </div>
 
-                    {/* Navigation Buttons */}
-                    <div className="flex gap-3 w-full justify-center">
+                    {/* Navigation Buttons (Watercolor Circles) */}
+                    <div className="flex gap-5 w-full justify-center">
                       <button 
                         onClick={() => window.open(`https://map.kakao.com/link/search/${encodeURIComponent(selectedSpot.spot.name)}`, '_blank')}
-                        className="flex-1 max-w-[140px] bg-[#FEE500] text-[#000000] py-3.5 rounded-xl font-bold text-[0.9rem] active:scale-95 transition-transform flex justify-center items-center gap-2 shadow-sm border border-black/5"
+                        className="w-[4.2rem] h-[4.2rem] bg-gradient-to-br from-[#ffe359] to-[#ffc800] rounded-[48%] shadow-[0_4px_12px_rgba(255,200,0,0.3)] active:scale-95 transition-transform flex flex-col items-center justify-center border border-white/50 relative overflow-hidden group"
                       >
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-5.523 0-10 3.5-10 7.82 0 2.76 1.83 5.17 4.6 6.5l-1.16 4.3c-.06.23.16.42.36.3l3.87-2.62c.74.2 1.53.3 2.33.3 5.523 0 10-3.5 10-7.82S17.523 3 12 3z"/></svg>
-                        길찾기
+                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.5)_0%,transparent_60%)] mix-blend-overlay"></div>
+                        <span className="font-extrabold text-[#3e342b] z-10 text-[0.8rem] tracking-tighter group-active:scale-95 transition-transform">카카오</span>
                       </button>
+                      
                       <button 
                         onClick={() => window.open(`https://map.naver.com/v5/directions/-/${encodeURIComponent(selectedSpot.spot.name)},-/transit?c=15,0,0,0,dh`, '_blank')}
-                        className="flex-1 max-w-[140px] bg-[#03C75A] text-white py-3.5 rounded-xl font-bold text-[0.9rem] active:scale-95 transition-transform flex justify-center items-center gap-2 shadow-sm border border-black/5"
+                        className="w-[4.2rem] h-[4.2rem] bg-gradient-to-br from-[#3de074] to-[#04a83c] rounded-[52%] shadow-[0_4px_12px_rgba(4,168,60,0.3)] active:scale-95 transition-transform flex flex-col items-center justify-center border border-white/50 relative overflow-hidden group"
                       >
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16.8 3H21v18h-4.2l-5.4-8.1v8.1H7.2V3h4.2l5.4 8.1V3z"/></svg>
-                        길찾기
+                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.5)_0%,transparent_60%)] mix-blend-overlay"></div>
+                        <span className="font-extrabold text-white z-10 text-[0.8rem] tracking-tighter group-active:scale-95 transition-transform">네이버</span>
                       </button>
                     </div>
                   </div>
