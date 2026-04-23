@@ -1,6 +1,6 @@
 export const ISLANDS = [
   {
-    id: 'baengnyeong', name: '백령도', mapPos: { top: '15%', left: '15%' },
+    id: 'baengnyeong', name: '백령도', description: '대한민국 최서북단, 천혜의 자연경관을 품은 신비의 섬', mapPos: { top: '15%', left: '15%' },
     spots: [
       { id: 'b1', name: '두무진', category: 'PLUS', desc: '경이로운 기암괴석 사이로 활력을 더하는 두무진', address: '백령면 연화리 255-1', code: 'STAMP_B1' },
       { id: 'b2', name: '사곶해변', category: 'MINUS', desc: '천연비행장이었던 광활한 해변을 걸으며 스트레스를 빼는 시간', address: '백령면 진촌리 2005-1', code: 'STAMP_B2' },
@@ -10,7 +10,7 @@ export const ISLANDS = [
     ]
   },
   {
-    id: 'daecheong', name: '대청도', mapPos: { top: '30%', left: '28%' },
+    id: 'daecheong', name: '대청도', description: '푸른 바다와 고운 모래가 빚어낸 한국의 사하라', mapPos: { top: '30%', left: '28%' },
     spots: [
       { id: 'c1', name: '옥죽동 해안사구', category: 'MULTIPLY', desc: '이국적인 모래사막 풍경에서 감동이 배가 되는 한국의 사하라', address: '대청면 대청리 692-2', code: 'STAMP_C1' },
       { id: 'c2', name: '서풍받이', category: 'DIVIDE', desc: '웅장한 절벽에서 불어오는 바람, 대자연과 교감 본능을 나누는 곳', address: '대청면 대청리 서풍받이', code: 'STAMP_C2' },
@@ -19,7 +19,7 @@ export const ISLANDS = [
     ]
   },
   {
-    id: 'yeonpyeong', name: '연평도', mapPos: { top: '22%', left: '60%' },
+    id: 'yeonpyeong', name: '연평도', description: '평화의 염원을 담은 황금빛 조기의 고향', mapPos: { top: '22%', left: '60%' },
     spots: [
       { id: 'y1', name: '망향전망대', category: 'PLUS', desc: '탁 트인 북녘땅 전망을 보며 평화의 의미를 더하는 곳', address: '연평면 연평리 망향전망대', code: 'STAMP_Y1' },
       { id: 'y2', name: '구리동해변', category: 'MINUS', desc: '기묘한 자갈밭의 파도소리를 들으며 피로를 비우는 힐링 해변', address: '연평면 연평리 구리동', code: 'STAMP_Y2' },
@@ -28,7 +28,7 @@ export const ISLANDS = [
     ]
   },
   {
-    id: 'jawol', name: '자월도', mapPos: { top: '72%', left: '81%' },
+    id: 'jawol', name: '자월도', description: '붉은 해당화와 밤하늘의 달빛이 아름다운 낭만의 섬', mapPos: { top: '72%', left: '81%' },
     spots: [
       { id: 'j1', name: '장골해수욕장', category: 'MULTIPLY', desc: '반달 해변과 붉은 해당화가 만나 추억을 곱하는 피서지', address: '자월면 자월리 장골', code: 'STAMP_J1' },
       { id: 'j2', name: '하늬바람길', category: 'DIVIDE', desc: '바닷바람을 맞으며 연인, 가족과 달콤한 대화를 나누는 산책로', address: '자월면 해안도로', code: 'STAMP_J2' },
@@ -37,7 +37,7 @@ export const ISLANDS = [
     ]
   },
   {
-    id: 'deokjeok', name: '덕적도', mapPos: { top: '82%', left: '68%' },
+    id: 'deokjeok', name: '덕적도', description: '수백 년 노송 숲과 맑은 파도가 어우러진 힐링의 섬', mapPos: { top: '82%', left: '68%' },
     spots: [
       { id: 'd1', name: '서포리 해수욕장', category: 'PLUS', desc: '수백 년 노송 숲 피톤치드로 몸과 마음에 건강을 더하는 명품 해변', address: '덕적면 서포리', code: 'STAMP_D1' },
       { id: 'd2', name: '비조봉', category: 'MINUS', desc: '정상에서 360도 덕적군도를 조망하며 걱정을 빼는 등산길', address: '덕적면 진리', code: 'STAMP_D2' },
@@ -46,7 +46,7 @@ export const ISLANDS = [
     ]
   },
   {
-    id: 'yeongheung', name: '영흥도', mapPos: { top: '82%', left: '88%' },
+    id: 'yeongheung', name: '영흥도', description: '신비로운 목섬과 다채로운 매력이 돋보이는 곳', mapPos: { top: '82%', left: '88%' },
     spots: [
       { id: 'h1', name: '목섬', category: 'MULTIPLY', desc: '하루 두 번 바닷길이 열리는 신비로움, 두 배의 낭만이 있는 목섬', address: '영흥면 선재리 목섬', code: 'STAMP_H1' },
       { id: 'h2', name: '십리포 해수욕장', category: 'DIVIDE', desc: '국내 유일 소사나무 군락지에서 친구들과 여유를 나누는 휴식처', address: '영흥면 내리 십리포', code: 'STAMP_H2' },
@@ -55,7 +55,7 @@ export const ISLANDS = [
     ]
   },
   {
-    id: 'jangbong', name: '장봉도', mapPos: { top: '51%', left: '87%' },
+    id: 'jangbong', name: '장봉도', description: '아름다운 절경과 인어의 전설이 살아 숨쉬는 섬', mapPos: { top: '51%', left: '87%' },
     spots: [
       { id: 'n1', name: '옹암해수욕장', category: 'PLUS', desc: '해송 숲에서 바닷바람과 함께 상쾌한 기분을 가득 더하는 곳', address: '북도면 옹암해변', code: 'STAMP_N1' },
       { id: 'n2', name: '장봉도 인어상', category: 'MINUS', desc: '어부의 무사귀환을 비는 인어상 앞에서 걱정을 빼고 위안을 얻는 시간', address: '북도면 옹암 선착장', code: 'STAMP_N2' },

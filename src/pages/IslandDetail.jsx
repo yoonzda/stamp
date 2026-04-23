@@ -73,7 +73,7 @@ export default function IslandDetail() {
           </h1>
           <div className="w-12 h-[2px] bg-[#d5ccbe] rounded-full mb-4" />
           <p className="text-[#685b4f] text-center text-[0.85rem] leading-relaxed break-keep font-['Nanum_Myeongjo'] px-6">
-            기억의 조각들이 모여 아름다운 수집첩이 됩니다.<br/>신비로운 섬 이곳저곳을 탐험해보세요.
+            {island.description}
           </p>
         </div>
 
