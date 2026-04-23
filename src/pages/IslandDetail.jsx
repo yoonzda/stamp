@@ -128,7 +128,10 @@ export default function IslandDetail() {
               );
             })}
           </div>
-        </d      {/* Spot Detail Modal */}
+        </div>
+      </div>
+
+      {/* Spot Detail Modal */}
       <AnimatePresence>
         {selectedSpot && (
           <motion.div 
