@@ -79,14 +79,7 @@ export default function IslandDetail() {
 
         {/* Spot List */}
         <div className="w-full px-5 mt-4">
-          <div className="flex justify-between items-end mb-4 pr-1">
-            <div className="flex items-center gap-2 pl-1">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a39585" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-              <h2 className="text-[1.05rem] font-bold text-[#54463a] tracking-wide">
-                수집 장소
-              </h2>
-            </div>
-          </div>
+
 
           <div className="space-y-4">
             {island.spots.map(spot => {
