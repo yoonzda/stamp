@@ -295,7 +295,7 @@ export default function IslandDetail() {
                       {/* Kakao Map Button */}
                       <button 
                         onClick={() => window.open(`https://map.kakao.com/link/search/${encodeURIComponent(selectedSpot.spot.name)}`, '_blank')}
-                        className="flex-1 max-w-[140px] h-[3.2rem] rounded-full bg-[#FEE500] text-[#3e342b] font-bold text-[0.85rem] tracking-wide flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-transform"
+                        className="flex-1 max-w-[140px] h-[3.2rem] rounded-full bg-[#fced9f] text-[#5e5318] font-bold text-[0.85rem] tracking-wide flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-colors hover:bg-[#fae687]"
                       >
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M12 4C6.48 4 2 7.58 2 12c0 2.85 1.8 5.35 4.5 6.78-.17.65-.63 2.45-.66 2.58-.04.14.05.15.14.09.11-.06 2.86-1.92 3.96-2.73.66.18 1.35.28 2.06.28 5.52 0 10-3.58 10-8s-4.48-8-10-8z" />
@@ -306,7 +306,7 @@ export default function IslandDetail() {
                       {/* Naver Map Button */}
                       <button 
                         onClick={() => window.open(`https://map.naver.com/v5/directions/-/${encodeURIComponent(selectedSpot.spot.name)},-/transit?c=15,0,0,0,dh`, '_blank')}
-                        className="flex-1 max-w-[140px] h-[3.2rem] rounded-full bg-[#03C75A] text-white font-bold text-[0.85rem] tracking-wide flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-transform"
+                        className="flex-1 max-w-[140px] h-[3.2rem] rounded-full bg-[#cbebd6] text-[#1b6b37] font-bold text-[0.85rem] tracking-wide flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-colors hover:bg-[#b8e3c6]"
                       >
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M16.273 12.845 7.376 0H0v24h7.726V11.146L16.634 24H24V0h-7.727v12.845Z" />
