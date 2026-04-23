@@ -188,29 +188,25 @@ export default function IslandDetail() {
                     alt={selectedSpot.spot.name} 
                     className="w-full h-full object-cover mix-blend-multiply opacity-90"
                   />
-                  {/* Cinematic Dark Overlay fading out */}
-                  <motion.div
-                    initial={{ opacity: 0.3 }}
-                    animate={{ opacity: 0 }}
-                    transition={{ delay: 1.5, duration: 0.5 }}
-                    className="absolute inset-0 bg-black"
-                  />
                 </div>
 
                 {/* Cinematic Typewriter Title */}
                 <motion.div 
                   initial={{ opacity: 1 }}
                   animate={{ opacity: 0 }}
-                  transition={{ delay: 1.5, duration: 0.5 }}
-                  className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none drop-shadow-[0_2px_15px_rgba(0,0,0,0.6)]"
+                  transition={{ delay: 1.5, duration: 0.3 }}
+                  className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none drop-shadow-[1px_2px_6px_rgba(0,0,0,0.8)]"
                 >
-                  <h1 className="text-4xl font-bold text-white font-['Nanum_Myeongjo'] tracking-widest flex">
+                  <h1 
+                    className="text-[2.5rem] text-white tracking-widest flex"
+                    style={{ fontFamily: "'EF_jejudoldam', sans-serif" }}
+                  >
                     {Array.from(selectedSpot.spot.name).map((char, index) => (
                       <motion.span
                         key={index}
-                        initial={{ opacity: 0, filter: 'blur(8px)' }}
-                        animate={{ opacity: 1, filter: 'blur(0px)' }}
-                        transition={{ delay: index * 0.15, duration: 0.6 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: index * 0.15, duration: 0.01 }}
                       >
                         {char === ' ' ? '\u00A0' : char}
                       </motion.span>
@@ -373,6 +369,14 @@ export default function IslandDetail() {
         )}
       </AnimatePresence>
 
+      <style>{`
+        @font-face {
+          font-family: 'EF_jejudoldam';
+          src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-EF@1.0/EF_jejudoldam.woff2') format('woff2');
+          font-weight: normal;
+          font-style: normal;
+        }
+      `}</style>
     </div>
   );
 }
