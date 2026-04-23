@@ -48,6 +48,16 @@ export default function IslandDetail() {
   return (
     <div className="w-full h-full relative bg-transparent font-['Pretendard'] overflow-hidden">
       
+      {/* Fixed Back Button for Island Detail Page */}
+      <div className="absolute top-5 left-5 z-40">
+        <button 
+          onClick={() => navigate('/')}
+          className="w-11 h-11 rounded-full flex items-center justify-center bg-white/60 text-[#3e342b] shadow-sm backdrop-blur-md pointer-events-auto transition-transform active:scale-95 border border-white/50"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+      </div>
+
       <div className="w-full h-full overflow-y-auto pb-24 hide-scrollbar">
         <style>{`
           .hide-scrollbar::-webkit-scrollbar { display: none; }
@@ -66,16 +76,6 @@ export default function IslandDetail() {
             className="absolute inset-0 bg-cover bg-center mix-blend-multiply transform scale-[1.15]" 
             style={{ backgroundImage: `url(${bgImg})` }} 
           />
-          
-          {/* Floating Back Button */}
-          <div className="absolute top-0 inset-x-0 p-5 z-40 flex justify-between items-start pointer-events-none">
-            <button 
-              onClick={() => navigate('/')}
-              className="w-11 h-11 rounded-full flex items-center justify-center bg-white/60 text-[#3e342b] shadow-sm backdrop-blur-md pointer-events-auto transition-transform active:scale-95 border border-white/50"
-            >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
-          </div>
         </div>
 
         {/* Text Area */}
@@ -137,7 +137,7 @@ export default function IslandDetail() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex flex-col bg-[#fcfbf9] overflow-hidden"
+            className="absolute inset-0 z-50 flex flex-col bg-[#fcfbf9] overflow-hidden"
           >
             {/* Background Image (Always Full Screen) */}
             <div className="absolute inset-0 z-0">
@@ -175,12 +175,12 @@ export default function IslandDetail() {
               style={{ boxShadow: 'inset 0 4px 15px rgba(0,0,0,0.1)' }}
             />
 
-            {/* Fixed Buttons Layer */}
+            {/* Fixed Buttons Layer inside Modal */}
             <div className="absolute inset-0 pointer-events-none z-30">
               {/* Close / Back Button (Top Left) */}
               <button 
                 onClick={() => setSelectedSpot(null)}
-                className="fixed top-6 left-6 z-50 w-11 h-11 rounded-full flex items-center justify-center bg-white/60 text-[#3e342b] shadow-sm backdrop-blur-md pointer-events-auto active:scale-95 transition-transform border border-white/50"
+                className="absolute top-5 left-5 w-11 h-11 rounded-full flex items-center justify-center bg-white/60 text-[#3e342b] shadow-sm backdrop-blur-md pointer-events-auto active:scale-95 transition-transform border border-white/50"
               >
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
               </button>
@@ -188,7 +188,7 @@ export default function IslandDetail() {
               {/* Floating Camera Button (Bottom Left) */}
               <button 
                 onClick={() => navigate(`/photo-verify/${selectedSpot.spot.code}`)}
-                className="fixed bottom-6 left-6 z-50 w-14 h-14 rounded-full flex items-center justify-center bg-white/60 text-[#3e342b] shadow-sm backdrop-blur-md pointer-events-auto active:scale-95 transition-transform border border-white/50"
+                className="absolute bottom-6 left-5 w-14 h-14 rounded-full flex items-center justify-center bg-white/60 text-[#3e342b] shadow-sm backdrop-blur-md pointer-events-auto active:scale-95 transition-transform border border-white/50"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
               </button>
