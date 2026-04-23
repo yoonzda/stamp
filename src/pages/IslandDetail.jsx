@@ -139,28 +139,51 @@ export default function IslandDetail() {
             exit={{ opacity: 0 }}
             className="absolute inset-0 z-50 flex flex-col bg-[#fcfbf9] overflow-hidden"
           >
-            {/* Fixed Background Image with Iris Wipe Animation */}
-            <motion.div
-              initial={{ clipPath: 'circle(150% at 50% 50%)' }}
-              animate={{ clipPath: 'circle(140px at 50% 50%)' }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-              className="absolute inset-0 z-0 pointer-events-none"
-            >
+            {/* Background Image (Always Full Screen) */}
+            <div className="absolute inset-0 z-0">
               <img 
                 src={spotImages[selectedSpot.spot.code] || bgImg} 
                 alt={selectedSpot.spot.name} 
                 className="w-full h-full object-cover mix-blend-multiply opacity-90"
               />
-            </motion.div>
+            </div>
+
+            {/* Iris Mask with Inner Shadow */}
+            <motion.div
+              initial={{ boxShadow: '0 0 0 0px #fcfbf9, inset 0 0 0px rgba(0,0,0,0)' }}
+              animate={{ boxShadow: '0 0 0 3000px #fcfbf9, inset 0 10px 25px rgba(0,0,0,0.35)' }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.8 }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] h-[260px] rounded-full z-10 pointer-events-none"
+            />
+
+            {/* Fixed Buttons Layer */}
+            <div className="absolute inset-0 pointer-events-none z-30">
+              {/* Close / Back Button (Top Left) */}
+              <button 
+                onClick={() => setSelectedSpot(null)}
+                className="absolute top-5 left-5 w-11 h-11 rounded-full flex items-center justify-center bg-[#3e342b]/90 text-white shadow-lg backdrop-blur-md pointer-events-auto active:scale-95 transition-transform border border-white/10"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
+
+              {/* Floating Camera Button (Bottom Left) */}
+              <button 
+                onClick={() => navigate(`/photo-verify/${selectedSpot.spot.code}`)}
+                className="absolute bottom-6 left-5 w-14 h-14 rounded-full flex items-center justify-center bg-[#3e342b]/90 text-white shadow-lg backdrop-blur-md pointer-events-auto active:scale-95 transition-transform border border-white/10"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+              </button>
+            </div>
 
             {/* Content Area (Fades in after image animation) */}
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.0, duration: 0.6 }}
-              className="relative z-10 px-8 flex flex-col w-full h-full pt-[calc(50vh+160px)]"
+              transition={{ delay: 1.6, duration: 0.8, ease: "easeOut" }}
+              className="relative z-20 px-8 flex flex-col w-full h-full items-center"
+              style={{ paddingTop: 'calc(50vh + 150px)' }}
             >
-              <div className="flex flex-col items-center text-center mb-8">
+              <div className="flex flex-col items-center text-center mb-8 w-full">
                 <h2 className="text-[1.8rem] font-bold text-[#3e342b] mb-3 font-['Nanum_Myeongjo'] tracking-wide break-keep">
                   {selectedSpot.spot.name}
                 </h2>
@@ -177,7 +200,7 @@ export default function IslandDetail() {
               </div>
 
               {/* Navigation Buttons */}
-              <div className="flex gap-3 w-full mt-auto mb-8 justify-center">
+              <div className="flex gap-3 w-full justify-center mt-2">
                 <button 
                   onClick={() => window.open(`https://map.kakao.com/link/search/${encodeURIComponent(selectedSpot.spot.name)}`, '_blank')}
                   className="flex-1 max-w-[140px] bg-[#FEE500] text-[#000000] py-3.5 rounded-xl font-bold text-[0.9rem] active:scale-95 transition-transform flex justify-center items-center gap-2 shadow-sm border border-black/5"
@@ -194,29 +217,6 @@ export default function IslandDetail() {
                 </button>
               </div>
             </motion.div>
-
-            {/* Floating Camera Button */}
-            <motion.button 
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.8 }}
-              onClick={() => navigate(`/photo-verify/${selectedSpot.spot.code}`)}
-              className="absolute bottom-8 left-6 w-[3.5rem] h-[3.5rem] bg-[#3e342b] text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 transition-transform z-30 border border-[#685b4f]"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-            </motion.button>
-
-            {/* Close / Back Button */}
-            <motion.button 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-              onClick={() => setSelectedSpot(null)}
-              className="absolute top-6 left-6 text-[#3e342b] font-bold text-sm active:scale-95 transition-transform z-30 flex items-center gap-1 drop-shadow-sm bg-white/50 backdrop-blur-sm px-3 py-1.5 rounded-full"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-              뒤로가기
-            </motion.button>
 
           </motion.div>
         )}
