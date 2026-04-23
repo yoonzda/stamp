@@ -289,50 +289,31 @@ export default function IslandDetail() {
                       </p>
                     </div>
 
-                    {/* Navigation Buttons (Watercolor Icons) */}
-                    <div className="flex gap-6 w-full justify-center">
+                    {/* Navigation Buttons */}
+                    <div className="flex gap-3 w-full justify-center">
                       
-                      {/* SVG Filter for Watercolor Edges */}
-                      <svg width="0" height="0" className="absolute">
-                        <defs>
-                          <filter id="watercolor-filter">
-                            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise" />
-                            <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" />
-                          </filter>
-                        </defs>
-                      </svg>
-
                       {/* Kakao Map Button */}
                       <button 
                         onClick={() => window.open(`https://map.kakao.com/link/search/${encodeURIComponent(selectedSpot.spot.name)}`, '_blank')}
-                        className="w-[3.8rem] h-[3.8rem] relative flex items-center justify-center group"
+                        className="flex-1 max-w-[140px] h-[3.2rem] rounded-full bg-[#FEE500] text-[#3e342b] font-bold text-[0.85rem] tracking-wide flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-transform"
                       >
-                        <div 
-                          className="absolute inset-0 bg-gradient-to-br from-[#ffe359] to-[#ffc800] rounded-full shadow-[0_3px_10px_rgba(255,200,0,0.4)] group-active:scale-95 transition-transform"
-                          style={{ filter: 'url(#watercolor-filter)' }}
-                        >
-                          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.7)_0%,transparent_70%)] mix-blend-overlay"></div>
-                        </div>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="#3e342b" className="z-10 group-active:scale-95 transition-transform">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M12 4C6.48 4 2 7.58 2 12c0 2.85 1.8 5.35 4.5 6.78-.17.65-.63 2.45-.66 2.58-.04.14.05.15.14.09.11-.06 2.86-1.92 3.96-2.73.66.18 1.35.28 2.06.28 5.52 0 10-3.58 10-8s-4.48-8-10-8z" />
                         </svg>
+                        <span>카카오맵</span>
                       </button>
                       
                       {/* Naver Map Button */}
                       <button 
                         onClick={() => window.open(`https://map.naver.com/v5/directions/-/${encodeURIComponent(selectedSpot.spot.name)},-/transit?c=15,0,0,0,dh`, '_blank')}
-                        className="w-[3.8rem] h-[3.8rem] relative flex items-center justify-center group"
+                        className="flex-1 max-w-[140px] h-[3.2rem] rounded-full bg-[#03C75A] text-white font-bold text-[0.85rem] tracking-wide flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-transform"
                       >
-                        <div 
-                          className="absolute inset-0 bg-gradient-to-br from-[#3de074] to-[#04a83c] rounded-full shadow-[0_3px_10px_rgba(4,168,60,0.4)] group-active:scale-95 transition-transform"
-                          style={{ filter: 'url(#watercolor-filter)' }}
-                        >
-                          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.6)_0%,transparent_60%)] mix-blend-overlay"></div>
-                        </div>
-                        <svg width="17" height="17" viewBox="0 0 24 24" fill="white" className="z-10 group-active:scale-95 transition-transform">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M16.273 12.845 7.376 0H0v24h7.726V11.146L16.634 24H24V0h-7.727v12.845Z" />
                         </svg>
+                        <span>네이버지도</span>
                       </button>
+
                     </div>
                   </div>
                 </motion.div>
