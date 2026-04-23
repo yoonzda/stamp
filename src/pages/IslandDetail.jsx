@@ -139,25 +139,18 @@ export default function IslandDetail() {
             exit={{ opacity: 0 }}
             className="absolute inset-0 z-50 flex flex-col bg-[#fcfbf9] overflow-hidden"
           >
-            {/* Animated Image Container */}
+            {/* Fixed Background Image with Iris Wipe Animation */}
             <motion.div
-              initial={{ 
-                position: 'absolute', inset: 0, borderRadius: '0%', 
-                width: '100%', height: '100%', zIndex: 0 
-              }}
-              animate={{ 
-                position: 'relative', inset: 'auto', borderRadius: '50%', 
-                width: '200px', height: '200px', marginTop: '10vh', marginBottom: '2rem', 
-                alignSelf: 'center', zIndex: 10,
-                boxShadow: '0 10px 25px rgba(0,0,0,0.05)'
-              }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="overflow-hidden shrink-0 flex items-center justify-center bg-white"
+              initial={{ clipPath: 'circle(150% at 50% 25%)' }}
+              animate={{ clipPath: 'circle(100px at 50% 25%)' }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+              className="absolute inset-0 z-0 pointer-events-none"
             >
               <img 
                 src={spotImages[selectedSpot.spot.code] || bgImg} 
                 alt={selectedSpot.spot.name} 
-                className="w-full h-full object-cover mix-blend-multiply"
+                className="w-full h-full object-cover mix-blend-multiply opacity-90"
+                style={{ objectPosition: 'center 25%' }}
               />
             </motion.div>
 
@@ -165,8 +158,8 @@ export default function IslandDetail() {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
-              className="relative z-10 px-8 flex flex-col w-full flex-1"
+              transition={{ delay: 1.0, duration: 0.6 }}
+              className="relative z-10 px-8 flex flex-col w-full h-full pt-[45vh]"
             >
               <div className="flex flex-col items-center text-center mb-8">
                 <h2 className="text-[1.8rem] font-bold text-[#3e342b] mb-3 font-['Nanum_Myeongjo'] tracking-wide break-keep">
@@ -185,20 +178,20 @@ export default function IslandDetail() {
               </div>
 
               {/* Navigation Buttons */}
-              <div className="flex gap-3 w-full mt-auto mb-8 pl-20">
+              <div className="flex gap-3 w-full mt-auto mb-8 justify-center">
                 <button 
                   onClick={() => window.open(`https://map.kakao.com/link/search/${encodeURIComponent(selectedSpot.spot.name)}`, '_blank')}
-                  className="flex-1 bg-[#FEE500] text-[#000000] py-3.5 rounded-xl font-bold text-[0.9rem] active:scale-95 transition-transform flex justify-center items-center gap-2 shadow-sm border border-black/5"
+                  className="flex-1 max-w-[140px] bg-[#FEE500] text-[#000000] py-3.5 rounded-xl font-bold text-[0.9rem] active:scale-95 transition-transform flex justify-center items-center gap-2 shadow-sm border border-black/5"
                 >
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-5.523 0-10 3.5-10 7.82 0 2.76 1.83 5.17 4.6 6.5l-1.16 4.3c-.06.23.16.42.36.3l3.87-2.62c.74.2 1.53.3 2.33.3 5.523 0 10-3.5 10-7.82S17.523 3 12 3z"/></svg>
-                  카카오맵
+                  길찾기
                 </button>
                 <button 
                   onClick={() => window.open(`https://map.naver.com/v5/directions/-/${encodeURIComponent(selectedSpot.spot.name)},-/transit?c=15,0,0,0,dh`, '_blank')}
-                  className="flex-1 bg-[#03C75A] text-white py-3.5 rounded-xl font-bold text-[0.9rem] active:scale-95 transition-transform flex justify-center items-center gap-2 shadow-sm border border-black/5"
+                  className="flex-1 max-w-[140px] bg-[#03C75A] text-white py-3.5 rounded-xl font-bold text-[0.9rem] active:scale-95 transition-transform flex justify-center items-center gap-2 shadow-sm border border-black/5"
                 >
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16.8 3H21v18h-4.2l-5.4-8.1v8.1H7.2V3h4.2l5.4 8.1V3z"/></svg>
-                  네이버지도
+                  길찾기
                 </button>
               </div>
             </motion.div>
