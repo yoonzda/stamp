@@ -12,6 +12,18 @@ import deokjeokMap from '../assets/map_deokjeok.png';
 import yeongheungMap from '../assets/map_yeongheung.png';
 import jangbongMap from '../assets/map_jangbong.png';
 
+import yeonpyeong_y1 from '../assets/yeonpyeong_y1.png';
+import yeonpyeong_y2 from '../assets/yeonpyeong_y2.png';
+import yeonpyeong_y3 from '../assets/yeonpyeong_y3.png';
+import yeonpyeong_y4 from '../assets/yeonpyeong_y4.png';
+
+const spotImages = {
+  STAMP_Y1: yeonpyeong_y1,
+  STAMP_Y2: yeonpyeong_y2,
+  STAMP_Y3: yeonpyeong_y3,
+  STAMP_Y4: yeonpyeong_y4,
+};
+
 export default function IslandDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -118,81 +130,84 @@ export default function IslandDetail() {
         </div>
       </div>
 
-      {/* Spot Detail Poetic Modal */}
+      {/* Spot Detail Modal */}
       <AnimatePresence>
         {selectedSpot && (
           <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 z-50 flex flex-col items-center justify-center p-8 bg-[#2a241f]/95 backdrop-blur-md text-center"
-            onClick={(e) => {
-              if (e.target === e.currentTarget) setSelectedSpot(null);
-            }}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="absolute inset-0 z-50 flex flex-col justify-end bg-[#1e1a17]"
           >
-            <motion.div 
-              initial={{ scale: 0.9, y: 15, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.9, y: 15, opacity: 0 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="flex flex-col items-center w-full max-w-sm"
-            >
+            {/* Background Image */}
+            {spotImages[selectedSpot.spot.code] && (
               <div 
-                className="w-24 h-24 rounded-full flex items-center justify-center text-4xl mb-8 border border-dashed relative z-10 shrink-0" 
-                style={{ borderColor: selectedSpot.sym.color }}
-              >
-                <div className="absolute inset-0 opacity-20 rounded-full mix-blend-screen" style={{ backgroundColor: selectedSpot.sym.color }} />
-                <span className="relative z-10 w-12 h-12 flex items-center justify-center drop-shadow-lg" style={{ color: selectedSpot.sym.color }}>
-                  <SymbolIcon type={selectedSpot.sym.id} />
-                </span>
-              </div>
+                className="absolute inset-0 bg-cover bg-center" 
+                style={{ backgroundImage: `url(${spotImages[selectedSpot.spot.code]})` }}
+              />
+            )}
+            {!spotImages[selectedSpot.spot.code] && (
+              <div className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity" style={{ backgroundImage: `url(${bgImg})` }} />
+            )}
 
-              <h2 className="text-[1.6rem] font-bold text-[#f4ecdf] mb-4 font-['Nanum_Myeongjo'] drop-shadow-sm tracking-wide break-keep">
-                {selectedSpot.spot.name}
-              </h2>
+            {/* Gradient Overlay for Text Readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent" />
+
+            {/* Close / Back Button (Top Left) */}
+            <button 
+              onClick={() => setSelectedSpot(null)}
+              className="absolute top-6 left-6 text-white/80 font-bold text-lg active:scale-95 transition-transform drop-shadow-md z-20 flex items-center gap-1"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              뒤로가기
+            </button>
+
+            {/* Content Area */}
+            <div className="relative z-10 p-6 flex flex-col w-full pb-10">
               
-              <p className="text-[0.95rem] font-medium text-[#c4baa8] mb-6 leading-relaxed max-w-[14rem] break-keep relative">
-                {selectedSpot.spot.desc}
-              </p>
-
-              <div className="w-8 h-[1px] bg-[#a39585]/40 mb-6" />
-
-               <p className="text-[0.8rem] text-[#a39585] mb-10 font-medium tracking-wide">
-                {selectedSpot.spot.address}
-              </p>
-
-              <div className="flex flex-col w-full gap-3">
-                <button 
-                  onClick={() => navigate(`/photo-verify/${selectedSpot.spot.code}`)}
-                  className="w-full bg-[#8a7a6b] text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform shadow-md border-b-4 border-[#685b4f]"
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-                  사진 찍고 스탬프 받기
-                </button>
-                <div className="flex gap-2 w-full">
-                  <button 
-                    onClick={() => window.open(`https://map.kakao.com/link/search/${encodeURIComponent(selectedSpot.spot.name)}`, '_blank')}
-                    className="flex-1 text-[#d5ccbe] border border-dashed border-[#a39585]/50 py-3 font-bold text-[0.85rem] active:scale-95 transition-transform tracking-widest hover:text-white"
-                  >
-                    카카오맵 길찾기
-                  </button>
-                  <button 
-                    onClick={() => window.open(`https://map.naver.com/v5/directions/-/${encodeURIComponent(selectedSpot.spot.name)},-/transit?c=15,0,0,0,dh`, '_blank')}
-                    className="flex-1 text-[#d5ccbe] border border-dashed border-[#a39585]/50 py-3 font-bold text-[0.85rem] active:scale-95 transition-transform tracking-widest hover:text-white"
-                  >
-                    네이버지도 길찾기
-                  </button>
+              <div className="mb-6">
+                <h2 className="text-[2rem] font-bold text-white mb-2 font-['Nanum_Myeongjo'] drop-shadow-md tracking-wide break-keep">
+                  {selectedSpot.spot.name}
+                </h2>
+                <p className="text-[1rem] font-medium text-white/90 mb-2 leading-relaxed break-keep drop-shadow-sm">
+                  {selectedSpot.spot.desc}
+                </p>
+                <div className="flex items-center gap-2">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a39585" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  <p className="text-[0.85rem] text-[#d5ccbe] font-medium tracking-wide">
+                    {selectedSpot.spot.address}
+                  </p>
                 </div>
               </div>
 
+              {/* Navigation Buttons */}
+              <div className="flex gap-3 w-full mb-8">
+                <button 
+                  onClick={() => window.open(`https://map.kakao.com/link/search/${encodeURIComponent(selectedSpot.spot.name)}`, '_blank')}
+                  className="flex-1 bg-[#FEE500] text-[#000000] py-3.5 rounded-xl font-bold text-[0.95rem] active:scale-95 transition-transform flex justify-center items-center gap-2 shadow-md"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-5.523 0-10 3.5-10 7.82 0 2.76 1.83 5.17 4.6 6.5l-1.16 4.3c-.06.23.16.42.36.3l3.87-2.62c.74.2 1.53.3 2.33.3 5.523 0 10-3.5 10-7.82S17.523 3 12 3z"/></svg>
+                  카카오맵
+                </button>
+                <button 
+                  onClick={() => window.open(`https://map.naver.com/v5/directions/-/${encodeURIComponent(selectedSpot.spot.name)},-/transit?c=15,0,0,0,dh`, '_blank')}
+                  className="flex-1 bg-[#03C75A] text-white py-3.5 rounded-xl font-bold text-[0.95rem] active:scale-95 transition-transform flex justify-center items-center gap-2 shadow-md"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16.8 3H21v18h-4.2l-5.4-8.1v8.1H7.2V3h4.2l5.4 8.1V3z"/></svg>
+                  네이버지도
+                </button>
+              </div>
+
+              {/* Floating Camera Button (Bottom Left) */}
               <button 
-                onClick={() => setSelectedSpot(null)}
-                className="mt-8 text-[#a39585] text-[0.85rem] font-bold underline underline-offset-4 hover:text-[#f4ecdf] tracking-widest"
+                onClick={() => navigate(`/photo-verify/${selectedSpot.spot.code}`)}
+                className="absolute bottom-8 left-6 w-16 h-16 bg-[#3e342b] text-white rounded-full flex items-center justify-center shadow-xl active:scale-95 transition-transform border-2 border-white/20 z-30"
               >
-                메뉴 닫기
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
               </button>
 
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
