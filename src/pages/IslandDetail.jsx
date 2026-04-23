@@ -137,7 +137,7 @@ export default function IslandDetail() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 z-50 flex flex-col bg-[#fcfbf9] overflow-hidden"
+            className="fixed inset-0 z-50 flex flex-col bg-[#fcfbf9] overflow-hidden"
           >
             {/* Background Image (Always Full Screen) */}
             <div className="absolute inset-0 z-0">
@@ -148,12 +148,31 @@ export default function IslandDetail() {
               />
             </div>
 
-            {/* Iris Mask with Inner Shadow */}
+            {/* SVG Mask Overlay for Iris Wipe */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none z-10" preserveAspectRatio="none">
+              <defs>
+                <mask id="holeMask">
+                  <rect width="100%" height="100%" fill="white" />
+                  <motion.circle 
+                    cx="50%" 
+                    cy="50%" 
+                    initial={{ r: '150vh' }}
+                    animate={{ r: 130 }}
+                    transition={{ duration: 1.0, ease: "easeInOut", delay: 0.6 }}
+                    fill="black" 
+                  />
+                </mask>
+              </defs>
+              <rect width="100%" height="100%" fill="#fcfbf9" mask="url(#holeMask)" />
+            </svg>
+
+            {/* Inner Shadow Overlay for Window Effect */}
             <motion.div
-              initial={{ boxShadow: '0 0 0 0px #fcfbf9, inset 0 0 0px rgba(0,0,0,0)' }}
-              animate={{ boxShadow: '0 0 0 3000px #fcfbf9, inset 0 10px 25px rgba(0,0,0,0.35)' }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.8 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 1.5 }}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] h-[260px] rounded-full z-10 pointer-events-none"
+              style={{ boxShadow: 'inset 0 4px 15px rgba(0,0,0,0.1)' }}
             />
 
             {/* Fixed Buttons Layer */}
@@ -161,7 +180,7 @@ export default function IslandDetail() {
               {/* Close / Back Button (Top Left) */}
               <button 
                 onClick={() => setSelectedSpot(null)}
-                className="absolute top-5 left-5 w-11 h-11 rounded-full flex items-center justify-center bg-[#3e342b]/90 text-white shadow-lg backdrop-blur-md pointer-events-auto active:scale-95 transition-transform border border-white/10"
+                className="fixed top-6 left-6 z-50 w-11 h-11 rounded-full flex items-center justify-center bg-white/60 text-[#3e342b] shadow-sm backdrop-blur-md pointer-events-auto active:scale-95 transition-transform border border-white/50"
               >
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
               </button>
@@ -169,7 +188,7 @@ export default function IslandDetail() {
               {/* Floating Camera Button (Bottom Left) */}
               <button 
                 onClick={() => navigate(`/photo-verify/${selectedSpot.spot.code}`)}
-                className="absolute bottom-6 left-5 w-14 h-14 rounded-full flex items-center justify-center bg-[#3e342b]/90 text-white shadow-lg backdrop-blur-md pointer-events-auto active:scale-95 transition-transform border border-white/10"
+                className="fixed bottom-6 left-6 z-50 w-14 h-14 rounded-full flex items-center justify-center bg-white/60 text-[#3e342b] shadow-sm backdrop-blur-md pointer-events-auto active:scale-95 transition-transform border border-white/50"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
               </button>
@@ -179,7 +198,7 @@ export default function IslandDetail() {
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.6, duration: 0.8, ease: "easeOut" }}
+              transition={{ delay: 1.5, duration: 0.8, ease: "easeOut" }}
               className="relative z-20 px-8 flex flex-col w-full h-full items-center"
               style={{ paddingTop: 'calc(50vh + 150px)' }}
             >
