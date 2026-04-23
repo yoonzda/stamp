@@ -215,7 +215,7 @@ export default function IslandDetail() {
                   className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none drop-shadow-[1px_2px_6px_rgba(0,0,0,0.8)]"
                 >
                   <h1 
-                    className="text-[2.5rem] text-white tracking-widest flex"
+                    className="text-[2.5rem] text-[#fcfbf9] tracking-widest flex"
                     style={{ fontFamily: "'EF_jejudoldam', sans-serif" }}
                   >
                     {Array.from(selectedSpot.spot.name).map((char, index) => (
