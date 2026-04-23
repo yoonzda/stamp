@@ -37,7 +37,7 @@ export default function IslandDetail() {
     if (selectedSpot) {
       setIsScrollLocked(true);
       // Unlock scroll after the mask and text animations finish
-      const timer = setTimeout(() => setIsScrollLocked(false), 2400);
+      const timer = setTimeout(() => setIsScrollLocked(false), 3600);
       return () => clearTimeout(timer);
     }
   }, [selectedSpot]);
@@ -49,7 +49,7 @@ export default function IslandDetail() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const finalRadius = containerWidth * 0.38; // 76% of container width diameter
+  const finalRadius = containerWidth * 0.30; // 60% of container width diameter
   const finalDiameter = finalRadius * 2;
 
   if (!island) return <div className="p-10 text-center">섬을 찾을 수 없습니다.</div>;
@@ -188,7 +188,35 @@ export default function IslandDetail() {
                     alt={selectedSpot.spot.name} 
                     className="w-full h-full object-cover mix-blend-multiply opacity-90"
                   />
+                  {/* Cinematic Dark Overlay fading out */}
+                  <motion.div
+                    initial={{ opacity: 0.3 }}
+                    animate={{ opacity: 0 }}
+                    transition={{ delay: 1.5, duration: 0.5 }}
+                    className="absolute inset-0 bg-black"
+                  />
                 </div>
+
+                {/* Cinematic Typewriter Title */}
+                <motion.div 
+                  initial={{ opacity: 1 }}
+                  animate={{ opacity: 0 }}
+                  transition={{ delay: 1.5, duration: 0.5 }}
+                  className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none drop-shadow-[0_2px_15px_rgba(0,0,0,0.6)]"
+                >
+                  <h1 className="text-4xl font-bold text-white font-['Nanum_Myeongjo'] tracking-widest flex">
+                    {Array.from(selectedSpot.spot.name).map((char, index) => (
+                      <motion.span
+                        key={index}
+                        initial={{ opacity: 0, filter: 'blur(8px)' }}
+                        animate={{ opacity: 1, filter: 'blur(0px)' }}
+                        transition={{ delay: index * 0.15, duration: 0.6 }}
+                      >
+                        {char === ' ' ? '\u00A0' : char}
+                      </motion.span>
+                    ))}
+                  </h1>
+                </motion.div>
 
                 {/* SVG Mask Overlay for Iris Wipe */}
                 <svg className="absolute inset-0 w-full h-full pointer-events-none z-10" preserveAspectRatio="none">
@@ -200,7 +228,7 @@ export default function IslandDetail() {
                         cy="50%" 
                         initial={{ r: 2000 }}
                         animate={{ r: finalRadius }}
-                        transition={{ duration: 2.0, ease: "easeInOut", delay: 0.4 }}
+                        transition={{ duration: 1.8, ease: "easeInOut", delay: 1.8 }}
                         fill="black" 
                       />
                     </mask>
@@ -212,7 +240,7 @@ export default function IslandDetail() {
                 <motion.div
                   initial={{ width: 4000, height: 4000 }}
                   animate={{ width: finalDiameter, height: finalDiameter }}
-                  transition={{ duration: 2.0, ease: "easeInOut", delay: 0.4 }}
+                  transition={{ duration: 1.8, ease: "easeInOut", delay: 1.8 }}
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full z-10 pointer-events-none"
                   style={{ boxShadow: 'inset 0 4px 15px rgba(0,0,0,0.15)' }}
                 />
@@ -221,7 +249,7 @@ export default function IslandDetail() {
                 <motion.div 
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 2.4, duration: 0.8, ease: "easeOut" }}
+                  transition={{ delay: 3.6, duration: 0.8, ease: "easeOut" }}
                   className="absolute inset-0 z-20 pointer-events-none flex flex-col"
                 >
                   {/* TOP AREA: Title & Description */}
@@ -299,7 +327,7 @@ export default function IslandDetail() {
                 <motion.div 
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 2.4, duration: 0.8 }}
+                  transition={{ delay: 3.6, duration: 0.8 }}
                   className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none z-20"
                 >
                   <motion.div 
@@ -320,7 +348,7 @@ export default function IslandDetail() {
               <motion.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 2.4, duration: 0.8 }}
+                transition={{ delay: 3.6, duration: 0.8 }}
                 className="w-full px-8 pb-24 flex flex-col items-center relative z-20 pt-4"
               >
                 <div className="grid grid-cols-2 gap-3 w-full">
@@ -333,10 +361,10 @@ export default function IslandDetail() {
 
                 <button 
                   onClick={() => setGalleryCount(prev => prev + 6)}
-                  className="mt-6 w-full py-3.5 border border-[#d5ccbe] rounded-xl text-[#8a7a6b] font-bold text-[0.85rem] active:scale-95 transition-transform flex items-center justify-center gap-2 bg-white/50 backdrop-blur-sm"
+                  className="mt-8 px-8 py-3.5 rounded-full border border-[#8a7a6b] text-[#8a7a6b] font-bold text-[0.85rem] tracking-widest active:scale-95 transition-transform flex items-center justify-center gap-2 backdrop-blur-sm"
                 >
-                  <span>더보기</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                  <span>LOAD MORE</span>
                 </button>
               </motion.div>
 
