@@ -134,80 +134,98 @@ export default function IslandDetail() {
       <AnimatePresence>
         {selectedSpot && (
           <motion.div 
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 50 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="absolute inset-0 z-50 flex flex-col justify-end bg-[#1e1a17]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-50 flex flex-col bg-[#fcfbf9] overflow-hidden"
           >
-            {/* Background Image */}
-            {spotImages[selectedSpot.spot.code] && (
-              <div 
-                className="absolute inset-0 bg-cover bg-center" 
-                style={{ backgroundImage: `url(${spotImages[selectedSpot.spot.code]})` }}
-              />
-            )}
-            {!spotImages[selectedSpot.spot.code] && (
-              <div className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity" style={{ backgroundImage: `url(${bgImg})` }} />
-            )}
-
-            {/* Gradient Overlay for Text Readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent" />
-
-            {/* Close / Back Button (Top Left) */}
-            <button 
-              onClick={() => setSelectedSpot(null)}
-              className="absolute top-6 left-6 text-white/80 font-bold text-lg active:scale-95 transition-transform drop-shadow-md z-20 flex items-center gap-1"
+            {/* Animated Image Container */}
+            <motion.div
+              initial={{ 
+                position: 'absolute', inset: 0, borderRadius: '0%', 
+                width: '100%', height: '100%', zIndex: 0 
+              }}
+              animate={{ 
+                position: 'relative', inset: 'auto', borderRadius: '50%', 
+                width: '200px', height: '200px', marginTop: '10vh', marginBottom: '2rem', 
+                alignSelf: 'center', zIndex: 10,
+                boxShadow: '0 10px 25px rgba(0,0,0,0.05)'
+              }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="overflow-hidden shrink-0 flex items-center justify-center bg-white"
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-              뒤로가기
-            </button>
+              <img 
+                src={spotImages[selectedSpot.spot.code] || bgImg} 
+                alt={selectedSpot.spot.name} 
+                className="w-full h-full object-cover mix-blend-multiply"
+              />
+            </motion.div>
 
-            {/* Content Area */}
-            <div className="relative z-10 p-6 flex flex-col w-full pb-10">
-              
-              <div className="mb-6">
-                <h2 className="text-[2rem] font-bold text-white mb-2 font-['Nanum_Myeongjo'] drop-shadow-md tracking-wide break-keep">
+            {/* Content Area (Fades in after image animation) */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+              className="relative z-10 px-8 flex flex-col w-full flex-1"
+            >
+              <div className="flex flex-col items-center text-center mb-8">
+                <h2 className="text-[1.8rem] font-bold text-[#3e342b] mb-3 font-['Nanum_Myeongjo'] tracking-wide break-keep">
                   {selectedSpot.spot.name}
                 </h2>
-                <p className="text-[1rem] font-medium text-white/90 mb-2 leading-relaxed break-keep drop-shadow-sm">
+                <div className="w-12 h-[2px] bg-[#d5ccbe] rounded-full mb-4" />
+                <p className="text-[0.95rem] font-medium text-[#685b4f] mb-4 leading-relaxed break-keep">
                   {selectedSpot.spot.desc}
                 </p>
-                <div className="flex items-center gap-2">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a39585" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                  <p className="text-[0.85rem] text-[#d5ccbe] font-medium tracking-wide">
+                <div className="flex items-center gap-1.5 text-[#a39585]">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  <p className="text-[0.8rem] font-medium tracking-wide">
                     {selectedSpot.spot.address}
                   </p>
                 </div>
               </div>
 
               {/* Navigation Buttons */}
-              <div className="flex gap-3 w-full mb-8">
+              <div className="flex gap-3 w-full mt-auto mb-8 pl-20">
                 <button 
                   onClick={() => window.open(`https://map.kakao.com/link/search/${encodeURIComponent(selectedSpot.spot.name)}`, '_blank')}
-                  className="flex-1 bg-[#FEE500] text-[#000000] py-3.5 rounded-xl font-bold text-[0.95rem] active:scale-95 transition-transform flex justify-center items-center gap-2 shadow-md"
+                  className="flex-1 bg-[#FEE500] text-[#000000] py-3.5 rounded-xl font-bold text-[0.9rem] active:scale-95 transition-transform flex justify-center items-center gap-2 shadow-sm border border-black/5"
                 >
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-5.523 0-10 3.5-10 7.82 0 2.76 1.83 5.17 4.6 6.5l-1.16 4.3c-.06.23.16.42.36.3l3.87-2.62c.74.2 1.53.3 2.33.3 5.523 0 10-3.5 10-7.82S17.523 3 12 3z"/></svg>
                   카카오맵
                 </button>
                 <button 
                   onClick={() => window.open(`https://map.naver.com/v5/directions/-/${encodeURIComponent(selectedSpot.spot.name)},-/transit?c=15,0,0,0,dh`, '_blank')}
-                  className="flex-1 bg-[#03C75A] text-white py-3.5 rounded-xl font-bold text-[0.95rem] active:scale-95 transition-transform flex justify-center items-center gap-2 shadow-md"
+                  className="flex-1 bg-[#03C75A] text-white py-3.5 rounded-xl font-bold text-[0.9rem] active:scale-95 transition-transform flex justify-center items-center gap-2 shadow-sm border border-black/5"
                 >
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16.8 3H21v18h-4.2l-5.4-8.1v8.1H7.2V3h4.2l5.4 8.1V3z"/></svg>
                   네이버지도
                 </button>
               </div>
+            </motion.div>
 
-              {/* Floating Camera Button (Bottom Left) */}
-              <button 
-                onClick={() => navigate(`/photo-verify/${selectedSpot.spot.code}`)}
-                className="absolute bottom-8 left-6 w-16 h-16 bg-[#3e342b] text-white rounded-full flex items-center justify-center shadow-xl active:scale-95 transition-transform border-2 border-white/20 z-30"
-              >
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-              </button>
+            {/* Floating Camera Button */}
+            <motion.button 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.8 }}
+              onClick={() => navigate(`/photo-verify/${selectedSpot.spot.code}`)}
+              className="absolute bottom-8 left-6 w-[3.5rem] h-[3.5rem] bg-[#3e342b] text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 transition-transform z-30 border border-[#685b4f]"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+            </motion.button>
 
-            </div>
+            {/* Close / Back Button */}
+            <motion.button 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+              onClick={() => setSelectedSpot(null)}
+              className="absolute top-6 left-6 text-[#3e342b] font-bold text-sm active:scale-95 transition-transform z-30 flex items-center gap-1 drop-shadow-sm bg-white/50 backdrop-blur-sm px-3 py-1.5 rounded-full"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              뒤로가기
+            </motion.button>
+
           </motion.div>
         )}
       </AnimatePresence>
