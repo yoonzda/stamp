@@ -156,9 +156,9 @@ export default function IslandDetail() {
                   <motion.circle 
                     cx="50%" 
                     cy="50%" 
-                    initial={{ r: '150vh' }}
+                    initial={{ r: 2000 }}
                     animate={{ r: 130 }}
-                    transition={{ duration: 1.0, ease: "easeInOut", delay: 0.6 }}
+                    transition={{ duration: 1.2, ease: "easeInOut", delay: 0.8 }}
                     fill="black" 
                   />
                 </mask>
@@ -194,46 +194,71 @@ export default function IslandDetail() {
               </button>
             </div>
 
-            {/* Content Area (Fades in after image animation) */}
+            {/* Content Area (Scrollable) */}
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.5, duration: 0.8, ease: "easeOut" }}
-              className="relative z-20 px-8 flex flex-col w-full h-full items-center"
-              style={{ paddingTop: 'calc(50vh + 150px)' }}
+              transition={{ delay: 1.8, duration: 0.8, ease: "easeOut" }}
+              className="relative z-20 flex flex-col w-full h-full overflow-y-auto hide-scrollbar pb-24"
             >
-              <div className="flex flex-col items-center text-center mb-8 w-full">
-                <h2 className="text-[1.8rem] font-bold text-[#3e342b] mb-3 font-['Nanum_Myeongjo'] tracking-wide break-keep">
-                  {selectedSpot.spot.name}
-                </h2>
-                <div className="w-12 h-[2px] bg-[#d5ccbe] rounded-full mb-4" />
-                <p className="text-[0.95rem] font-medium text-[#685b4f] mb-4 leading-relaxed break-keep">
-                  {selectedSpot.spot.desc}
-                </p>
-                <div className="flex items-center gap-1.5 text-[#a39585]">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                  <p className="text-[0.8rem] font-medium tracking-wide">
-                    {selectedSpot.spot.address}
-                  </p>
-                </div>
-              </div>
+              {/* Spacer to push content below the iris wipe circle */}
+              <div className="shrink-0" style={{ height: 'calc(50vh + 150px)' }} />
 
-              {/* Navigation Buttons */}
-              <div className="flex gap-3 w-full justify-center mt-2">
-                <button 
-                  onClick={() => window.open(`https://map.kakao.com/link/search/${encodeURIComponent(selectedSpot.spot.name)}`, '_blank')}
-                  className="flex-1 max-w-[140px] bg-[#FEE500] text-[#000000] py-3.5 rounded-xl font-bold text-[0.9rem] active:scale-95 transition-transform flex justify-center items-center gap-2 shadow-sm border border-black/5"
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-5.523 0-10 3.5-10 7.82 0 2.76 1.83 5.17 4.6 6.5l-1.16 4.3c-.06.23.16.42.36.3l3.87-2.62c.74.2 1.53.3 2.33.3 5.523 0 10-3.5 10-7.82S17.523 3 12 3z"/></svg>
-                  길찾기
-                </button>
-                <button 
-                  onClick={() => window.open(`https://map.naver.com/v5/directions/-/${encodeURIComponent(selectedSpot.spot.name)},-/transit?c=15,0,0,0,dh`, '_blank')}
-                  className="flex-1 max-w-[140px] bg-[#03C75A] text-white py-3.5 rounded-xl font-bold text-[0.9rem] active:scale-95 transition-transform flex justify-center items-center gap-2 shadow-sm border border-black/5"
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16.8 3H21v18h-4.2l-5.4-8.1v8.1H7.2V3h4.2l5.4 8.1V3z"/></svg>
-                  길찾기
-                </button>
+              <div className="px-8 flex flex-col items-center w-full">
+                <div className="flex flex-col items-center text-center mb-8 w-full">
+                  <h2 className="text-[1.8rem] font-bold text-[#3e342b] mb-3 font-['Nanum_Myeongjo'] tracking-wide break-keep">
+                    {selectedSpot.spot.name}
+                  </h2>
+                  <div className="w-12 h-[2px] bg-[#d5ccbe] rounded-full mb-4" />
+                  <p className="text-[0.95rem] font-medium text-[#685b4f] mb-4 leading-relaxed break-keep">
+                    {selectedSpot.spot.desc}
+                  </p>
+                  <div className="flex items-center gap-1.5 text-[#a39585]">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    <p className="text-[0.8rem] font-medium tracking-wide">
+                      {selectedSpot.spot.address}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Navigation Buttons */}
+                <div className="flex gap-3 w-full justify-center mt-2 mb-12">
+                  <button 
+                    onClick={() => window.open(`https://map.kakao.com/link/search/${encodeURIComponent(selectedSpot.spot.name)}`, '_blank')}
+                    className="flex-1 max-w-[140px] bg-[#FEE500] text-[#000000] py-3.5 rounded-xl font-bold text-[0.9rem] active:scale-95 transition-transform flex justify-center items-center gap-2 shadow-sm border border-black/5"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-5.523 0-10 3.5-10 7.82 0 2.76 1.83 5.17 4.6 6.5l-1.16 4.3c-.06.23.16.42.36.3l3.87-2.62c.74.2 1.53.3 2.33.3 5.523 0 10-3.5 10-7.82S17.523 3 12 3z"/></svg>
+                    길찾기
+                  </button>
+                  <button 
+                    onClick={() => window.open(`https://map.naver.com/v5/directions/-/${encodeURIComponent(selectedSpot.spot.name)},-/transit?c=15,0,0,0,dh`, '_blank')}
+                    className="flex-1 max-w-[140px] bg-[#03C75A] text-white py-3.5 rounded-xl font-bold text-[0.9rem] active:scale-95 transition-transform flex justify-center items-center gap-2 shadow-sm border border-black/5"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16.8 3H21v18h-4.2l-5.4-8.1v8.1H7.2V3h4.2l5.4 8.1V3z"/></svg>
+                    길찾기
+                  </button>
+                </div>
+
+                {/* Gallery Placeholders */}
+                <div className="w-full flex flex-col items-center pb-12">
+                  <div className="w-full flex items-center justify-between mb-4">
+                    <h3 className="font-bold text-[#3e342b] font-['Nanum_Myeongjo'] text-lg">인증 갤러리</h3>
+                    <span className="text-xs font-medium text-[#8a7a6b] bg-[#f0ebe1] px-2 py-1 rounded-md">총 128장</span>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-3 w-full">
+                    {[...Array(6)].map((_, i) => (
+                      <div key={i} className="aspect-square bg-[#f0ebe1] rounded-xl flex flex-col items-center justify-center border border-[#e8e2d5] shadow-sm">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d5ccbe" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                      </div>
+                    ))}
+                  </div>
+
+                  <button className="mt-6 w-full py-3.5 border border-[#d5ccbe] rounded-xl text-[#8a7a6b] font-bold text-sm active:scale-95 transition-transform flex items-center justify-center gap-2 bg-white/50">
+                    <span>더보기</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  </button>
+                </div>
               </div>
             </motion.div>
 
