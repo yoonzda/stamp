@@ -35,9 +35,9 @@ export default function IslandDetail() {
 
   // 동적 애니메이션 타이밍 계산
   const nameLen = selectedSpot ? selectedSpot.spot.name.length : 0;
-  const typingStartDelay = 0.4; // 글씨 시작 딜레이
-  const typingSpeed = 0.22; // 천천히 타닥타닥 써지도록 속도 늦춤 (0.12 -> 0.22)
-  const textHoldTime = 0.7; // 다 써진 후 살짝 머무는 시간 추가 (0.3 -> 0.7)
+  const typingStartDelay = 0.8; // 글씨 시작을 좀 더 뒤에 시작되게 (0.4 -> 0.8)
+  const typingSpeed = 0.22; // 천천히 타닥타닥 써지도록 속도 늦춤
+  const textHoldTime = 0.7; // 다 써진 후 살짝 머무는 시간 추가
   const textFadeOutDuration = 0.3; // 텍스트가 사라지는데 걸리는 시간
   const circleDuration = 1.6; // 원 축소 속도
 
@@ -47,8 +47,8 @@ export default function IslandDetail() {
   // 텍스트가 페이드아웃 되기 시작하는 시간
   const textFadeOutDelay = lastCharAppearsAt + textHoldTime;
   
-  // 글씨가 완전히 사라진(fadeOut) 뒤 '아주 조금 뒤'에 원이 줄어들도록 설정
-  const circleStartDelay = textFadeOutDelay + textFadeOutDuration + 0.1; 
+  // 글씨가 사라지고 원 나오는 건 '조금 더 빨리' -> 텍스트가 페이드아웃 되는 도중(0.1초 뒤)에 바로 원 축소 시작
+  const circleStartDelay = textFadeOutDelay + 0.1; 
   const contentRevealDelay = circleStartDelay + circleDuration;
 
   useEffect(() => {
@@ -173,7 +173,7 @@ export default function IslandDetail() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 z-50 flex flex-col bg-[#fcfbf9] overflow-hidden"
+            className="absolute inset-0 z-50 flex flex-col bg-[#f3efe6] overflow-hidden"
           >
             {/* Fixed Buttons Layer inside Modal (Always stays on top of scroll) */}
             <div className="absolute inset-0 pointer-events-none z-50">
@@ -216,7 +216,7 @@ export default function IslandDetail() {
                   className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none drop-shadow-[1px_2px_6px_rgba(0,0,0,0.8)]"
                 >
                   <h1 
-                    className="text-[2.5rem] text-[#fcfbf9] tracking-widest flex"
+                    className="text-[2.5rem] text-[#f3efe6] tracking-widest flex"
                     style={{ fontFamily: "'EF_jejudoldam', sans-serif" }}
                   >
                     {Array.from(selectedSpot.spot.name).map((char, index) => (
@@ -247,7 +247,7 @@ export default function IslandDetail() {
                       />
                     </mask>
                   </defs>
-                  <rect width="100%" height="100%" fill="#fcfbf9" mask="url(#holeMask)" />
+                  <rect width="100%" height="100%" fill="#f3efe6" mask="url(#holeMask)" />
                 </svg>
 
                 {/* Inner Shadow Overlay for Window Effect (Shrinks with the Mask) */}
