@@ -29,6 +29,7 @@ export default function IslandDetail() {
   const navigate = useNavigate();
   const island = ISLANDS.find(i => i.id === id);
   const [selectedSpot, setSelectedSpot] = useState(null);
+  const [galleryCount, setGalleryCount] = useState(6);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -99,7 +100,7 @@ export default function IslandDetail() {
               return (
                 <div 
                   key={spot.id} 
-                  onClick={() => setSelectedSpot({ spot, sym })}
+                  onClick={() => { setSelectedSpot({ spot, sym }); setGalleryCount(6); }}
                   className="bg-white/80 backdrop-blur-md p-4 shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-white flex items-center relative overflow-hidden transition-transform active:scale-95 cursor-pointer rounded-none"
                 >
                   {/* Spot Details */}
@@ -157,8 +158,8 @@ export default function IslandDetail() {
                     cx="50%" 
                     cy="50%" 
                     initial={{ r: 2000 }}
-                    animate={{ r: 130 }}
-                    transition={{ duration: 1.2, ease: "easeInOut", delay: 0.8 }}
+                    animate={{ r: 160 }}
+                    transition={{ duration: 1.8, ease: "easeInOut", delay: 0.8 }}
                     fill="black" 
                   />
                 </mask>
@@ -171,7 +172,7 @@ export default function IslandDetail() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 1.5 }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] h-[260px] rounded-full z-10 pointer-events-none"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] rounded-full z-10 pointer-events-none"
               style={{ boxShadow: 'inset 0 4px 15px rgba(0,0,0,0.1)' }}
             />
 
@@ -198,31 +199,34 @@ export default function IslandDetail() {
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.8, duration: 0.8, ease: "easeOut" }}
+              transition={{ delay: 2.0, duration: 0.8, ease: "easeOut" }}
               className="relative z-20 flex flex-col w-full h-full overflow-y-auto hide-scrollbar pb-24"
             >
-              {/* Spacer to push content below the iris wipe circle */}
-              <div className="shrink-0" style={{ height: 'calc(50vh + 150px)' }} />
+              {/* TOP AREA: Title & Description (Above the circle) */}
+              <div className="flex flex-col items-center text-center px-8 w-full shrink-0" style={{ height: 'calc(50vh - 160px)', justifyContent: 'flex-end', paddingBottom: '16px' }}>
+                <h2 className="text-[1.8rem] font-bold text-[#3e342b] mb-2 font-['Nanum_Myeongjo'] tracking-wide break-keep">
+                  {selectedSpot.spot.name}
+                </h2>
+                <div className="w-12 h-[2px] bg-[#d5ccbe] rounded-full mb-3" />
+                <p className="text-[0.95rem] font-medium text-[#685b4f] leading-relaxed break-keep">
+                  {selectedSpot.spot.desc}
+                </p>
+              </div>
 
-              <div className="px-8 flex flex-col items-center w-full">
-                <div className="flex flex-col items-center text-center mb-8 w-full">
-                  <h2 className="text-[1.8rem] font-bold text-[#3e342b] mb-3 font-['Nanum_Myeongjo'] tracking-wide break-keep">
-                    {selectedSpot.spot.name}
-                  </h2>
-                  <div className="w-12 h-[2px] bg-[#d5ccbe] rounded-full mb-4" />
-                  <p className="text-[0.95rem] font-medium text-[#685b4f] mb-4 leading-relaxed break-keep">
-                    {selectedSpot.spot.desc}
+              {/* Spacer matching the circle height to jump over it */}
+              <div className="shrink-0" style={{ height: '320px' }} />
+
+              {/* BOTTOM AREA: Address, Map Buttons, Gallery */}
+              <div className="px-8 flex flex-col items-center w-full pt-6">
+                <div className="flex items-center gap-1.5 text-[#a39585] mb-6">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  <p className="text-[0.8rem] font-medium tracking-wide">
+                    {selectedSpot.spot.address}
                   </p>
-                  <div className="flex items-center gap-1.5 text-[#a39585]">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                    <p className="text-[0.8rem] font-medium tracking-wide">
-                      {selectedSpot.spot.address}
-                    </p>
-                  </div>
                 </div>
 
                 {/* Navigation Buttons */}
-                <div className="flex gap-3 w-full justify-center mt-2 mb-12">
+                <div className="flex gap-3 w-full justify-center mb-10">
                   <button 
                     onClick={() => window.open(`https://map.kakao.com/link/search/${encodeURIComponent(selectedSpot.spot.name)}`, '_blank')}
                     className="flex-1 max-w-[140px] bg-[#FEE500] text-[#000000] py-3.5 rounded-xl font-bold text-[0.9rem] active:scale-95 transition-transform flex justify-center items-center gap-2 shadow-sm border border-black/5"
@@ -239,22 +243,20 @@ export default function IslandDetail() {
                   </button>
                 </div>
 
-                {/* Gallery Placeholders */}
+                {/* Gallery Grid */}
                 <div className="w-full flex flex-col items-center pb-12">
-                  <div className="w-full flex items-center justify-between mb-4">
-                    <h3 className="font-bold text-[#3e342b] font-['Nanum_Myeongjo'] text-lg">인증 갤러리</h3>
-                    <span className="text-xs font-medium text-[#8a7a6b] bg-[#f0ebe1] px-2 py-1 rounded-md">총 128장</span>
-                  </div>
-                  
                   <div className="grid grid-cols-2 gap-3 w-full">
-                    {[...Array(6)].map((_, i) => (
+                    {[...Array(galleryCount)].map((_, i) => (
                       <div key={i} className="aspect-square bg-[#f0ebe1] rounded-xl flex flex-col items-center justify-center border border-[#e8e2d5] shadow-sm">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d5ccbe" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
                       </div>
                     ))}
                   </div>
 
-                  <button className="mt-6 w-full py-3.5 border border-[#d5ccbe] rounded-xl text-[#8a7a6b] font-bold text-sm active:scale-95 transition-transform flex items-center justify-center gap-2 bg-white/50">
+                  <button 
+                    onClick={() => setGalleryCount(prev => prev + 6)}
+                    className="mt-6 w-full py-3.5 border border-[#d5ccbe] rounded-xl text-[#8a7a6b] font-bold text-[0.85rem] active:scale-95 transition-transform flex items-center justify-center gap-2 bg-white/50 backdrop-blur-sm"
+                  >
                     <span>더보기</span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                   </button>
