@@ -190,7 +190,7 @@ export default function IslandDetail() {
                         cy="50%" 
                         initial={{ r: 2000 }}
                         animate={{ r: finalRadius }}
-                        transition={{ duration: 2.5, ease: "easeInOut", delay: 0.8 }}
+                        transition={{ duration: 2.0, ease: "easeInOut", delay: 0.4 }}
                         fill="black" 
                       />
                     </mask>
@@ -202,7 +202,7 @@ export default function IslandDetail() {
                 <motion.div
                   initial={{ width: 4000, height: 4000 }}
                   animate={{ width: finalDiameter, height: finalDiameter }}
-                  transition={{ duration: 2.5, ease: "easeInOut", delay: 0.8 }}
+                  transition={{ duration: 2.0, ease: "easeInOut", delay: 0.4 }}
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full z-10 pointer-events-none"
                   style={{ boxShadow: 'inset 0 4px 15px rgba(0,0,0,0.15)' }}
                 />
@@ -211,7 +211,7 @@ export default function IslandDetail() {
                 <motion.div 
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 3.3, duration: 0.8, ease: "easeOut" }}
+                  transition={{ delay: 2.4, duration: 0.8, ease: "easeOut" }}
                   className="absolute inset-0 z-20 pointer-events-none flex flex-col"
                 >
                   {/* TOP AREA: Title & Description */}
@@ -290,7 +290,7 @@ export default function IslandDetail() {
               <motion.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 3.3, duration: 0.8 }}
+                transition={{ delay: 2.4, duration: 0.8 }}
                 className="w-full px-8 pb-24 flex flex-col items-center relative z-20 pt-4"
               >
                 <div className="grid grid-cols-2 gap-3 w-full">
