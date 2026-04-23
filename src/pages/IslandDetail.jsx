@@ -95,33 +95,20 @@ export default function IslandDetail() {
                 <div 
                   key={spot.id} 
                   onClick={() => setSelectedSpot({ spot, sym })}
-                  className="bg-white/80 backdrop-blur-md p-4 shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-white flex items-center gap-4 relative overflow-hidden transition-transform active:scale-95 cursor-pointer rounded-none"
+                  className="bg-white/80 backdrop-blur-md p-4 shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-white flex items-center relative overflow-hidden transition-transform active:scale-95 cursor-pointer rounded-none"
                 >
-                  {/* Accent line */}
-                  <div 
-                    className="absolute left-0 top-0 bottom-0 w-1 opacity-70"
-                    style={{ backgroundColor: sym.color }}
-                  />
-
-                  {/* Spot Icon (Small Circle) */}
-                  <div 
-                    className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 ml-1 shadow-sm border"
-                    style={{ backgroundColor: sym.color + '10', borderColor: sym.color + '30' }}
-                  >
-                    <span className="w-5 h-5 flex items-center justify-center" style={{ color: sym.color }}>
-                      <SymbolIcon type={sym.id} />
-                    </span>
-                  </div>
-
                   {/* Spot Details */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1.5">
-                      <span 
-                        className="text-[0.6rem] px-2 py-[2px] rounded-sm font-bold tracking-wider"
-                        style={{ backgroundColor: sym.color + '15', color: sym.color }}
+                      {/* Integrated Badge Icon */}
+                      <div 
+                        className="w-[1.125rem] h-[1.125rem] rounded-full flex items-center justify-center shrink-0 shadow-sm"
+                        style={{ backgroundColor: sym.color }}
                       >
-                        {sym.label}
-                      </span>
+                        <span className="w-[0.7rem] h-[0.7rem] flex items-center justify-center text-white">
+                          <SymbolIcon type={sym.id} />
+                        </span>
+                      </div>
                       <span className="text-[0.65rem] text-[#8a7a6b] font-medium tracking-tight truncate">{sym.desc}</span>
                     </div>
                     <h3 className="font-extrabold text-[#3e342b] text-[1.1rem] truncate font-['Nanum_Myeongjo'] mb-1">
