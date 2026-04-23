@@ -39,7 +39,7 @@ export default function IslandDetail() {
   const typingSpeed = 0.22; // 천천히 타닥타닥 써지도록 속도 늦춤
   const textHoldTime = 0.7; // 다 써진 후 살짝 머무는 시간 추가
   const textFadeOutDuration = 0.3; // 텍스트가 사라지는데 걸리는 시간
-  const circleDuration = 1.6; // 원 축소 속도
+  const circleDuration = 1.0; // 원 축소 속도 (체감상 더 빠르게)
 
   // 마지막 글자가 나타나는 정확한 시간
   const lastCharAppearsAt = nameLen > 0 ? typingStartDelay + ((nameLen - 1) * typingSpeed) : typingStartDelay;
@@ -47,8 +47,8 @@ export default function IslandDetail() {
   // 텍스트가 페이드아웃 되기 시작하는 시간
   const textFadeOutDelay = lastCharAppearsAt + textHoldTime;
   
-  // 글씨가 사라지고 원 나오는 건 '조금 더 빨리' -> 텍스트가 페이드아웃 되는 도중(0.1초 뒤)에 바로 원 축소 시작
-  const circleStartDelay = textFadeOutDelay + 0.1; 
+  // 글씨가 완전히 사라지고(fadeOut완료) 즉각적으로 원 축소 시작
+  const circleStartDelay = textFadeOutDelay + textFadeOutDuration; 
   const contentRevealDelay = circleStartDelay + circleDuration;
 
   useEffect(() => {
@@ -240,7 +240,7 @@ export default function IslandDetail() {
                       <motion.circle 
                         cx="50%" 
                         cy="50%" 
-                        initial={{ r: 2000 }}
+                        initial={{ r: 600 }}
                         animate={{ r: finalRadius }}
                         transition={{ duration: circleDuration, ease: "easeInOut", delay: circleStartDelay }}
                         fill="black" 
@@ -252,7 +252,7 @@ export default function IslandDetail() {
 
                 {/* Inner Shadow Overlay for Window Effect (Shrinks with the Mask) */}
                 <motion.div
-                  initial={{ width: 4000, height: 4000 }}
+                  initial={{ width: 1200, height: 1200 }}
                   animate={{ width: finalDiameter, height: finalDiameter }}
                   transition={{ duration: circleDuration, ease: "easeInOut", delay: circleStartDelay }}
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full z-10 pointer-events-none"
