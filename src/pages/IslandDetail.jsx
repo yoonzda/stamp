@@ -141,8 +141,8 @@ export default function IslandDetail() {
           >
             {/* Fixed Background Image with Iris Wipe Animation */}
             <motion.div
-              initial={{ clipPath: 'circle(150% at 50% 25%)' }}
-              animate={{ clipPath: 'circle(100px at 50% 25%)' }}
+              initial={{ clipPath: 'circle(150% at 50% 50%)' }}
+              animate={{ clipPath: 'circle(140px at 50% 50%)' }}
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
               className="absolute inset-0 z-0 pointer-events-none"
             >
@@ -150,7 +150,6 @@ export default function IslandDetail() {
                 src={spotImages[selectedSpot.spot.code] || bgImg} 
                 alt={selectedSpot.spot.name} 
                 className="w-full h-full object-cover mix-blend-multiply opacity-90"
-                style={{ objectPosition: 'center 25%' }}
               />
             </motion.div>
 
@@ -159,7 +158,7 @@ export default function IslandDetail() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.0, duration: 0.6 }}
-              className="relative z-10 px-8 flex flex-col w-full h-full pt-[45vh]"
+              className="relative z-10 px-8 flex flex-col w-full h-full pt-[calc(50vh+160px)]"
             >
               <div className="flex flex-col items-center text-center mb-8">
                 <h2 className="text-[1.8rem] font-bold text-[#3e342b] mb-3 font-['Nanum_Myeongjo'] tracking-wide break-keep">
