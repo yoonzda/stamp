@@ -289,15 +289,17 @@ export default function IslandDetail() {
                 <motion.div 
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 3.2, duration: 0.8 }}
-                  className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none z-20"
+                  transition={{ delay: 2.4, duration: 0.8 }}
+                  className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none z-20"
                 >
-                  <span className="text-[0.6rem] tracking-widest text-[#a39585] font-semibold mb-1.5 font-['Pretendard']">SCROLL</span>
-                  <motion.div 
-                    animate={{ y: [0, 8, 0] }} 
-                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                    className="w-[2px] h-6 bg-gradient-to-b from-[#a39585] to-transparent rounded-full"
-                  />
+                  <span className="text-[0.6rem] tracking-[0.25em] text-[#a39585] mb-2 font-medium">SCROLL</span>
+                  <div className="w-[1px] h-10 bg-[#a39585]/30 relative overflow-hidden">
+                    <motion.div 
+                      animate={{ top: ["-50%", "100%"] }} 
+                      transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+                      className="absolute left-0 w-full h-[15px] bg-[#8a7a6b]"
+                    />
+                  </div>
                 </motion.div>
 
               </div>
