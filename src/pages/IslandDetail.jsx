@@ -35,13 +35,19 @@ export default function IslandDetail() {
 
   // 동적 애니메이션 타이밍 계산
   const nameLen = selectedSpot ? selectedSpot.spot.name.length : 0;
-  const typingStartDelay = 0.6; // 글씨 쳐지기 시작하는 대기 시간
-  const typingSpeed = 0.15; // 글자당 쳐지는 시간
-  const textHoldTime = 0.6; // 다 쳐진 후 글씨를 유지하는 시간
-  const circleDuration = 1.8;
+  const typingStartDelay = 0.4; // 글씨 시작 딜레이를 약간 당김 (0.6 -> 0.4)
+  const typingSpeed = 0.12; // 글자당 속도 빠르게 (0.15 -> 0.12)
+  const textHoldTime = 0.3; // 다 쳐진 후 유지하는 시간 짧게 (0.6 -> 0.3)
+  const circleDuration = 1.6; // 원 축소 속도 쾌속 (1.8 -> 1.6)
 
-  const textFadeOutDelay = typingStartDelay + (nameLen * typingSpeed) + textHoldTime;
-  const circleStartDelay = textFadeOutDelay + 0.1;
+  // 마지막 글자가 나타나는 정확한 시간
+  const lastCharAppearsAt = nameLen > 0 ? typingStartDelay + ((nameLen - 1) * typingSpeed) : typingStartDelay;
+  
+  // 텍스트가 페이드아웃 되기 시작하는 시간
+  const textFadeOutDelay = lastCharAppearsAt + textHoldTime;
+  
+  // 글씨가 사라지기 시작하자마자(또는 직전에) 바로 원이 줄어들도록 텀을 싹 없앰 (-0.1초 겹침)
+  const circleStartDelay = textFadeOutDelay - 0.1; 
   const contentRevealDelay = circleStartDelay + circleDuration;
 
   useEffect(() => {
