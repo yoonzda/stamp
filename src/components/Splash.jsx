@@ -39,7 +39,7 @@ export default function Splash({ onFinish }) {
           
           {/* Rugged, Fat, Clunky Bokjumeoni perfectly matching Jeju Doldam 
               (Slightly scaled down to 3.35rem to balance perfectly with the 3.25rem text) */}
-          <div className="animate-float-gentle">
+          <div>
             <svg viewBox="0 0 100 100" className="w-[3.35rem] h-[3.35rem] text-[#0f172a]" fill="rgba(255,255,255,0.95)" stroke="currentColor" strokeWidth="6.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(1px 2px 3px rgba(255,255,255,0.8))" }}>
               
               {/* Clunky, asymmetrical bumpy top (라운드지고 울퉁불퉁한 상단) */}
