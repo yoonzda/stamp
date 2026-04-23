@@ -31,6 +31,16 @@ export default function IslandDetail() {
   const [selectedSpot, setSelectedSpot] = useState(null);
   const [galleryCount, setGalleryCount] = useState(6);
   const [containerWidth, setContainerWidth] = useState(window.innerWidth > 448 ? 448 : window.innerWidth);
+  const [isScrollLocked, setIsScrollLocked] = useState(true);
+
+  useEffect(() => {
+    if (selectedSpot) {
+      setIsScrollLocked(true);
+      // Unlock scroll after the mask and text animations finish
+      const timer = setTimeout(() => setIsScrollLocked(false), 2400);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedSpot]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -167,7 +177,7 @@ export default function IslandDetail() {
             </div>
 
             {/* SCROLLING CONTAINER */}
-            <div className="absolute inset-0 z-10 overflow-y-auto hide-scrollbar">
+            <div className={`absolute inset-0 z-10 hide-scrollbar ${isScrollLocked ? 'overflow-hidden' : 'overflow-y-auto'}`}>
               
               {/* 100vh HERO SECTION (Image + Iris Mask + Text Overlays) */}
               <div className="relative w-full h-[100dvh] shrink-0">
@@ -285,19 +295,18 @@ export default function IslandDetail() {
                   </div>
                 </motion.div>
 
-                {/* Scroll Down Indicator */}
+                {/* Scroll Down Indicator (Mouse Icon) */}
                 <motion.div 
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 2.4, duration: 0.8 }}
                   className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none z-20"
                 >
-                  <span className="text-[0.6rem] tracking-[0.25em] text-[#a39585] mb-2 font-medium">SCROLL</span>
-                  <div className="w-[1px] h-10 bg-[#a39585]/30 relative overflow-hidden">
+                  <div className="w-[18px] h-[30px] border-[1.5px] border-[#a39585] rounded-full flex justify-center pt-1.5 opacity-80 backdrop-blur-sm bg-white/10">
                     <motion.div 
-                      animate={{ top: ["-50%", "100%"] }} 
-                      transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-                      className="absolute left-0 w-full h-[15px] bg-[#8a7a6b]"
+                      animate={{ y: [0, 8, 0], opacity: [1, 0, 1] }} 
+                      transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                      className="w-[2.5px] h-[6px] bg-[#a39585] rounded-full"
                     />
                   </div>
                 </motion.div>
