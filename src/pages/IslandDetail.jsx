@@ -33,14 +33,25 @@ export default function IslandDetail() {
   const [containerWidth, setContainerWidth] = useState(window.innerWidth > 448 ? 448 : window.innerWidth);
   const [isScrollLocked, setIsScrollLocked] = useState(true);
 
+  // 동적 애니메이션 타이밍 계산
+  const nameLen = selectedSpot ? selectedSpot.spot.name.length : 0;
+  const typingStartDelay = 0.6; // 글씨 쳐지기 시작하는 대기 시간
+  const typingSpeed = 0.15; // 글자당 쳐지는 시간
+  const textHoldTime = 0.6; // 다 쳐진 후 글씨를 유지하는 시간
+  const circleDuration = 1.8;
+
+  const textFadeOutDelay = typingStartDelay + (nameLen * typingSpeed) + textHoldTime;
+  const circleStartDelay = textFadeOutDelay + 0.1;
+  const contentRevealDelay = circleStartDelay + circleDuration;
+
   useEffect(() => {
     if (selectedSpot) {
       setIsScrollLocked(true);
-      // Unlock scroll after the mask and text animations finish
-      const timer = setTimeout(() => setIsScrollLocked(false), 3600);
+      // 애니메이션이 모두 끝난 후 스크롤 락 해제
+      const timer = setTimeout(() => setIsScrollLocked(false), contentRevealDelay * 1000);
       return () => clearTimeout(timer);
     }
-  }, [selectedSpot]);
+  }, [selectedSpot, contentRevealDelay]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -194,7 +205,7 @@ export default function IslandDetail() {
                 <motion.div 
                   initial={{ opacity: 1 }}
                   animate={{ opacity: 0 }}
-                  transition={{ delay: 1.5, duration: 0.3 }}
+                  transition={{ delay: textFadeOutDelay, duration: 0.3 }}
                   className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none drop-shadow-[1px_2px_6px_rgba(0,0,0,0.8)]"
                 >
                   <h1 
@@ -206,7 +217,7 @@ export default function IslandDetail() {
                         key={index}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ delay: index * 0.15, duration: 0.01 }}
+                        transition={{ delay: typingStartDelay + (index * typingSpeed), duration: 0.01 }}
                       >
                         {char === ' ' ? '\u00A0' : char}
                       </motion.span>
@@ -224,7 +235,7 @@ export default function IslandDetail() {
                         cy="50%" 
                         initial={{ r: 2000 }}
                         animate={{ r: finalRadius }}
-                        transition={{ duration: 1.8, ease: "easeInOut", delay: 1.8 }}
+                        transition={{ duration: circleDuration, ease: "easeInOut", delay: circleStartDelay }}
                         fill="black" 
                       />
                     </mask>
@@ -236,7 +247,7 @@ export default function IslandDetail() {
                 <motion.div
                   initial={{ width: 4000, height: 4000 }}
                   animate={{ width: finalDiameter, height: finalDiameter }}
-                  transition={{ duration: 1.8, ease: "easeInOut", delay: 1.8 }}
+                  transition={{ duration: circleDuration, ease: "easeInOut", delay: circleStartDelay }}
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full z-10 pointer-events-none"
                   style={{ boxShadow: 'inset 0 4px 15px rgba(0,0,0,0.15)' }}
                 />
@@ -245,7 +256,7 @@ export default function IslandDetail() {
                 <motion.div 
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 3.6, duration: 0.8, ease: "easeOut" }}
+                  transition={{ delay: contentRevealDelay, duration: 0.8, ease: "easeOut" }}
                   className="absolute inset-0 z-20 pointer-events-none flex flex-col"
                 >
                   {/* TOP AREA: Title & Description */}
@@ -323,7 +334,7 @@ export default function IslandDetail() {
                 <motion.div 
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 3.6, duration: 0.8 }}
+                  transition={{ delay: contentRevealDelay, duration: 0.8 }}
                   className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none z-20"
                 >
                   <motion.div 
@@ -344,7 +355,7 @@ export default function IslandDetail() {
               <motion.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 3.6, duration: 0.8 }}
+                transition={{ delay: contentRevealDelay, duration: 0.8 }}
                 className="w-full px-8 pb-24 flex flex-col items-center relative z-20 pt-4"
               >
                 <div className="grid grid-cols-2 gap-3 w-full">
