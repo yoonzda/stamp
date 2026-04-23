@@ -86,7 +86,6 @@ export default function IslandDetail() {
                 수집 장소
               </h2>
             </div>
-            <span className="text-[#a39585] text-sm font-medium">{island.spots.length} 곳</span>
           </div>
 
           <div className="space-y-4">
@@ -96,7 +95,7 @@ export default function IslandDetail() {
                 <div 
                   key={spot.id} 
                   onClick={() => setSelectedSpot({ spot, sym })}
-                  className="bg-white/80 backdrop-blur-md rounded-[1.2rem] p-4 shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-white flex items-center gap-4 relative overflow-hidden transition-transform active:scale-95 cursor-pointer"
+                  className="bg-white/80 backdrop-blur-md p-4 shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-white flex items-center gap-4 relative overflow-hidden transition-transform active:scale-95 cursor-pointer rounded-none"
                 >
                   {/* Accent line */}
                   <div 
@@ -104,12 +103,12 @@ export default function IslandDetail() {
                     style={{ backgroundColor: sym.color }}
                   />
 
-                  {/* Spot Icon */}
+                  {/* Spot Icon (Small Circle) */}
                   <div 
-                    className="w-14 h-14 rounded-full flex items-center justify-center shrink-0 ml-1 shadow-sm border"
+                    className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 ml-1 shadow-sm border"
                     style={{ backgroundColor: sym.color + '10', borderColor: sym.color + '30' }}
                   >
-                    <span className="w-8 h-8 flex items-center justify-center" style={{ color: sym.color }}>
+                    <span className="w-5 h-5 flex items-center justify-center" style={{ color: sym.color }}>
                       <SymbolIcon type={sym.id} />
                     </span>
                   </div>
