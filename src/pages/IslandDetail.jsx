@@ -188,13 +188,13 @@ export default function IslandDetail() {
                   <rect width="100%" height="100%" fill="#fcfbf9" mask="url(#holeMask)" />
                 </svg>
 
-                {/* Inner Shadow Overlay for Window Effect */}
+                {/* Inner Shadow Overlay for Window Effect (Shrinks with the Mask) */}
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 2.5 }}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] rounded-full z-10 pointer-events-none"
-                  style={{ boxShadow: 'inset 0 4px 15px rgba(0,0,0,0.1)' }}
+                  initial={{ width: 4000, height: 4000 }}
+                  animate={{ width: 320, height: 320 }}
+                  transition={{ duration: 2.5, ease: "easeInOut", delay: 0.8 }}
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full z-10 pointer-events-none"
+                  style={{ boxShadow: 'inset 0 4px 15px rgba(0,0,0,0.15)' }}
                 />
 
                 {/* Text Overlays (Fades in after circle finishes shrinking) */}
