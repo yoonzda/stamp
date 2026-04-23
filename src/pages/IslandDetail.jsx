@@ -295,20 +295,23 @@ export default function IslandDetail() {
                   </div>
                 </motion.div>
 
-                {/* Scroll Down Indicator (Mouse Icon) */}
+                {/* Scroll Down Indicator (Arrow Icon) */}
                 <motion.div 
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 2.4, duration: 0.8 }}
                   className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none z-20"
                 >
-                  <div className="w-[18px] h-[30px] border-[1.5px] border-[#a39585] rounded-full flex justify-center pt-1.5 opacity-80 backdrop-blur-sm bg-white/10">
-                    <motion.div 
-                      animate={{ y: [0, 8, 0], opacity: [1, 0, 1] }} 
-                      transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-                      className="w-[2.5px] h-[6px] bg-[#a39585] rounded-full"
-                    />
-                  </div>
+                  <motion.div 
+                    animate={{ y: [0, 10, 0], opacity: [0.5, 1, 0.5] }} 
+                    transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                    className="opacity-80 drop-shadow-sm"
+                  >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a39585" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="12" y1="4" x2="12" y2="20"></line>
+                      <polyline points="19 13 12 20 5 13"></polyline>
+                    </svg>
+                  </motion.div>
                 </motion.div>
 
               </div>
