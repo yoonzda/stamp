@@ -48,7 +48,7 @@ import yeongheung_h2 from '../assets/yeongheung_h2.png';
 import yeongheung_h3 from '../assets/yeongheung_h3.png';
 import yeongheung_h4 from '../assets/yeongheung_h4.png';
 
-const spotImages = {
+export const spotImages = {
   STAMP_Y1: yeonpyeong_y1,
   STAMP_Y2: yeonpyeong_y2,
   STAMP_Y3: yeonpyeong_y3,
