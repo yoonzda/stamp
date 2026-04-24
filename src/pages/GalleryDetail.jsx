@@ -146,7 +146,7 @@ export default function GalleryDetail() {
           </p>
 
           <div className="flex items-center justify-center gap-6 mt-6">
-            {/* Minimalist Actions (Like, Share) */}
+            {/* Minimalist Actions (Like, Download, Share) */}
             <button 
               onClick={toggleLike}
               className={`flex items-center gap-2 active:scale-95 transition-transform ${liked ? 'text-[#e06a4e]' : 'text-[#8a7a6b]'}`}
@@ -159,6 +159,26 @@ export default function GalleryDetail() {
 
             <div className="w-px h-5 bg-[#d5ccbe]"></div>
 
+            {/* Download Button */}
+            <button 
+              onClick={() => {
+                const link = document.createElement('a');
+                link.href = photo.url;
+                link.download = `${photo.island.name}_${photo.spot.name}.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }}
+              className="flex items-center justify-center text-[#8a7a6b] active:scale-95 transition-transform"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+            </button>
+
+            <div className="w-px h-5 bg-[#d5ccbe]"></div>
+
+            {/* Share Button */}
             <button 
               onClick={() => {
                 if (navigator.share) {
