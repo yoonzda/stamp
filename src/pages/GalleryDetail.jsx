@@ -63,10 +63,10 @@ export default function GalleryDetail() {
         <img 
           src={spotImages[photo.spot.code] || photo.url} 
           alt="background blur" 
-          className="w-full h-full object-cover opacity-60 scale-125 blur-[40px] mix-blend-multiply" 
+          className="w-full h-full object-cover opacity-100 scale-110 blur-[30px]" 
         />
         {/* Soft overlay to ensure text readability */}
-        <div className="absolute inset-0 bg-[#F3EFE6]/40"></div>
+        <div className="absolute inset-0 bg-[#F3EFE6]/50"></div>
       </div>
 
       {/* Scrolling Content Container */}
@@ -116,19 +116,12 @@ export default function GalleryDetail() {
         {/* Title & Actions Area */}
         <div className="mb-8 text-center">
           
-          {/* Island Name with Cute Rounded Icon */}
-          <div className="flex items-center justify-center gap-2 mb-1.5">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="-mt-1">
-              {/* Sun */}
-              <circle cx="18" cy="7" r="3.5" fill="#FFB02E" />
-              {/* Back Hill */}
-              <path d="M7 16 Q 12 4 17 16 Z" fill="#8BB080" />
-              {/* Front Hills */}
-              <path d="M2 16 Q 6.5 6 11 16 Z" fill="#6A8F5D" />
-              <path d="M10 16 Q 15 8 20 16 Z" fill="#789E6B" />
-              {/* Sea/Waves */}
-              <path d="M2 18 C3.5 18 4 16.5 5.5 16.5 C7 16.5 7.5 18 9 18 C10.5 18 11 16.5 12.5 16.5 C14 16.5 14.5 18 16 18 C17.5 18 18 16.5 19.5 16.5 C21 16.5 21.5 18 23 18" stroke="#4A90E2" strokeWidth="2" strokeLinecap="round" fill="none"/>
-              <path d="M3 21 C4.5 21 5 19.5 6.5 19.5 C8 19.5 8.5 21 10 21 C11.5 21 12 19.5 13.5 19.5 C15 19.5 15.5 21 17 21 C18.5 21 19 19.5 20.5 19.5 C22 19.5 22.5 21 24 21" stroke="#7CB1EA" strokeWidth="2" strokeLinecap="round" fill="none"/>
+          {/* Island Name with Elegant Icon */}
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#685b4f]">
+              <circle cx="18" cy="6" r="3" />
+              <path d="M2 18L7 9l4 5 3-4 6 8" />
+              <path d="M2 22h20" strokeDasharray="4 4" />
             </svg>
             <span className="text-[#685b4f] text-[1.15rem] tracking-wider pt-1" style={{ fontFamily: "'EF_jejudoldam', sans-serif" }}>
               {photo.island.name}
@@ -154,7 +147,6 @@ export default function GalleryDetail() {
               <svg width="24" height="24" viewBox="0 0 24 24" fill={liked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
               </svg>
-              <span className="text-[1.1rem] font-bold">{likesCount}</span>
             </button>
 
             <div className="w-px h-5 bg-[#d5ccbe]"></div>
@@ -190,7 +182,11 @@ export default function GalleryDetail() {
               className="flex items-center justify-center text-[#8a7a6b] active:scale-95 transition-transform"
             >
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line>
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
               </svg>
             </button>
           </div>
@@ -221,39 +217,20 @@ export default function GalleryDetail() {
           </a>
         </div>
 
-        {/* Island Description Accordion */}
-        <div className="mb-8 border border-[#d5ccbe] rounded-2xl overflow-hidden bg-white/50 backdrop-blur-sm shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
-          <button 
-            onClick={() => setDescOpen(!descOpen)}
-            className="w-full flex items-center justify-between p-4 text-[#5c5042] font-['Nanum_Myeongjo'] font-bold text-[0.95rem] active:bg-[#e8dfcf]/30 transition-colors"
-          >
-            <span className="flex items-center gap-2">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-              {photo.island.name} 이야기
-            </span>
-            <svg 
-              width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" 
-              className={`transition-transform duration-300 ${descOpen ? 'rotate-180' : ''}`}
-            >
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </button>
-          
-          <div className={`overflow-hidden transition-all duration-300 ease-in-out ${descOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}>
-            <div className="p-4 pt-0 text-[0.85rem] text-[#685b4f] leading-relaxed break-keep border-t border-[#d5ccbe]/50">
-              <p className="font-bold text-[0.95rem] text-[#3e342b] mb-3 leading-tight">{photo.island.description}</p>
-              <ul className="space-y-4">
-                {photo.island.spots.map(spot => (
-                  <li key={spot.id} className="flex gap-2">
-                    <span className="shrink-0 text-[#8a7a6b] mt-0.5">🌿</span>
-                    <div>
-                      <strong className="text-[#5c5042] block mb-0.5">{spot.name}</strong>
-                      <span className="text-[#8a7a6b] leading-tight text-[0.8rem]">{spot.desc}</span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
+        {/* Island Description Text */}
+        <div className="mb-10 px-2 text-[0.85rem] text-[#685b4f] leading-relaxed break-keep">
+          <p className="font-bold text-[0.95rem] text-[#3e342b] mb-4 leading-tight flex items-center gap-2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            {photo.island.name} 이야기
+          </p>
+          <p className="mb-5">{photo.island.description}</p>
+          <div className="space-y-4">
+            {photo.island.spots.map(spot => (
+              <div key={spot.id} className="pl-3 border-l-[3px] border-[#d5ccbe]">
+                <strong className="text-[#5c5042] block mb-0.5">{spot.name}</strong>
+                <span className="text-[#8a7a6b] leading-tight text-[0.8rem]">{spot.desc}</span>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -263,9 +240,8 @@ export default function GalleryDetail() {
             
             {spotPhotos.length > 0 && (
               <div>
-                <h3 className="text-[0.95rem] font-bold text-[#5c5042] font-['Nanum_Myeongjo'] mb-4 flex items-center gap-2">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                  {photo.spot.name}의 다른 풍경
+                <h3 className="text-[0.95rem] font-bold text-[#5c5042] font-['Nanum_Myeongjo'] mb-4">
+                  <span className="text-[#e06a4e] font-extrabold mr-1">{photo.spot.name}</span>의 다른 풍경
                 </h3>
                 <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 -mx-6 px-6">
                   {spotPhotos.map(p => (
@@ -283,9 +259,8 @@ export default function GalleryDetail() {
 
             {islandPhotos.length > 0 && (
               <div>
-                <h3 className="text-[0.95rem] font-bold text-[#5c5042] font-['Nanum_Myeongjo'] mb-4 flex items-center gap-2">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                  {photo.island.name}의 다른 추천 장소
+                <h3 className="text-[0.95rem] font-bold text-[#5c5042] font-['Nanum_Myeongjo'] mb-4">
+                  <span className="text-[#e06a4e] font-extrabold mr-1">{photo.island.name}</span>의 다른 추천 장소
                 </h3>
                 <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 -mx-6 px-6">
                   {islandPhotos.map(p => (
