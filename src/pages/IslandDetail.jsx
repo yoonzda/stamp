@@ -91,10 +91,10 @@ export default function IslandDetail() {
 
   // 동적 애니메이션 타이밍 계산
   const nameLen = selectedSpot ? selectedSpot.spot.name.length : 0;
-  const typingStartDelay = 0.8; // 글씨 시작을 좀 더 뒤에 시작되게
-  const typingSpeed = 0.22; // 천천히 타닥타닥 써지도록 속도 늦춤
-  const textHoldTime = 1.8; // 다 써진 후 살짝 더 오래 머무르도록 시간 대폭 늘림 (0.7 -> 1.8)
-  const textFadeOutDuration = 1.0; // 텍스트가 아주 부드럽고 천천히 스르륵 사라지도록 시간 늘림 (0.3 -> 1.0)
+  const typingStartDelay = 0.6; // 글씨 시작을 조금 더 일찍 시작
+  const typingSpeed = 0.12; // 더 빠르게 타닥타닥 써지도록 속도 단축 (0.22 -> 0.12)
+  const textHoldTime = 1.0; // 다 써진 후 유지되는 시간 단축 (1.8 -> 1.0)
+  const textFadeOutDuration = 0.8; // 텍스트 페이드아웃 속도 살짝 빠르게 (1.0 -> 0.8)
   const circleDuration = 1.0; // 원 축소 속도
 
   // 마지막 글자가 나타나는 정확한 시간
