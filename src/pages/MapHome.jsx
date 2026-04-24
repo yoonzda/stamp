@@ -16,11 +16,11 @@ export default function MapHome() {
         🔄 처음부터 다시보기 (테스트용)
       </button>
 
-      <div className="relative w-full shrink-0 z-30 drop-shadow-[0_20px_35px_rgba(92,80,66,0.2)]">
+      <div className="relative w-full shrink-0">
         <img 
           src={mapBg} 
           alt="옹진군 수채화 지도" 
-          className="w-full h-auto pointer-events-none mix-blend-multiply"
+          className="w-full h-auto pointer-events-none"
         />
 
         {/* Map Pins / Labels */}
