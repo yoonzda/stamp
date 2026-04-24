@@ -37,6 +37,18 @@ export default function GalleryDetail() {
     setLikesCount(prev => liked ? prev - 1 : prev + 1);
   };
 
+  const formatDateTime = (timestamp) => {
+    const d = new Date(timestamp);
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    const h = d.getHours();
+    const min = String(d.getMinutes()).padStart(2, '0');
+    const ampm = h < 12 ? 'am' : 'pm';
+    const hour12 = h % 12 || 12;
+    return `${yyyy}.${mm}.${dd} ${ampm}${hour12}:${min}`;
+  };
+
   return (
     <div className="absolute inset-0 z-50 bg-[#F3EFE6] font-['Pretendard']">
       <style>{`
@@ -82,8 +94,16 @@ export default function GalleryDetail() {
           {/* Polaroid Tape or Pin */}
           <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-4 bg-white/60 backdrop-blur-sm shadow-sm rotate-3 border border-white/80"></div>
           
-          <div className="absolute bottom-4 left-0 right-0 text-center text-[#8a7a6b] font-['Nanum_Myeongjo'] text-sm font-bold tracking-widest opacity-80">
-            {photo.island.name}
+          {/* Hashtags inside Polaroid */}
+          <div className="absolute bottom-3 left-0 right-0 flex flex-wrap justify-center gap-1.5 px-2">
+            {photo.badges.map(b => {
+              const cleanText = b.replace('✨ ', '').replace('📸 ', '');
+              return (
+                <span key={b} className="text-[0.65rem] font-bold text-[#8a7a6b] bg-[#e8dfcf]/60 px-2 py-0.5 rounded-full shadow-sm">
+                  #{cleanText}
+                </span>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -93,13 +113,24 @@ export default function GalleryDetail() {
         
         {/* Title & Actions Area */}
         <div className="mb-8 text-center">
-          <h2 className="text-[2rem] leading-tight font-bold text-[#3e342b] font-['Nanum_Myeongjo'] break-keep drop-shadow-sm">
+          
+          {/* Island Name with Cute Icon */}
+          <div className="flex items-center justify-center gap-1.5 mb-2.5">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#8a7a6b]">
+              <path d="M8 18L12 11L16 18" fill="#e8dfcf"/>
+              <path d="M2 20h20" />
+              <path d="M4 20L8 15L11 18" fill="#e8dfcf"/>
+            </svg>
+            <span className="text-[#8a7a6b] text-[0.8rem] font-bold tracking-widest">{photo.island.name}</span>
+          </div>
+
+          <h2 className="text-[2.2rem] leading-tight font-bold text-[#3e342b] font-['Nanum_Myeongjo'] break-keep drop-shadow-sm">
             {photo.spot.name}
           </h2>
-          <p className="text-[#8a7a6b] text-[0.85rem] mt-3 font-medium tracking-wide">
-            {new Date(photo.timestamp).toLocaleString('ko-KR', { year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit' })}
+          <p className="text-[#8a7a6b] text-[0.85rem] mt-3 font-medium tracking-wide flex justify-center items-center gap-2">
+            <span>{formatDateTime(photo.timestamp)}</span>
             {photo.isUser && (
-              <span className="ml-2 border border-[#e06a4e] text-[#e06a4e] text-[0.6rem] font-bold px-1.5 py-0.5 rounded-sm inline-block align-middle transform -rotate-2">내 사진</span>
+              <span className="border border-[#e06a4e] text-[#e06a4e] text-[0.6rem] font-bold px-1.5 py-0.5 rounded-sm inline-block transform -rotate-2">내 사진</span>
             )}
           </p>
 
@@ -152,18 +183,6 @@ export default function GalleryDetail() {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
             <span className="text-[0.8rem] font-bold tracking-wide">길찾기</span>
           </a>
-        </div>
-
-        {/* Aesthetic Hashtags */}
-        <div className="flex flex-wrap justify-center gap-2 mb-8">
-          {photo.badges.map(b => {
-            const cleanText = b.replace('✨ ', '').replace('📸 ', '');
-            return (
-              <span key={b} className="text-[0.75rem] font-bold tracking-wide text-[#8a7a6b] bg-[#e8dfcf]/50 px-3.5 py-1.5 rounded-full border border-[#d5ccbe]/50">
-                #{cleanText}
-              </span>
-            );
-          })}
         </div>
 
         {/* Recommendations Section */}
