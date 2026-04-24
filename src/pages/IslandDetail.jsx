@@ -47,8 +47,8 @@ export default function IslandDetail() {
   // 텍스트가 페이드아웃 되기 시작하는 시간
   const textFadeOutDelay = lastCharAppearsAt + textHoldTime;
   
-  // 글씨가 완전히 사라지고(fadeOut완료) 즉각적으로 원 축소 시작
-  const circleStartDelay = textFadeOutDelay + textFadeOutDuration; 
+  // 글씨가 완전히 사라지고(fadeOut완료) 즉각적으로 원 축소 시작 -> 글씨가 사라짐과 동시에 원 축소 시작
+  const circleStartDelay = textFadeOutDelay; 
   const contentRevealDelay = circleStartDelay + circleDuration;
 
   useEffect(() => {
@@ -88,9 +88,9 @@ export default function IslandDetail() {
       <div className="absolute top-5 left-5 z-40">
         <button 
           onClick={() => navigate('/')}
-          className="w-11 h-11 rounded-full flex items-center justify-center bg-white/60 text-[#3e342b] shadow-sm backdrop-blur-md pointer-events-auto transition-transform active:scale-95 border border-white/50"
+          className="w-16 h-16 rounded-full flex items-center justify-center bg-white/60 text-[#3e342b] shadow-sm backdrop-blur-md pointer-events-auto transition-transform active:scale-95 border border-white/50"
         >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
         </button>
       </div>
 
@@ -180,17 +180,17 @@ export default function IslandDetail() {
               {/* Close / Back Button (Top Left) */}
               <button 
                 onClick={() => setSelectedSpot(null)}
-                className="absolute top-5 left-5 w-11 h-11 rounded-full flex items-center justify-center bg-white/60 text-[#3e342b] shadow-sm backdrop-blur-md pointer-events-auto active:scale-95 transition-transform border border-white/50"
+                className="absolute top-5 left-5 w-16 h-16 rounded-full flex items-center justify-center bg-white/60 text-[#3e342b] shadow-sm backdrop-blur-md pointer-events-auto active:scale-95 transition-transform border border-white/50"
               >
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
               </button>
 
               {/* Floating Camera Button (Bottom Left) */}
               <button 
                 onClick={() => navigate(`/photo-verify/${selectedSpot.spot.code}`)}
-                className="absolute bottom-6 left-5 w-14 h-14 rounded-full flex items-center justify-center bg-[#e06a4e] text-white shadow-[0_4px_15px_rgba(224,106,78,0.3)] pointer-events-auto active:scale-95 transition-transform border border-white/20"
+                className="absolute bottom-6 left-5 w-16 h-16 rounded-full flex items-center justify-center bg-[#e06a4e] text-white shadow-[0_4px_15px_rgba(224,106,78,0.3)] pointer-events-auto active:scale-95 transition-transform border border-white/20"
               >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
               </button>
             </div>
 
@@ -298,7 +298,7 @@ export default function IslandDetail() {
                         className="flex-1 max-w-[140px] h-[3.2rem] rounded-full bg-[#fced9f] text-[#5e5318] font-bold text-[0.85rem] tracking-wide flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-colors hover:bg-[#fae687]"
                       >
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M12 4C6.48 4 2 7.58 2 12c0 2.85 1.8 5.35 4.5 6.78-.17.65-.63 2.45-.66 2.58-.04.14.05.15.14.09.11-.06 2.86-1.92 3.96-2.73.66.18 1.35.28 2.06.28 5.52 0 10-3.58 10-8s-4.48-8-10-8z" />
+                          <path d="M12 3c-5.523 0-10 3.51-10 7.846 0 2.81 1.765 5.27 4.417 6.643-.45 1.637-.62 2.302-.638 2.378-.027.118.046.126.113.082.083-.054 2.656-1.745 3.73-2.522.757.142 1.55.219 2.378.219 5.523 0 10-3.51 10-7.846C22 6.51 17.523 3 12 3z" />
                         </svg>
                         <span>카카오맵</span>
                       </button>
