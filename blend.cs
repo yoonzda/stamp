@@ -8,20 +8,23 @@ public class Program {
         string mapPath = @"c:\0_z\stamp\src\assets\map_bg_dadora.png";
         string outPath = @"c:\0_z\stamp\src\assets\map_bg_dadora_tall.png";
         
+        int w = 1024;
+        int h = 1800; // Perfect for mobile screen (9:16 ratio) without scrolling
+        
         using (Bitmap ocean = new Bitmap(oceanPath))
         using (Bitmap map = new Bitmap(mapPath))
-        using (Bitmap result = new Bitmap(1024, 4000))
+        using (Bitmap result = new Bitmap(w, h))
         using (Graphics g = Graphics.FromImage(result)) {
             
-            // Tile ocean
+            // Tile ocean everywhere
             using (TextureBrush brush = new TextureBrush(ocean)) {
-                g.FillRectangle(brush, 0, 0, 1024, 4000);
+                g.FillRectangle(brush, 0, 0, w, h);
             }
             
-            int yOffset = (4000 - 1024) / 2;
-            int fadeHeight = 250;
+            int yOffset = (h - 1024) / 2; // 388
+            int fadeHeight = 350; // generous fade
             
-            BitmapData resData = result.LockBits(new Rectangle(0, 0, 1024, 4000), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            BitmapData resData = result.LockBits(new Rectangle(0, 0, w, h), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
             BitmapData mapData = map.LockBits(new Rectangle(0, 0, 1024, 1024), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             
             unsafe {
@@ -29,11 +32,23 @@ public class Program {
                 byte* mapPtr = (byte*)mapData.Scan0;
                 
                 for (int y = 0; y < 1024; y++) {
-                    float alpha = 1.0f;
-                    if (y < fadeHeight) alpha = (float)y / fadeHeight;
-                    else if (y > 1024 - fadeHeight) alpha = (float)(1024 - 1 - y) / fadeHeight;
+                    float blendFactor = 0f; // 0 = original map, 1 = multiply with ocean
                     
-                    alpha = alpha * alpha * (3 - 2 * alpha); // smoothstep
+                    if (y < fadeHeight) {
+                        blendFactor = 1f - ((float)y / fadeHeight);
+                    }
+                    else if (y > 1024 - fadeHeight) {
+                        blendFactor = (float)(y - (1024 - fadeHeight)) / fadeHeight;
+                    }
+                    
+                    // Smoothstep the blendFactor for a natural gradient
+                    blendFactor = blendFactor * blendFactor * (3 - 2 * blendFactor);
+                    
+                    // Also we need an alpha fade at the absolute extreme edges so there is no hard seam
+                    float alpha = 1.0f;
+                    int extremeEdge = 100;
+                    if (y < extremeEdge) alpha = (float)y / extremeEdge;
+                    else if (y > 1024 - extremeEdge) alpha = (float)(1024 - 1 - y) / extremeEdge;
                     
                     byte* mRow = mapPtr + (y * mapData.Stride);
                     byte* rRow = resPtr + ((y + yOffset) * resData.Stride);
@@ -43,18 +58,26 @@ public class Program {
                         int mG = mRow[x * 4 + 1];
                         int mR = mRow[x * 4 + 2];
                         
-                        int rB = rRow[x * 4];
-                        int rG = rRow[x * 4 + 1];
-                        int rR = rRow[x * 4 + 2];
+                        int oB = rRow[x * 4];
+                        int oG = rRow[x * 4 + 1];
+                        int oR = rRow[x * 4 + 2];
                         
-                        // Multiply blend
-                        int mulB = (mB * rB) / 255;
-                        int mulG = (mG * rG) / 255;
-                        int mulR = (mR * rR) / 255;
+                        // Mixed color based on blendFactor
+                        // blendFactor = 1 means (Map * Ocean)/255
+                        // blendFactor = 0 means Map
+                        int mulB = (mB * oB) / 255;
+                        int mulG = (mG * oG) / 255;
+                        int mulR = (mR * oR) / 255;
                         
-                        rRow[x * 4] = (byte)(mulB * alpha + rB * (1 - alpha));
-                        rRow[x * 4 + 1] = (byte)(mulG * alpha + rG * (1 - alpha));
-                        rRow[x * 4 + 2] = (byte)(mulR * alpha + rR * (1 - alpha));
+                        int finalB = (int)(mulB * blendFactor + mB * (1 - blendFactor));
+                        int finalG = (int)(mulG * blendFactor + mG * (1 - blendFactor));
+                        int finalR = (int)(mulR * blendFactor + mR * (1 - blendFactor));
+                        
+                        // Apply alpha at extreme edges to avoid hard lines
+                        rRow[x * 4] = (byte)(finalB * alpha + oB * (1 - alpha));
+                        rRow[x * 4 + 1] = (byte)(finalG * alpha + oG * (1 - alpha));
+                        rRow[x * 4 + 2] = (byte)(finalR * alpha + oR * (1 - alpha));
+                        rRow[x * 4 + 3] = 255;
                     }
                 }
             }
