@@ -38,6 +38,11 @@ import jawol_j2 from '../assets/jawol_j2.png';
 import jawol_j3 from '../assets/jawol_j3.png';
 import jawol_j4 from '../assets/jawol_j4.png';
 
+import deokjeok_d1 from '../assets/deokjeok_d1.png';
+import deokjeok_d2 from '../assets/deokjeok_d2.png';
+import deokjeok_d3 from '../assets/deokjeok_d3.png';
+import deokjeok_d4 from '../assets/deokjeok_d4.png';
+
 const spotImages = {
   STAMP_Y1: yeonpyeong_y1,
   STAMP_Y2: yeonpyeong_y2,
@@ -60,6 +65,10 @@ const spotImages = {
   STAMP_J2: jawol_j2,
   STAMP_J3: jawol_j3,
   STAMP_J4: jawol_j4,
+  STAMP_D1: deokjeok_d1,
+  STAMP_D2: deokjeok_d2,
+  STAMP_D3: deokjeok_d3,
+  STAMP_D4: deokjeok_d4,
 };
 
 export default function IslandDetail() {
