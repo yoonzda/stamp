@@ -17,11 +17,22 @@ import yeonpyeong_y2 from '../assets/yeonpyeong_y2.png';
 import yeonpyeong_y3 from '../assets/yeonpyeong_y3.png';
 import yeonpyeong_y4 from '../assets/yeonpyeong_y4.png';
 
+import baengnyeong_b1 from '../assets/baengnyeong_b1.png';
+import baengnyeong_b2 from '../assets/baengnyeong_b2.png';
+import baengnyeong_b3 from '../assets/baengnyeong_b3.png';
+import baengnyeong_b4 from '../assets/baengnyeong_b4.png';
+import baengnyeong_b5 from '../assets/baengnyeong_b5.png';
+
 const spotImages = {
   STAMP_Y1: yeonpyeong_y1,
   STAMP_Y2: yeonpyeong_y2,
   STAMP_Y3: yeonpyeong_y3,
   STAMP_Y4: yeonpyeong_y4,
+  STAMP_B1: baengnyeong_b1,
+  STAMP_B2: baengnyeong_b2,
+  STAMP_B3: baengnyeong_b3,
+  STAMP_B4: baengnyeong_b4,
+  STAMP_B5: baengnyeong_b5,
 };
 
 export default function IslandDetail() {
