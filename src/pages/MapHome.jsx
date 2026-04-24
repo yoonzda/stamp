@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import mapBg from '../assets/map_bg_dadora.png';
+import mapBgTall from '../assets/map_bg_dadora_tall.png';
 import { ISLANDS } from '../gameState';
 
 export default function MapHome() {
@@ -19,9 +20,9 @@ export default function MapHome() {
         {/* Container matching full width to fit original layout */}
         <div className="relative w-full">
           
-          {/* Background Map Image */}
+          {/* Background Map Image (Tall Version) */}
           <img 
-            src={mapBg} 
+            src={mapBgTall} 
             alt="옹진군 수채화 지도" 
             className="w-full h-auto object-contain pointer-events-none mix-blend-multiply"
           />
