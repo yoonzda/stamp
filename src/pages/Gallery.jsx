@@ -93,38 +93,34 @@ export default function Gallery() {
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
       
-      {/* Header */}
-      <div className="sticky top-0 z-30 bg-[#F3EFE6]/90 backdrop-blur-md pt-8 pb-4 px-6 border-b border-[#e0dbcd] flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-[#3e342b] font-['Nanum_Myeongjo'] tracking-wide">
-            추억 갤러리
-          </h1>
-          <p className="text-[#8a7a6b] text-sm mt-1">시간 순으로 보는 모든 생생한 풍경들</p>
-        </div>
-      </div>
+      {/* Header removed as requested */}
 
-      {/* Grid Gallery Content */}
-      <div className="p-1 grid grid-cols-3 gap-1">
-        {ALL_PHOTOS.map((photo, idx) => (
-          <div 
-            key={photo.id} 
-            className="aspect-square bg-[#e0dbcd] relative cursor-pointer active:opacity-80 transition-opacity"
-            onClick={() => setInitialIndex(idx)}
-          >
-            <img 
-              src={photo.url} 
-              className="w-full h-full object-cover" 
-              loading="lazy" 
-              referrerPolicy="no-referrer"
-              alt={photo.spot.name} 
-            />
-            {photo.isUser && (
-              <div className="absolute top-1.5 right-1.5 bg-[#004790] w-5 h-5 rounded-full flex items-center justify-center border border-white shadow-sm">
-                <span className="text-white text-[0.5rem] leading-none">✨</span>
-              </div>
-            )}
-          </div>
-        ))}
+      {/* Masonry Gallery Content */}
+      <div className="columns-2 gap-2 px-2 py-4">
+        {ALL_PHOTOS.map((photo, idx) => {
+          // Masonry 효과를 위한 다양한 비율 설정
+          const aspectClass = idx % 4 === 0 ? "aspect-[3/4]" : idx % 4 === 1 ? "aspect-[4/3]" : idx % 4 === 2 ? "aspect-square" : "aspect-[4/5]";
+          return (
+            <div 
+              key={photo.id} 
+              className={`mb-2 w-full bg-[#e0dbcd] relative cursor-pointer active:scale-[0.98] transition-transform overflow-hidden rounded-[1rem] shadow-sm ${aspectClass} inline-block`}
+              onClick={() => setInitialIndex(idx)}
+            >
+              <img 
+                src={photo.url} 
+                className="absolute inset-0 w-full h-full object-cover" 
+                loading="lazy" 
+                referrerPolicy="no-referrer"
+                alt={photo.spot.name} 
+              />
+              {photo.isUser && (
+                <div className="absolute top-2 right-2 bg-[#004790]/90 backdrop-blur-sm px-2 py-0.5 rounded-full flex items-center justify-center border border-white/50 shadow-sm">
+                  <span className="text-white text-[0.55rem] font-bold tracking-wider">✨ MY</span>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {/* Detail Modal (Full screen swiper) */}
