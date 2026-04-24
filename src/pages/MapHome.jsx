@@ -7,7 +7,7 @@ export default function MapHome() {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full h-full overflow-hidden relative flex justify-center items-center bg-[#7ca598]">
+    <div className="w-full h-full overflow-hidden relative flex justify-center items-center bg-[#F3EFE6]">
       
       <button 
         onClick={() => { localStorage.removeItem('has_seen_onboarding'); window.location.reload(); }}
@@ -26,7 +26,7 @@ export default function MapHome() {
         <img 
           src={mapBgTall} 
           alt="옹진군 수채화 지도" 
-          className="w-full h-auto pointer-events-none mix-blend-multiply"
+          className="w-full h-auto pointer-events-none"
         />
 
         {/* Map Pins / Labels */}
