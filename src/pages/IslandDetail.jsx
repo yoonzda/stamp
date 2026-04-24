@@ -88,9 +88,9 @@ export default function IslandDetail() {
       <div className="absolute top-5 left-5 z-40">
         <button 
           onClick={() => navigate('/')}
-          className="w-16 h-16 rounded-full flex items-center justify-center bg-white/60 text-[#3e342b] shadow-sm backdrop-blur-md pointer-events-auto transition-transform active:scale-95 border border-white/50"
+          className="w-11 h-11 rounded-full flex items-center justify-center bg-white/60 text-[#3e342b] shadow-sm backdrop-blur-md pointer-events-auto transition-transform active:scale-95 border border-white/50"
         >
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
         </button>
       </div>
 
@@ -180,9 +180,9 @@ export default function IslandDetail() {
               {/* Close / Back Button (Top Left) */}
               <button 
                 onClick={() => setSelectedSpot(null)}
-                className="absolute top-5 left-5 w-16 h-16 rounded-full flex items-center justify-center bg-white/60 text-[#3e342b] shadow-sm backdrop-blur-md pointer-events-auto active:scale-95 transition-transform border border-white/50"
+                className="absolute top-5 left-5 w-11 h-11 rounded-full flex items-center justify-center bg-white/60 text-[#3e342b] shadow-sm backdrop-blur-md pointer-events-auto active:scale-95 transition-transform border border-white/50"
               >
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
               </button>
 
               {/* Floating Camera Button (Bottom Left) */}
