@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import mapBgTall from '../assets/map_bg_dadora_tall.png';
+import mapBg from '../assets/map_bg_dadora.png';
 import { ISLANDS } from '../gameState';
 
 export default function MapHome() {
@@ -16,17 +16,11 @@ export default function MapHome() {
         🔄 처음부터 다시보기 (테스트용)
       </button>
 
-      {/* 
-        This container perfectly fits the screen width (w-full).
-        Because the image is extremely tall (1024x4000), it will overflow the screen vertically.
-        The overflow-hidden on the parent perfectly crops the excess top and bottom ocean,
-        leaving the center islands exactly in the middle without any horizontal cropping!
-      */}
-      <div className="relative w-full shrink-0 z-10">
+      <div className="relative w-full shrink-0 z-30 drop-shadow-[0_20px_35px_rgba(92,80,66,0.2)]">
         <img 
-          src={mapBgTall} 
-          alt="옹진군 프리미엄 수채화 지도" 
-          className="w-full h-auto pointer-events-none"
+          src={mapBg} 
+          alt="옹진군 수채화 지도" 
+          className="w-full h-auto pointer-events-none mix-blend-multiply"
         />
 
         {/* Map Pins / Labels */}
