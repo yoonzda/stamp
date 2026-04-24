@@ -32,7 +32,10 @@ export default function MapHome() {
             <div 
               key={island.id}
               className="absolute -translate-x-1/2 -translate-y-full cursor-pointer group z-10 hover:z-20 p-2"
-              style={{ top: island.mapPos.top, left: island.mapPos.left }}
+              style={{ 
+                top: `calc(${island.mapPos.top} * (1024/1800) + ${(388/1800)*100}%)`, 
+                left: island.mapPos.left 
+              }}
               onClick={() => navigate(`/island/${island.id}`)}
             >
               {/* Traditional Label Design */}
