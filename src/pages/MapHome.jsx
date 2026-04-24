@@ -17,17 +17,11 @@ export default function MapHome() {
       </button>
 
       {/* 
-        This container perfectly mimics object-cover for both the image and its absolute pins.
-        It ensures the 1024x1800 image strictly covers the entire screen without any blank space,
-        and never distorts the aspect ratio.
+        Holy Grail for Div Object-Cover:
+        min-w-full min-h-full + aspect-ratio guarantees the div will completely cover the parent
+        without ever distorting the aspect ratio, correctly scaling absolute children.
       */}
-      <div 
-        className="relative shrink-0" 
-        style={{
-          width: 'max(100vw, 100vh * (1024 / 1800))',
-          height: 'max(100vh, 100vw * (1800 / 1024))'
-        }}
-      >
+      <div className="relative shrink-0 min-w-full min-h-full aspect-[1024/1800]">
         <img 
           src={mapBgTall} 
           alt="옹진군 수채화 지도" 
