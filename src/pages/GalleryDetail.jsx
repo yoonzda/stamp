@@ -35,10 +35,10 @@ export default function GalleryDetail() {
         `}</style>
         
         {ALL_PHOTOS.map((photo, i) => (
-          <div key={photo.id} className="min-w-full h-full snap-center flex flex-col shrink-0 relative">
+          <div key={photo.id} className="min-w-full h-full snap-center overflow-y-auto hide-scrollbar flex flex-col shrink-0 relative">
             
             {/* Top Image Area */}
-            <div className="relative w-full aspect-[4/5] bg-black shrink-0 flex items-center justify-center">
+            <div className="relative w-full aspect-square md:aspect-[4/5] max-h-[60vh] bg-black shrink-0 flex items-center justify-center">
               <img 
                 src={photo.url} 
                 className="w-full h-full object-cover" 
@@ -65,7 +65,7 @@ export default function GalleryDetail() {
             {/* Bottom Detail Area */}
             <div className="flex-1 bg-[#F3EFE6] relative z-20 flex flex-col">
 
-              <div className="px-6 pb-6 pt-6 overflow-y-auto hide-scrollbar flex-1 flex flex-col pointer-events-auto">
+              <div className="px-6 pb-6 pt-6 flex-1 flex flex-col pointer-events-auto">
                 
                 {/* Location & Date */}
                 <div className="flex justify-between items-end mb-4">
