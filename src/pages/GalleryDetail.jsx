@@ -31,6 +31,7 @@ export default function GalleryDetail() {
 
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(photo.likes);
+  const [descOpen, setDescOpen] = useState(false);
 
   const toggleLike = () => {
     setLiked(!liked);
@@ -116,11 +117,19 @@ export default function GalleryDetail() {
           
           {/* Island Name with Cute Icon */}
           <div className="flex items-center justify-center gap-2 mb-1.5">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#685b4f]">
-              <path d="M2 19h20" strokeDasharray="3 4" />
-              <path d="M5 19L10 10L13 14L17 8L21 19Z" fill="#e8dfcf" />
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="-mt-1">
+              {/* Sun */}
+              <circle cx="18" cy="8" r="3" fill="#FFB02E" />
+              {/* Back Mountain */}
+              <path d="M8 16L12 8L17 16H8Z" fill="#8BB080" />
+              {/* Front Island/Mountain */}
+              <path d="M3 16L6.5 10L10.5 16H3Z" fill="#6A8F5D" />
+              <path d="M11 16L14.5 11L19.5 16H11Z" fill="#789E6B" />
+              {/* Sea/Waves */}
+              <path d="M2 17.5C4 17.5 5 18.5 7.5 18.5C10 18.5 11 17.5 13.5 17.5C16 17.5 17 18.5 19.5 18.5C22 18.5 23 17.5 23 17.5" stroke="#4A90E2" strokeWidth="1.5" strokeLinecap="round" />
+              <path d="M4 20.5C6 20.5 7 21.5 9.5 21.5C12 21.5 13 20.5 15.5 20.5C18 20.5 19 21.5 21.5 21.5" stroke="#7CB1EA" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
-            <span className="text-[#685b4f] text-[1.1rem] tracking-wider pt-1" style={{ fontFamily: "'EF_jejudoldam', sans-serif" }}>
+            <span className="text-[#685b4f] text-[1.15rem] tracking-wider pt-1" style={{ fontFamily: "'EF_jejudoldam', sans-serif" }}>
               {photo.island.name}
             </span>
           </div>
@@ -166,24 +175,54 @@ export default function GalleryDetail() {
           </div>
         </div>
 
-        {/* Buttons */}
-        <div className="flex gap-3 mb-8">
-          <button 
-            onClick={() => navigate(`/island/${photo.island.id}`)}
-            className="flex-1 flex flex-col items-center justify-center gap-1.5 py-4 bg-[#e8dfcf]/80 backdrop-blur-sm text-[#5c5042] rounded-2xl shadow-sm border border-[#d5ccbe] active:scale-[0.98] transition-transform"
+        {/* Navigation Buttons */}
+        <div className="flex gap-3 mb-6">
+          <a 
+            href={`https://map.kakao.com/link/search/${encodeURIComponent(photo.island.name + ' ' + photo.spot.name)}`}
+            target="_blank" rel="noopener noreferrer"
+            className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-[#FAE100] text-[#3e342b] rounded-2xl shadow-sm active:scale-[0.98] transition-transform font-bold"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span className="text-[0.8rem] font-bold tracking-wide">섬 탐험하기</span>
-          </button>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 3c-5.52 0-10 3.51-10 7.84 0 2.8 1.83 5.25 4.61 6.55l-1 3.65c-.1.38.3.69.65.51l4.18-2.73c.5.05 1.02.08 1.56.08 5.52 0 10-3.51 10-7.84S17.52 3 12 3z"/>
+            </svg>
+            <span className="text-[0.85rem] tracking-wide">카카오맵</span>
+          </a>
           
           <a 
-            href={`https://map.kakao.com/?eName=${encodeURIComponent(photo.spot.address || (photo.island.name + ' ' + photo.spot.name))}`}
+            href={`https://map.naver.com/v5/search/${encodeURIComponent(photo.island.name + ' ' + photo.spot.name)}`}
             target="_blank" rel="noopener noreferrer"
-            className="flex-1 flex flex-col items-center justify-center gap-1.5 py-4 bg-[#3e342b]/90 backdrop-blur-sm text-[#f4ecdf] rounded-2xl shadow-md active:scale-[0.98] transition-transform"
+            className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-[#03C75A] text-white rounded-2xl shadow-sm active:scale-[0.98] transition-transform font-bold"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
-            <span className="text-[0.8rem] font-bold tracking-wide">길찾기</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16.14 24L7.86 12.35V24H0V0h7.86L16.14 11.65V0H24v24h-7.86z"/>
+            </svg>
+            <span className="text-[0.85rem] tracking-wide">네이버 지도</span>
           </a>
+        </div>
+
+        {/* Island Description Accordion */}
+        <div className="mb-8 border border-[#d5ccbe] rounded-2xl overflow-hidden bg-white/50 backdrop-blur-sm shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+          <button 
+            onClick={() => setDescOpen(!descOpen)}
+            className="w-full flex items-center justify-between p-4 text-[#5c5042] font-['Nanum_Myeongjo'] font-bold text-[0.95rem] active:bg-[#e8dfcf]/30 transition-colors"
+          >
+            <span className="flex items-center gap-2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+              {photo.island.name} 이야기
+            </span>
+            <svg 
+              width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" 
+              className={`transition-transform duration-300 ${descOpen ? 'rotate-180' : ''}`}
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          
+          <div className={`overflow-hidden transition-all duration-300 ease-in-out ${descOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}>
+            <div className="p-4 pt-0 text-[0.85rem] text-[#685b4f] leading-relaxed break-keep border-t border-[#d5ccbe]/50">
+              {photo.island.description}
+            </div>
+          </div>
         </div>
 
         {/* Recommendations Section */}
