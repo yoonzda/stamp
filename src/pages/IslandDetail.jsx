@@ -91,11 +91,11 @@ export default function IslandDetail() {
 
   // 동적 애니메이션 타이밍 계산
   const nameLen = selectedSpot ? selectedSpot.spot.name.length : 0;
-  const typingStartDelay = 0.6; // 글씨 시작을 조금 더 일찍 시작
-  const typingSpeed = 0.12; // 더 빠르게 타닥타닥 써지도록 속도 단축 (0.22 -> 0.12)
-  const textHoldTime = 1.0; // 다 써진 후 유지되는 시간 단축 (1.8 -> 1.0)
-  const textFadeOutDuration = 0.8; // 텍스트 페이드아웃 속도 살짝 빠르게 (1.0 -> 0.8)
-  const circleDuration = 1.0; // 원 축소 속도
+  const typingStartDelay = 0.6; // 글씨 시작 시간
+  const typingSpeed = 0.18; // 타닥타닥 써지는 속도 (너무 빠르지 않게 0.12 -> 0.18)
+  const textHoldTime = 0.6; // 다 써진 후 유지되는 시간 단축 (1.0 -> 0.6)
+  const textFadeOutDuration = 0.4; // 텍스트 페이드아웃(사라지는) 속도 단축 (0.8 -> 0.4)
+  const circleDuration = 0.8; // 원 축소 속도도 조금 더 빠릿하게
 
   // 마지막 글자가 나타나는 정확한 시간
   const lastCharAppearsAt = nameLen > 0 ? typingStartDelay + ((nameLen - 1) * typingSpeed) : typingStartDelay;
@@ -361,7 +361,7 @@ export default function IslandDetail() {
                       
                       {/* Naver Map Button */}
                       <button 
-                        onClick={() => window.open(`https://map.naver.com/v5/search/${encodeURIComponent(selectedSpot.spot.name)}`, '_blank')}
+                        onClick={() => window.open(`https://map.naver.com/v5/directions/-/${encodeURIComponent(selectedSpot.spot.name)},-/transit?c=15,0,0,0,dh`, '_blank')}
                         className="flex-1 max-w-[140px] h-[3.2rem] rounded-full bg-[#cbebd6] text-[#1b6b37] font-bold text-[0.85rem] tracking-wide flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-colors hover:bg-[#b8e3c6]"
                       >
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">

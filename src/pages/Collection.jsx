@@ -238,7 +238,7 @@ export default function Collection() {
                       </button>
                       <button 
                         onClick={() => {
-                          window.open(`https://map.naver.com/v5/search/${encodeURIComponent(selectedSpot.spot.name)}`, '_blank');
+                          window.open(`https://map.naver.com/v5/directions/-/${encodeURIComponent(selectedSpot.spot.name)},-/transit?c=15,0,0,0,dh`, '_blank');
                         }}
                         className="flex-1 text-[#d5ccbe] border border-dashed border-[#a39585]/50 py-3.5 font-bold text-[0.85rem] active:scale-95 transition-transform tracking-widest hover:text-white"
                       >

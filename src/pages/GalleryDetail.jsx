@@ -206,7 +206,7 @@ export default function GalleryDetail() {
           </a>
           
           <a 
-            href={`https://map.naver.com/v5/search/${encodeURIComponent(photo.spot.name)}`}
+            href={`https://map.naver.com/v5/directions/-/${encodeURIComponent(photo.spot.name)},-/transit?c=15,0,0,0,dh`}
             target="_blank" rel="noopener noreferrer"
             className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-[#03C75A] text-white rounded-2xl shadow-sm active:scale-[0.98] transition-transform font-bold"
           >
