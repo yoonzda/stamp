@@ -82,16 +82,25 @@ export default function Gallery() {
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
 
-      {/* Masonry Gallery Content */}
-      <div className="columns-2 gap-2 px-2 py-4">
-        {ALL_PHOTOS.map((photo, idx) => {
-          const aspectClass = idx % 4 === 0 ? "aspect-[3/4]" : idx % 4 === 1 ? "aspect-[4/3]" : idx % 4 === 2 ? "aspect-square" : "aspect-[4/5]";
-          return (
-            <div 
-              key={photo.id} 
-              className={`mb-2 w-full bg-[#e0dbcd] relative cursor-pointer active:scale-[0.98] transition-transform overflow-hidden shadow-sm ${aspectClass} inline-block`}
-              onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
-            >
+      {/* Header Area */}
+      <div className="px-6 pt-10 pb-6 sticky top-0 bg-[#F3EFE6]/90 backdrop-blur-md z-30 border-b border-[#e8e2d5]">
+        <h1 className="text-[1.7rem] font-extrabold text-[#3e342b] tracking-tight font-['Nanum_Myeongjo'] mb-1">
+          여행의 조각들
+        </h1>
+        <p className="text-[#8a7a6b] text-[0.85rem] font-medium tracking-wide">
+          인천의 보석 같은 섬들에서 담아온 기록
+        </p>
+      </div>
+
+      {/* Feed Layout */}
+      <div className="flex flex-col gap-10 px-5 py-6">
+        {ALL_PHOTOS.map((photo, idx) => (
+          <div 
+            key={photo.id}
+            className="w-full bg-[#fcfbf9] rounded-[2rem] shadow-[0_8px_30px_rgba(62,52,43,0.08)] border border-[#f0ebe1] overflow-hidden flex flex-col transition-transform"
+          >
+            {/* Image Container */}
+            <div className="relative w-full aspect-[4/5] bg-[#e8e2d5] overflow-hidden group">
               <img 
                 src={photo.url} 
                 className="absolute inset-0 w-full h-full object-cover" 
@@ -99,14 +108,56 @@ export default function Gallery() {
                 referrerPolicy="no-referrer"
                 alt={photo.spot.name} 
               />
-              {photo.isUser && (
-                <div className="absolute top-2 right-2 bg-[#004790]/90 backdrop-blur-sm px-2 py-0.5 rounded-full flex items-center justify-center border border-white/50 shadow-sm">
-                  <span className="text-white text-[0.55rem] font-bold tracking-wider">✨ MY</span>
+              
+              {/* Top Badges */}
+              <div className="absolute top-5 left-5 right-5 flex justify-between items-start z-10 pointer-events-none">
+                <div className="flex flex-col gap-2">
+                  <span className="bg-white/20 backdrop-blur-md text-white text-[0.7rem] font-bold px-3 py-1.5 rounded-full w-max flex items-center gap-1 shadow-sm border border-white/30 tracking-wide">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    {photo.island.name}
+                  </span>
+                  {photo.isUser && (
+                    <span className="bg-[#e06a4e]/90 backdrop-blur-md text-white text-[0.65rem] font-bold px-3 py-1.5 rounded-full w-max shadow-sm border border-white/20 tracking-wider">
+                      ✨ MY 스탬프
+                    </span>
+                  )}
                 </div>
-              )}
+              </div>
+              
+              {/* Bottom Gradient Overlay */}
+              <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#2c241b]/80 via-[#2c241b]/20 to-transparent pointer-events-none" />
+              
+              {/* Bottom Info Overlay */}
+              <div className="absolute bottom-6 left-6 right-6 flex flex-col justify-end z-10 pointer-events-none">
+                <h3 className="text-[1.7rem] font-bold font-['Nanum_Myeongjo'] text-white tracking-wide mb-2 drop-shadow-md">
+                  {photo.spot.name}
+                </h3>
+                <p className="text-[0.8rem] text-white/90 leading-relaxed line-clamp-2 break-keep drop-shadow-sm font-medium">
+                  {photo.spot.desc}
+                </p>
+              </div>
             </div>
-          );
-        })}
+
+            {/* Action Area */}
+            <div className="px-6 py-5 flex items-center justify-between bg-white rounded-b-[2rem]">
+              <div className="flex gap-2 flex-wrap flex-1 pr-4">
+                {photo.badges.slice(0, 2).map((badge, bIdx) => (
+                  <span key={bIdx} className="text-[0.65rem] text-[#8a7a6b] font-bold bg-[#f3efe6] px-2.5 py-1.5 rounded-lg whitespace-nowrap">
+                    #{badge}
+                  </span>
+                ))}
+              </div>
+              
+              <button 
+                onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
+                className="shrink-0 bg-[#3e342b] text-[#f3efe6] px-5 py-3 rounded-full text-[0.85rem] font-bold tracking-widest flex items-center gap-2 active:scale-95 transition-transform shadow-md hover:bg-[#2c241b]"
+              >
+                <span>자세히 보기</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
