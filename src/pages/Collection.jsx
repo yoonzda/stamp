@@ -230,8 +230,7 @@ export default function Collection() {
                     <div className="flex gap-2 w-full mb-2">
                       <button 
                         onClick={() => {
-                          const islandName = ISLANDS.find(i => i.spots.some(s => s.code === selectedSpot.spot.code))?.name || '';
-                          window.open(`https://map.kakao.com/link/search/${encodeURIComponent(islandName + ' ' + selectedSpot.spot.name)}`, '_blank');
+                          window.open(`https://map.kakao.com/link/search/${encodeURIComponent(selectedSpot.spot.name)}`, '_blank');
                         }}
                         className="flex-1 text-[#d5ccbe] border border-dashed border-[#a39585]/50 py-3.5 font-bold text-[0.85rem] active:scale-95 transition-transform tracking-widest hover:text-white"
                       >
@@ -239,8 +238,7 @@ export default function Collection() {
                       </button>
                       <button 
                         onClick={() => {
-                          const islandName = ISLANDS.find(i => i.spots.some(s => s.code === selectedSpot.spot.code))?.name || '';
-                          window.open(`https://map.naver.com/v5/search/${encodeURIComponent(islandName + ' ' + selectedSpot.spot.name)}`, '_blank');
+                          window.open(`https://map.naver.com/v5/search/${encodeURIComponent(selectedSpot.spot.name)}`, '_blank');
                         }}
                         className="flex-1 text-[#d5ccbe] border border-dashed border-[#a39585]/50 py-3.5 font-bold text-[0.85rem] active:scale-95 transition-transform tracking-widest hover:text-white"
                       >
