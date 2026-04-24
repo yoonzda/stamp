@@ -43,6 +43,11 @@ import deokjeok_d2 from '../assets/deokjeok_d2.png';
 import deokjeok_d3 from '../assets/deokjeok_d3.png';
 import deokjeok_d4 from '../assets/deokjeok_d4.png';
 
+import yeongheung_h1 from '../assets/yeongheung_h1.png';
+import yeongheung_h2 from '../assets/yeongheung_h2.png';
+import yeongheung_h3 from '../assets/yeongheung_h3.png';
+import yeongheung_h4 from '../assets/yeongheung_h4.png';
+
 const spotImages = {
   STAMP_Y1: yeonpyeong_y1,
   STAMP_Y2: yeonpyeong_y2,
@@ -69,6 +74,10 @@ const spotImages = {
   STAMP_D2: deokjeok_d2,
   STAMP_D3: deokjeok_d3,
   STAMP_D4: deokjeok_d4,
+  STAMP_H1: yeongheung_h1,
+  STAMP_H2: yeongheung_h2,
+  STAMP_H3: yeongheung_h3,
+  STAMP_H4: yeongheung_h4,
 };
 
 export default function IslandDetail() {
