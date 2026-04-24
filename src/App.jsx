@@ -4,7 +4,7 @@ import MapHome from './pages/MapHome';
 import IslandDetail from './pages/IslandDetail';
 import PhotoVerification from './pages/PhotoVerification';
 import Gallery from './pages/Gallery';
-import SpotGallery from './pages/SpotGallery';
+import GalleryDetail from './pages/GalleryDetail';
 import Collection from './pages/Collection';
 import Reward from './pages/Reward';
 import SpeedDial from './components/SpeedDial';
@@ -51,7 +51,7 @@ function App() {
           <Route path="/island/:id" element={<IslandDetail />} />
           <Route path="/photo-verify/:code" element={<PhotoVerification />} />
           <Route path="/gallery" element={<Gallery />} />
-          <Route path="/gallery/:code" element={<SpotGallery />} />
+          <Route path="/gallery/detail" element={<GalleryDetail />} />
           <Route path="/collection" element={<Collection />} />
           <Route path="/reward" element={<Reward />} />
         </Routes>
