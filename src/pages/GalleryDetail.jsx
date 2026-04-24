@@ -38,22 +38,25 @@ export default function GalleryDetail() {
   };
 
   return (
-    <div className="absolute inset-0 z-50 bg-[#F3EFE6] flex flex-col overflow-y-auto font-['Pretendard'] pb-20 scrollbar-hide">
+    <div className="absolute inset-0 z-50 bg-[#F3EFE6] font-['Pretendard']">
       <style>{`
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
       
-      {/* Dynamic Blurred Background using the Spot Image */}
+      {/* FIXED Dynamic Blurred Background using the Spot Image */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <img 
           src={photo.url} 
           alt="background blur" 
-          className="w-full h-full object-cover opacity-30 scale-110 blur-xl mix-blend-multiply" 
+          className="w-full h-full object-cover opacity-60 scale-125 blur-[40px] mix-blend-multiply" 
         />
         {/* Soft overlay to ensure text readability */}
-        <div className="absolute inset-0 bg-[#F3EFE6]/60 backdrop-blur-sm"></div>
+        <div className="absolute inset-0 bg-[#F3EFE6]/40"></div>
       </div>
+
+      {/* Scrolling Content Container */}
+      <div className="absolute inset-0 z-10 flex flex-col overflow-y-auto pb-20 scrollbar-hide">
 
       {/* Top Fixed Nav (Back Button) */}
       <div className="sticky top-0 left-0 right-0 p-4 z-20 flex justify-between items-center pointer-events-none">
@@ -213,6 +216,8 @@ export default function GalleryDetail() {
           </div>
         )}
       </div>
+      
+      </div> {/* End Scrolling Content Container */}
     </div>
   );
 }
