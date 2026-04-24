@@ -16,6 +16,32 @@ public class Program {
         using (Bitmap result = new Bitmap(w, h))
         using (Graphics g = Graphics.FromImage(result)) {
             
+            // Clean up the ocean texture: Remove any yellow tint to make it a pure clean blue watercolor
+            BitmapData oceanData = ocean.LockBits(new Rectangle(0, 0, 1024, 1024), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            unsafe {
+                byte* ptr = (byte*)oceanData.Scan0;
+                for (int y = 0; y < 1024; y++) {
+                    byte* row = ptr + (y * oceanData.Stride);
+                    for (int x = 0; x < 1024; x++) {
+                        int oB = row[x * 4];
+                        int oG = row[x * 4 + 1];
+                        int oR = row[x * 4 + 2];
+                        
+                        // Force blue to be dominant to eliminate yellow
+                        int targetB = Math.Max(oB, (oR + oG) / 2 + 20);
+                        if (targetB > 255) targetB = 255;
+                        
+                        // Slightly reduce red to remove warmth/beige feeling
+                        int targetR = (int)(oR * 0.85f);
+                        
+                        row[x * 4] = (byte)targetB;
+                        row[x * 4 + 1] = (byte)oG;
+                        row[x * 4 + 2] = (byte)targetR;
+                    }
+                }
+            }
+            ocean.UnlockBits(oceanData);
+            
             // Tile ocean everywhere using TileFlipXY to GUARANTEE absolutely zero visible grid lines/seams
             using (TextureBrush brush = new TextureBrush(ocean, System.Drawing.Drawing2D.WrapMode.TileFlipXY)) {
                 g.FillRectangle(brush, 0, 0, w, h);
