@@ -16,8 +16,8 @@ public class Program {
         using (Bitmap result = new Bitmap(w, h))
         using (Graphics g = Graphics.FromImage(result)) {
             
-            // Tile ocean everywhere
-            using (TextureBrush brush = new TextureBrush(ocean)) {
+            // Tile ocean everywhere using TileFlipXY to GUARANTEE absolutely zero visible grid lines/seams
+            using (TextureBrush brush = new TextureBrush(ocean, System.Drawing.Drawing2D.WrapMode.TileFlipXY)) {
                 g.FillRectangle(brush, 0, 0, w, h);
             }
             
@@ -35,25 +35,24 @@ public class Program {
                     byte* rRow = resPtr + ((y + yOffset) * resData.Stride);
                     
                     for (int x = 0; x < 1024; x++) {
-                        // Calculate distance from edges
+                        // Blend heavily over the beige border to completely hide it
                         int distX = Math.Min(x, 1023 - x);
                         int distY = Math.Min(y, 1023 - y);
                         
-                        // We want left/right to fade quicker than top/bottom since islands are closer to left/right
-                        float fadeX = distX / 120f;
-                        float fadeY = distY / 300f;
+                        float fadeX = distX / 250f; // Very wide fade to avoid sharp murky halos
+                        float fadeY = distY / 350f;
                         
                         if (fadeX > 1f) fadeX = 1f;
                         if (fadeY > 1f) fadeY = 1f;
                         
                         float alpha = Math.Min(fadeX, fadeY);
                         
-                        // Smoothstep for natural gradient
+                        // Smoothstep
                         alpha = alpha * alpha * (3 - 2 * alpha);
                         
-                        float blendFactor = 1.0f - alpha; // 1 at edge, 0 in center
+                        float blendFactor = 1.0f - alpha; 
                         
-                        // Extreme edge fade to avoid any hard lines (fully transparent map)
+                        // Extreme edge fade to alpha 0
                         float extremeAlpha = 1.0f;
                         int exX = Math.Min(x, 1023 - x);
                         int exY = Math.Min(y, 1023 - y);
