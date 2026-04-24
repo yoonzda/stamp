@@ -44,9 +44,15 @@ export default function GalleryDetail() {
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
       
-      {/* Background Texture */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <img src={mapBg} alt="background" className="w-full h-full object-cover opacity-60 mix-blend-multiply" />
+      {/* Dynamic Blurred Background using the Spot Image */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <img 
+          src={photo.url} 
+          alt="background blur" 
+          className="w-full h-full object-cover opacity-30 scale-110 blur-xl mix-blend-multiply" 
+        />
+        {/* Soft overlay to ensure text readability */}
+        <div className="absolute inset-0 bg-[#F3EFE6]/60 backdrop-blur-sm"></div>
       </div>
 
       {/* Top Fixed Nav (Back Button) */}
