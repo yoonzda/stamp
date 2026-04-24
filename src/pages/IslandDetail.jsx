@@ -350,7 +350,7 @@ export default function IslandDetail() {
                       
                       {/* Kakao Map Button */}
                       <button 
-                        onClick={() => window.open(`https://map.kakao.com/?eName=${encodeURIComponent(island.name + ' ' + selectedSpot.spot.name)}`, '_blank')}
+                        onClick={() => window.open(`https://map.kakao.com/link/search/${encodeURIComponent(island.name + ' ' + selectedSpot.spot.name)}`, '_blank')}
                         className="flex-1 max-w-[140px] h-[3.2rem] rounded-full bg-[#fced9f] text-[#5e5318] font-bold text-[0.85rem] tracking-wide flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-colors hover:bg-[#fae687]"
                       >
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -361,7 +361,7 @@ export default function IslandDetail() {
                       
                       {/* Naver Map Button */}
                       <button 
-                        onClick={() => window.open(`https://map.naver.com/index.nhn?menu=route&ename=${encodeURIComponent(island.name + ' ' + selectedSpot.spot.name)}&pathType=0`, '_blank')}
+                        onClick={() => window.open(`https://map.naver.com/v5/search/${encodeURIComponent(island.name + ' ' + selectedSpot.spot.name)}`, '_blank')}
                         className="flex-1 max-w-[140px] h-[3.2rem] rounded-full bg-[#cbebd6] text-[#1b6b37] font-bold text-[0.85rem] tracking-wide flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-colors hover:bg-[#b8e3c6]"
                       >
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">

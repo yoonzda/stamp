@@ -231,7 +231,7 @@ export default function Collection() {
                       <button 
                         onClick={() => {
                           const islandName = ISLANDS.find(i => i.spots.some(s => s.code === selectedSpot.spot.code))?.name || '';
-                          window.open(`https://map.kakao.com/?eName=${encodeURIComponent(islandName + ' ' + selectedSpot.spot.name)}`, '_blank');
+                          window.open(`https://map.kakao.com/link/search/${encodeURIComponent(islandName + ' ' + selectedSpot.spot.name)}`, '_blank');
                         }}
                         className="flex-1 text-[#d5ccbe] border border-dashed border-[#a39585]/50 py-3.5 font-bold text-[0.85rem] active:scale-95 transition-transform tracking-widest hover:text-white"
                       >
@@ -240,7 +240,7 @@ export default function Collection() {
                       <button 
                         onClick={() => {
                           const islandName = ISLANDS.find(i => i.spots.some(s => s.code === selectedSpot.spot.code))?.name || '';
-                          window.open(`https://map.naver.com/index.nhn?menu=route&ename=${encodeURIComponent(islandName + ' ' + selectedSpot.spot.name)}&pathType=0`, '_blank');
+                          window.open(`https://map.naver.com/v5/search/${encodeURIComponent(islandName + ' ' + selectedSpot.spot.name)}`, '_blank');
                         }}
                         className="flex-1 text-[#d5ccbe] border border-dashed border-[#a39585]/50 py-3.5 font-bold text-[0.85rem] active:scale-95 transition-transform tracking-widest hover:text-white"
                       >

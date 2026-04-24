@@ -195,7 +195,7 @@ export default function GalleryDetail() {
         {/* Navigation Buttons */}
         <div className="flex gap-3 mb-6">
           <a 
-            href={`https://map.kakao.com/?eName=${encodeURIComponent(photo.island.name + ' ' + photo.spot.name)}`}
+            href={`https://map.kakao.com/link/search/${encodeURIComponent(photo.island.name + ' ' + photo.spot.name)}`}
             target="_blank" rel="noopener noreferrer"
             className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-[#FAE100] text-[#3e342b] rounded-2xl shadow-sm active:scale-[0.98] transition-transform font-bold"
           >
@@ -206,7 +206,7 @@ export default function GalleryDetail() {
           </a>
           
           <a 
-            href={`https://map.naver.com/index.nhn?menu=route&ename=${encodeURIComponent(photo.island.name + ' ' + photo.spot.name)}&pathType=0`}
+            href={`https://map.naver.com/v5/search/${encodeURIComponent(photo.island.name + ' ' + photo.spot.name)}`}
             target="_blank" rel="noopener noreferrer"
             className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-[#03C75A] text-white rounded-2xl shadow-sm active:scale-[0.98] transition-transform font-bold"
           >
