@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 import mapBg from '../assets/map_bg_dadora.png';
+import { spotImages } from './IslandDetail';
 
 export default function GalleryDetail() {
   const location = useLocation();
@@ -57,10 +58,10 @@ export default function GalleryDetail() {
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
       
-      {/* FIXED Dynamic Blurred Background using the Spot Image */}
+      {/* FIXED Dynamic Blurred Background using the Spot's Watercolor Image */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <img 
-          src={photo.url} 
+          src={spotImages[photo.spot.code] || photo.url} 
           alt="background blur" 
           className="w-full h-full object-cover opacity-60 scale-125 blur-[40px] mix-blend-multiply" 
         />
@@ -115,19 +116,19 @@ export default function GalleryDetail() {
         {/* Title & Actions Area */}
         <div className="mb-8 text-center">
           
-          {/* Island Name with Cute Icon */}
+          {/* Island Name with Cute Rounded Icon */}
           <div className="flex items-center justify-center gap-2 mb-1.5">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="-mt-1">
               {/* Sun */}
-              <circle cx="18" cy="8" r="3" fill="#FFB02E" />
-              {/* Back Mountain */}
-              <path d="M8 16L12 8L17 16H8Z" fill="#8BB080" />
-              {/* Front Island/Mountain */}
-              <path d="M3 16L6.5 10L10.5 16H3Z" fill="#6A8F5D" />
-              <path d="M11 16L14.5 11L19.5 16H11Z" fill="#789E6B" />
+              <circle cx="18" cy="7" r="3.5" fill="#FFB02E" />
+              {/* Back Hill */}
+              <path d="M7 16 Q 12 4 17 16 Z" fill="#8BB080" />
+              {/* Front Hills */}
+              <path d="M2 16 Q 6.5 6 11 16 Z" fill="#6A8F5D" />
+              <path d="M10 16 Q 15 8 20 16 Z" fill="#789E6B" />
               {/* Sea/Waves */}
-              <path d="M2 17.5C4 17.5 5 18.5 7.5 18.5C10 18.5 11 17.5 13.5 17.5C16 17.5 17 18.5 19.5 18.5C22 18.5 23 17.5 23 17.5" stroke="#4A90E2" strokeWidth="1.5" strokeLinecap="round" />
-              <path d="M4 20.5C6 20.5 7 21.5 9.5 21.5C12 21.5 13 20.5 15.5 20.5C18 20.5 19 21.5 21.5 21.5" stroke="#7CB1EA" strokeWidth="1.5" strokeLinecap="round" />
+              <path d="M2 18 C3.5 18 4 16.5 5.5 16.5 C7 16.5 7.5 18 9 18 C10.5 18 11 16.5 12.5 16.5 C14 16.5 14.5 18 16 18 C17.5 18 18 16.5 19.5 16.5 C21 16.5 21.5 18 23 18" stroke="#4A90E2" strokeWidth="2" strokeLinecap="round" fill="none"/>
+              <path d="M3 21 C4.5 21 5 19.5 6.5 19.5 C8 19.5 8.5 21 10 21 C11.5 21 12 19.5 13.5 19.5 C15 19.5 15.5 21 17 21 C18.5 21 19 19.5 20.5 19.5 C22 19.5 22.5 21 24 21" stroke="#7CB1EA" strokeWidth="2" strokeLinecap="round" fill="none"/>
             </svg>
             <span className="text-[#685b4f] text-[1.15rem] tracking-wider pt-1" style={{ fontFamily: "'EF_jejudoldam', sans-serif" }}>
               {photo.island.name}
@@ -220,7 +221,18 @@ export default function GalleryDetail() {
           
           <div className={`overflow-hidden transition-all duration-300 ease-in-out ${descOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}>
             <div className="p-4 pt-0 text-[0.85rem] text-[#685b4f] leading-relaxed break-keep border-t border-[#d5ccbe]/50">
-              {photo.island.description}
+              <p className="font-bold text-[0.95rem] text-[#3e342b] mb-3 leading-tight">{photo.island.description}</p>
+              <ul className="space-y-4">
+                {photo.island.spots.map(spot => (
+                  <li key={spot.id} className="flex gap-2">
+                    <span className="shrink-0 text-[#8a7a6b] mt-0.5">🌿</span>
+                    <div>
+                      <strong className="text-[#5c5042] block mb-0.5">{spot.name}</strong>
+                      <span className="text-[#8a7a6b] leading-tight text-[0.8rem]">{spot.desc}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
