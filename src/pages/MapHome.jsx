@@ -17,15 +17,16 @@ export default function MapHome() {
       </button>
 
       {/* 
-        Holy Grail for Div Object-Cover:
-        min-w-full min-h-full + aspect-ratio guarantees the div will completely cover the parent
-        without ever distorting the aspect ratio, correctly scaling absolute children.
+        This container perfectly fits the screen width (w-full).
+        Because the image is extremely tall (1024x4000), it will overflow the screen vertically.
+        The overflow-hidden on the parent perfectly crops the excess top and bottom ocean,
+        leaving the center islands exactly in the middle without any horizontal cropping!
       */}
-      <div className="relative shrink-0 min-w-full min-h-full aspect-[1024/1800]">
+      <div className="relative w-full shrink-0">
         <img 
           src={mapBgTall} 
           alt="옹진군 수채화 지도" 
-          className="w-full h-full object-cover pointer-events-none mix-blend-multiply"
+          className="w-full h-auto pointer-events-none mix-blend-multiply"
         />
 
         {/* Map Pins / Labels */}
@@ -34,7 +35,7 @@ export default function MapHome() {
             key={island.id}
             className="absolute -translate-x-1/2 -translate-y-full cursor-pointer group z-20 hover:z-30 p-2"
             style={{ 
-              top: `calc(${island.mapPos.top} * (1024/1800) + ${(388/1800)*100}%)`, 
+              top: `calc(${island.mapPos.top} * (1024/4000) + ${(1488/4000)*100}%)`, 
               left: island.mapPos.left 
             }}
             onClick={() => navigate(`/island/${island.id}`)}

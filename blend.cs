@@ -9,7 +9,7 @@ public class Program {
         string outPath = @"c:\0_z\stamp\src\assets\map_bg_dadora_tall.png";
         
         int w = 1024;
-        int h = 1800; // Perfect for mobile screen (9:16 ratio) without scrolling
+        int h = 4000; // Extremely tall to allow safe vertical cropping on any device
         
         using (Bitmap ocean = new Bitmap(oceanPath))
         using (Bitmap map = new Bitmap(mapPath))
@@ -21,7 +21,7 @@ public class Program {
                 g.FillRectangle(brush, 0, 0, w, h);
             }
             
-            int yOffset = (h - 1024) / 2; // 388
+            int yOffset = (h - 1024) / 2; // 1488
             int fadeHeight = 350; // generous fade
             
             BitmapData resData = result.LockBits(new Rectangle(0, 0, w, h), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
@@ -62,9 +62,6 @@ public class Program {
                         int oG = rRow[x * 4 + 1];
                         int oR = rRow[x * 4 + 2];
                         
-                        // Mixed color based on blendFactor
-                        // blendFactor = 1 means (Map * Ocean)/255
-                        // blendFactor = 0 means Map
                         int mulB = (mB * oB) / 255;
                         int mulG = (mG * oG) / 255;
                         int mulR = (mR * oR) / 255;
