@@ -45,7 +45,7 @@ export default function GalleryDetail() {
       `}</style>
       
       {/* Background Texture */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
+      <div className="absolute inset-0 z-0 pointer-events-none">
         <img src={mapBg} alt="background" className="w-full h-full object-cover opacity-60 mix-blend-multiply" />
       </div>
 

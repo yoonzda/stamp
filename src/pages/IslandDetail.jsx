@@ -91,11 +91,11 @@ export default function IslandDetail() {
 
   // 동적 애니메이션 타이밍 계산
   const nameLen = selectedSpot ? selectedSpot.spot.name.length : 0;
-  const typingStartDelay = 0.8; // 글씨 시작을 좀 더 뒤에 시작되게 (0.4 -> 0.8)
+  const typingStartDelay = 0.8; // 글씨 시작을 좀 더 뒤에 시작되게
   const typingSpeed = 0.22; // 천천히 타닥타닥 써지도록 속도 늦춤
-  const textHoldTime = 0.7; // 다 써진 후 살짝 머무는 시간 추가
-  const textFadeOutDuration = 0.3; // 텍스트가 사라지는데 걸리는 시간
-  const circleDuration = 1.0; // 원 축소 속도 (체감상 더 빠르게)
+  const textHoldTime = 1.8; // 다 써진 후 살짝 더 오래 머무르도록 시간 대폭 늘림 (0.7 -> 1.8)
+  const textFadeOutDuration = 1.0; // 텍스트가 아주 부드럽고 천천히 스르륵 사라지도록 시간 늘림 (0.3 -> 1.0)
+  const circleDuration = 1.0; // 원 축소 속도
 
   // 마지막 글자가 나타나는 정확한 시간
   const lastCharAppearsAt = nameLen > 0 ? typingStartDelay + ((nameLen - 1) * typingSpeed) : typingStartDelay;
@@ -104,7 +104,7 @@ export default function IslandDetail() {
   const textFadeOutDelay = lastCharAppearsAt + textHoldTime;
   
   // 글씨가 완전히 사라지고(fadeOut완료) 즉각적으로 원 축소 시작 -> 글씨가 사라짐과 동시에 원 축소 시작
-  const circleStartDelay = textFadeOutDelay; 
+  const circleStartDelay = textFadeOutDelay + (textFadeOutDuration * 0.5); // 텍스트가 반쯤 사라졌을 때 원이 닫히기 시작
   const contentRevealDelay = circleStartDelay + circleDuration;
 
   useEffect(() => {
@@ -268,7 +268,7 @@ export default function IslandDetail() {
                 <motion.div 
                   initial={{ opacity: 1 }}
                   animate={{ opacity: 0 }}
-                  transition={{ delay: textFadeOutDelay, duration: 0.3 }}
+                  transition={{ delay: textFadeOutDelay, duration: textFadeOutDuration }}
                   className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none drop-shadow-[1px_2px_6px_rgba(0,0,0,0.8)]"
                 >
                   <h1 
