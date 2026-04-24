@@ -10,18 +10,18 @@ public class Program {
         
         using (Bitmap ocean = new Bitmap(oceanPath))
         using (Bitmap map = new Bitmap(mapPath))
-        using (Bitmap result = new Bitmap(1024, 1800))
+        using (Bitmap result = new Bitmap(1024, 4000))
         using (Graphics g = Graphics.FromImage(result)) {
             
             // Tile ocean
             using (TextureBrush brush = new TextureBrush(ocean)) {
-                g.FillRectangle(brush, 0, 0, 1024, 1800);
+                g.FillRectangle(brush, 0, 0, 1024, 4000);
             }
             
-            int yOffset = 388;
+            int yOffset = (4000 - 1024) / 2;
             int fadeHeight = 250;
             
-            BitmapData resData = result.LockBits(new Rectangle(0, 0, 1024, 1800), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            BitmapData resData = result.LockBits(new Rectangle(0, 0, 1024, 4000), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
             BitmapData mapData = map.LockBits(new Rectangle(0, 0, 1024, 1024), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             
             unsafe {

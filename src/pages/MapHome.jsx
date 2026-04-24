@@ -7,8 +7,8 @@ export default function MapHome() {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full h-full bg-transparent overflow-y-auto overflow-x-hidden relative scrollbar-hide">
-      <div className="w-full h-[180vh] bg-transparent flex flex-col justify-center items-center relative">
+    <div className="w-full h-full bg-[#f3efe6] overflow-y-auto overflow-x-hidden relative scrollbar-hide">
+      <div className="w-full min-h-full flex flex-col justify-center items-center relative">
         <button 
           onClick={() => { localStorage.removeItem('has_seen_onboarding'); window.location.reload(); }}
           className="absolute top-4 left-4 z-50 bg-white/80 text-black px-3 py-1.5 rounded-full text-xs shadow-md font-bold"
@@ -17,7 +17,7 @@ export default function MapHome() {
         </button>
         
         {/* Container matching full width to fit original layout */}
-        <div className="relative w-full aspect-[1024/1800]">
+        <div className="relative w-full aspect-[1024/4000]">
           
           {/* Background Map Image (Tall Version) */}
           <img 
@@ -32,7 +32,7 @@ export default function MapHome() {
               key={island.id}
               className="absolute -translate-x-1/2 -translate-y-full cursor-pointer group z-10 hover:z-20 p-2"
               style={{ 
-                top: `calc(${island.mapPos.top} * (1024/1800) + ${(388/1800)*100}%)`, 
+                top: `calc(${island.mapPos.top} * (1024/4000) + ${(1488/4000)*100}%)`, 
                 left: island.mapPos.left 
               }}
               onClick={() => navigate(`/island/${island.id}`)}
