@@ -76,10 +76,9 @@ export default function Splash({ onFinish }) {
         <div className="flex flex-col items-center max-w-[320px]">
            <div className="w-8 h-[2px] bg-[#64748b] rounded-full mb-3"></div>
            <p className="text-[#475569] font-sans text-[0.75rem] tracking-[0.02em] font-medium drop-shadow-sm text-center leading-[1.7] break-keep">
-             당신의 여행에 소중한 추억을 <b>더해줄</b> 여행 주머니,<br/>
-             그동안 쌓인 스트레스는 <b>빼고</b><br/>
-             함께할수록 <b>배로</b> 늘어나는 행복을<br/>
-             지금 바로 <b>나눠</b> 보세요.
+             소중한 추억을 더해줄 여행 주머니<br/>
+             그동안 쌓인 스트레스는 빼고 함께할수록<br/>
+             배로 늘어날 행복을 지금 바로 나눠보세요
            </p>
            <div className="w-8 h-[2px] bg-[#64748b] rounded-full mt-3 mb-6"></div>
            
