@@ -76,9 +76,10 @@ export default function Splash({ onFinish }) {
         <div className="flex flex-col items-center max-w-[320px]">
            <div className="w-8 h-[2px] bg-[#64748b] rounded-full mb-3"></div>
            <p className="text-[#475569] font-sans text-[0.75rem] tracking-[0.02em] font-medium drop-shadow-sm text-center leading-[1.7] break-keep">
-             소중한 추억들로 가득 채워질,<br/> 
-             당신의 여행 주머니를 활짝 열어<br/>
-             새로운 여행의 즐거움을 찾아보세요.
+             소중한 추억은 <b>더하고(+)</b><br/> 
+             무거운 걱정은 <b>빼고(-)</b><br/>
+             새로운 기쁨은 <b>곱하고(×)</b><br/>
+             행복한 마음은 <b>나누어(÷)</b> 보세요.
            </p>
            <div className="w-8 h-[2px] bg-[#64748b] rounded-full mt-3 mb-6"></div>
            
