@@ -80,17 +80,7 @@ export default function GalleryDetail() {
         {/* Detail Content Area */}
         <div className="px-5 py-6 flex flex-col z-10">
           
-          <div className="flex justify-between items-start mb-5">
-            <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-full bg-[#f3efe6] flex items-center justify-center text-[1.2rem] shadow-inner">
-                🏝️
-              </div>
-              <div>
-                <p className="text-[0.9rem] font-bold text-[#3e342b]">{photo.island.name}</p>
-                <p className="text-[0.7rem] text-[#8a7a6b] font-medium">{photo.isUser ? '✨ MY 스탬프' : '인천 추천 명소'}</p>
-              </div>
-            </div>
-            
+          <div className="flex justify-end mb-5">
             <button 
               onClick={() => navigate(`/island/${photo.island.id}`)}
               className="px-5 py-2.5 rounded-full font-bold text-[0.85rem] bg-[#3e342b] text-white transition-colors active:scale-95 shadow-sm flex items-center gap-1.5"
