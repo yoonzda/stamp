@@ -30,7 +30,7 @@ export default function Gallery() {
             url: userAcquired.photoUrl,
             spot: spot,
             island: island,
-            timestamp: userAcquired.timestamp || Date.now(),
+            timestamp: userAcquired.timestamp || BASE_DATE, // Fix Date.now() to BASE_DATE for absolute determinism
             isUser: true,
             likes: Math.floor(pseudoRandom(idCounter + 50) * 50) + 10,
             badges: ['나의 추억 기록', '방문 인증 완료']
@@ -82,6 +82,52 @@ export default function Gallery() {
     return photos.sort((a, b) => b.timestamp - a.timestamp);
   }, [collectedSpots]);
 
+  const renderPhotoCard = (photo, idx) => (
+    <div 
+      key={photo.id}
+      onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
+      className="cursor-pointer group"
+    >
+      {/* Image Container */}
+      <div className="relative w-full rounded-xl overflow-hidden bg-[#e8e2d5] shadow-sm">
+        <img 
+          src={photo.url} 
+          className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.03]" 
+          loading="lazy" 
+          referrerPolicy="no-referrer"
+          alt={photo.spot.name} 
+          onError={(e) => {
+            const container = e.target.closest('.cursor-pointer');
+            if (container) container.style.display = 'none';
+          }}
+        />
+        
+        {/* Top Badges */}
+        <div className="absolute top-2 left-2 flex flex-col gap-1 z-10 pointer-events-none">
+          <span className="bg-black/40 backdrop-blur-md text-white text-[0.6rem] font-medium px-2 py-0.5 rounded-full w-max flex items-center gap-1 shadow-sm">
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            {photo.island.name}
+          </span>
+          {photo.isUser && (
+            <span className="bg-[#e06a4e]/90 backdrop-blur-md text-white text-[0.55rem] font-bold px-2 py-0.5 rounded-full w-max shadow-sm">
+              ✨ MY
+            </span>
+          )}
+        </div>
+        
+        {/* Hover Overlay */}
+        <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+      </div>
+
+      {/* Bottom Info Area */}
+      <div className="mt-1.5 px-0.5">
+        <h3 className="text-[0.8rem] font-bold text-[#3e342b] truncate leading-tight">
+          {photo.spot.name}
+        </h3>
+      </div>
+    </div>
+  );
+
   return (
     <div className="w-full h-full bg-[#Fcfbf9] overflow-y-auto pb-32 relative hide-scrollbar font-['Pretendard']">
       <style>{`
@@ -99,54 +145,17 @@ export default function Gallery() {
         </p>
       </div>
 
-      {/* Feed Layout (Pinterest Style Masonry) */}
-      <div className="columns-2 gap-3 px-3 py-4">
-        {ALL_PHOTOS.map((photo, idx) => (
-          <div 
-            key={photo.id}
-            onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
-            className="break-inside-avoid mb-4 cursor-pointer group"
-          >
-            {/* Image Container */}
-            <div className="relative w-full rounded-xl overflow-hidden bg-[#e8e2d5] shadow-sm">
-              <img 
-                src={photo.url} 
-                className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.03]" 
-                loading="lazy" 
-                referrerPolicy="no-referrer"
-                alt={photo.spot.name} 
-                onError={(e) => {
-                  // 깨진 이미지는 피드에서 아예 숨김 처리
-                  const container = e.target.closest('.break-inside-avoid');
-                  if (container) container.style.display = 'none';
-                }}
-              />
-              
-              {/* Top Badges */}
-              <div className="absolute top-2 left-2 flex flex-col gap-1 z-10 pointer-events-none">
-                <span className="bg-black/40 backdrop-blur-md text-white text-[0.6rem] font-medium px-2 py-0.5 rounded-full w-max flex items-center gap-1 shadow-sm">
-                  <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                  {photo.island.name}
-                </span>
-                {photo.isUser && (
-                  <span className="bg-[#e06a4e]/90 backdrop-blur-md text-white text-[0.55rem] font-bold px-2 py-0.5 rounded-full w-max shadow-sm">
-                    ✨ MY
-                  </span>
-                )}
-              </div>
-              
-              {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-            </div>
-
-            {/* Bottom Info Area */}
-            <div className="mt-1.5 px-0.5">
-              <h3 className="text-[0.8rem] font-bold text-[#3e342b] truncate leading-tight">
-                {photo.spot.name}
-              </h3>
-            </div>
-          </div>
-        ))}
+      {/* Feed Layout (Fixed Two Columns Array mapped) */}
+      <div className="flex gap-3 px-3 py-4 items-start">
+        {/* Left Column (Even indices) */}
+        <div className="flex-1 flex flex-col gap-4">
+          {ALL_PHOTOS.map((photo, idx) => idx % 2 === 0 ? renderPhotoCard(photo, idx) : null)}
+        </div>
+        
+        {/* Right Column (Odd indices) */}
+        <div className="flex-1 flex flex-col gap-4">
+          {ALL_PHOTOS.map((photo, idx) => idx % 2 === 1 ? renderPhotoCard(photo, idx) : null)}
+        </div>
       </div>
     </div>
   );
