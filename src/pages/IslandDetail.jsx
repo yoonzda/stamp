@@ -208,12 +208,9 @@ export default function IslandDetail() {
                       </div>
                       <span className="text-[0.65rem] text-[#8a7a6b] font-medium tracking-tight truncate">{sym.desc}</span>
                     </div>
-                    <h3 className="font-extrabold text-[#3e342b] text-[1.1rem] truncate font-['Nanum_Myeongjo'] mb-1">
+                    <h3 className="font-extrabold text-[#3e342b] text-[1.1rem] truncate font-['Nanum_Myeongjo']">
                       {spot.name}
                     </h3>
-                    <p className="text-[0.8rem] text-[#8a7a6b] leading-relaxed line-clamp-2 break-keep pr-2">
-                      {spot.desc}
-                    </p>
                   </div>
                 </div>
               );
