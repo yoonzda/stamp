@@ -38,7 +38,7 @@ export default function Gallery() {
             url: spotImages[spot.code],
             spot: spot,
             island: island,
-            timestamp: Date.now() - Math.random() * 2000000000 - 1000000000, // Recent
+            timestamp: Date.now() - Math.random() * 31536000000, // Random time within the past year
             isUser: false,
             likes: Math.floor(Math.random() * 300) + 100,
             badges: ['공식 추천', '인생샷']
@@ -61,7 +61,7 @@ export default function Gallery() {
             url: secureUrl,
             spot: spot,
             island: island,
-            timestamp: Date.now() - Math.random() * 15000000000 - 5000000000,
+            timestamp: Date.now() - Math.random() * 31536000000, // Random time within the past year
             isUser: false,
             likes: Math.floor(Math.random() * 100) + 10,
             badges: ['여행자 스냅', '아름다운 순간']
