@@ -30,17 +30,34 @@ export default function Gallery() {
           });
         }
 
-        // 2. High res real image from local assets
+        // 2. High res real image from local assets (Official Photo)
         if (spotImages[spot.code]) {
           photos.push({
             id: `photo_${idCounter++}`,
             url: spotImages[spot.code],
             spot: spot,
             island: island,
-            timestamp: Date.now() - Math.random() * 5000000000 - 1000000000,
+            timestamp: Date.now() - Math.random() * 2000000000 - 1000000000, // Recent
             isUser: false,
             likes: Math.floor(Math.random() * 300) + 100,
-            badges: ['공식 추천', '풍경 맛집']
+            badges: ['공식 추천', '인생샷']
+          });
+        }
+
+        // 3. User Uploaded Photos (Simulated with Picsum)
+        for (let i = 0; i < 4; i++) {
+          const w = 400;
+          // Random height for masonry effect (cached by useMemo)
+          const h = 300 + Math.floor(Math.random() * 300);
+          photos.push({
+            id: `photo_${idCounter++}`,
+            url: `https://picsum.photos/seed/${spot.code}_user_${i}/${w}/${h}`,
+            spot: spot,
+            island: island,
+            timestamp: Date.now() - Math.random() * 15000000000 - 5000000000,
+            isUser: false,
+            likes: Math.floor(Math.random() * 100) + 10,
+            badges: ['여행자 스냅', '아름다운 순간']
           });
         }
       });
