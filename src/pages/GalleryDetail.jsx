@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 import mapBg from '../assets/map_bg_dadora.png';
 import { spotImages } from './IslandDetail';
@@ -6,6 +6,7 @@ import { spotImages } from './IslandDetail';
 export default function GalleryDetail() {
   const location = useLocation();
   const navigate = useNavigate();
+  const scrollRef = useRef(null);
   
   if (!location.state || !location.state.photos || location.state.initialIndex === undefined) {
     return <Navigate to="/gallery" replace />;
@@ -13,6 +14,13 @@ export default function GalleryDetail() {
 
   const { photos: ALL_PHOTOS, initialIndex } = location.state;
   const photo = ALL_PHOTOS[initialIndex];
+
+  // 사진이 변경될 때마다 스크롤을 맨 위로 부드럽게 올림
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [photo.id]);
   
   // 현재 장소 및 섬의 다른 사진들 (관련 핀)
   const relatedPhotos = useMemo(() => {
@@ -55,7 +63,7 @@ export default function GalleryDetail() {
       </div>
 
       {/* Scrolling Content Container */}
-      <div className="absolute inset-0 z-10 flex flex-col overflow-y-auto pb-20 scrollbar-hide">
+      <div ref={scrollRef} className="absolute inset-0 z-10 flex flex-col overflow-y-auto pb-20 scrollbar-hide">
 
         {/* Main Image Area */}
         <div className="w-full relative shrink-0">
