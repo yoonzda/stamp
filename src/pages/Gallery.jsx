@@ -4,6 +4,12 @@ import { ISLANDS, getGameState } from '../gameState';
 import { spotImages } from './IslandDetail';
 import spotImagesData from '../spotImagesArrayMap.json';
 
+const pseudoRandom = (seed) => {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+};
+const BASE_DATE = 1714000000000;
+
 export default function Gallery() {
   const navigate = useNavigate();
   const state = getGameState();
@@ -11,7 +17,7 @@ export default function Gallery() {
 
   const ALL_PHOTOS = useMemo(() => {
     const photos = [];
-    let idCounter = 0;
+    let idCounter = 1; // start at 1 for deterministic seed
 
     ISLANDS.forEach(island => {
       island.spots.forEach(spot => {
@@ -20,29 +26,31 @@ export default function Gallery() {
         // 1. User photo
         if (userAcquired && userAcquired.photoUrl) {
           photos.push({
-            id: `photo_${idCounter++}`,
+            id: `photo_${idCounter}`,
             url: userAcquired.photoUrl,
             spot: spot,
             island: island,
             timestamp: userAcquired.timestamp || Date.now(),
             isUser: true,
-            likes: Math.floor(Math.random() * 50) + 10,
+            likes: Math.floor(pseudoRandom(idCounter + 50) * 50) + 10,
             badges: ['나의 추억 기록', '방문 인증 완료']
           });
+          idCounter++;
         }
 
         // 2. High res real image from local assets (Official Photo)
         if (spotImages[spot.code]) {
           photos.push({
-            id: `photo_${idCounter++}`,
+            id: `photo_${idCounter}`,
             url: spotImages[spot.code],
             spot: spot,
             island: island,
-            timestamp: Date.now() - Math.random() * 31536000000, // Random time within the past year
+            timestamp: BASE_DATE - pseudoRandom(idCounter) * 31536000000,
             isUser: false,
-            likes: Math.floor(Math.random() * 300) + 100,
+            likes: Math.floor(pseudoRandom(idCounter + 100) * 300) + 100,
             badges: ['공식 추천', '인생샷']
           });
+          idCounter++;
         }
 
         // 3. User Uploaded Photos (From JSON - Actual Place Photos)
@@ -57,15 +65,16 @@ export default function Gallery() {
           secureUrl = secureUrl.replace('imgnews.naver.net', 'imgnews.pstatic.net');
 
           photos.push({
-            id: `photo_net_${spot.code}_${i}_${idCounter++}`,
+            id: `photo_net_${spot.code}_${i}_${idCounter}`,
             url: secureUrl,
             spot: spot,
             island: island,
-            timestamp: Date.now() - Math.random() * 31536000000, // Random time within the past year
+            timestamp: BASE_DATE - pseudoRandom(idCounter) * 31536000000,
             isUser: false,
-            likes: Math.floor(Math.random() * 100) + 10,
+            likes: Math.floor(pseudoRandom(idCounter + 200) * 100) + 10,
             badges: ['여행자 스냅', '아름다운 순간']
           });
+          idCounter++;
         });
       });
     });

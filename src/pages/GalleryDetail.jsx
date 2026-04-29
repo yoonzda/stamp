@@ -67,10 +67,10 @@ export default function GalleryDetail() {
 
         {/* Main Image Area */}
         <div className="w-full relative shrink-0">
-          <div className="w-full bg-[#111111] relative shadow-sm flex items-center justify-center">
+          <div className="w-full aspect-square bg-[#111111] relative shadow-sm flex items-center justify-center">
             <img 
               src={photo.url} 
-              className="w-full h-auto object-contain" 
+              className="w-full h-full object-contain" 
               referrerPolicy="no-referrer"
               alt={photo.spot.name}
             />
