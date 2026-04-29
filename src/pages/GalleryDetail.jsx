@@ -57,12 +57,12 @@ export default function GalleryDetail() {
       {/* Scrolling Content Container */}
       <div className="absolute inset-0 z-10 flex flex-col overflow-y-auto pb-20 scrollbar-hide">
 
-        {/* Main Image Area (Pinterest style) */}
+        {/* Main Image Area */}
         <div className="w-full relative shrink-0">
-          <div className="w-full rounded-b-[2.5rem] overflow-hidden bg-[#e8e2d5] relative shadow-sm">
+          <div className="w-full bg-[#111111] relative shadow-sm flex items-center justify-center">
             <img 
               src={photo.url} 
-              className="w-full h-auto object-cover min-h-[300px]" 
+              className="w-full h-auto object-contain" 
               referrerPolicy="no-referrer"
               alt={photo.spot.name}
             />
@@ -72,31 +72,47 @@ export default function GalleryDetail() {
         {/* Detail Content Area */}
         <div className="px-5 py-6 flex flex-col z-10">
           
-          <div className="flex justify-between items-center mb-5">
+          <div className="flex justify-between items-start mb-5">
             <div className="flex items-center gap-2.5">
               <div className="w-10 h-10 rounded-full bg-[#f3efe6] flex items-center justify-center text-[1.2rem] shadow-inner">
                 🏝️
               </div>
               <div>
                 <p className="text-[0.9rem] font-bold text-[#3e342b]">{photo.island.name}</p>
-                <p className="text-[0.7rem] text-[#8a7a6b] font-medium">{photo.isUser ? '✨ MY 스탬프' : '인천 공식 추천'}</p>
+                <p className="text-[0.7rem] text-[#8a7a6b] font-medium">{photo.isUser ? '✨ MY 스탬프' : '인천 추천 명소'}</p>
               </div>
             </div>
             
             <button 
-              onClick={toggleLike}
-              className={`px-5 py-3 rounded-full font-bold text-[0.9rem] transition-colors active:scale-95 shadow-sm ${liked ? 'bg-[#3e342b] text-white' : 'bg-[#e06a4e] text-white'}`}
+              onClick={() => navigate(`/island/${photo.island.id}`)}
+              className="px-5 py-2.5 rounded-full font-bold text-[0.85rem] bg-[#3e342b] text-white transition-colors active:scale-95 shadow-sm flex items-center gap-1.5"
             >
-              {liked ? '저장됨' : '저장'}
+              <span>자세히 보기</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
           </div>
 
-          <h2 className="text-[1.6rem] font-bold text-[#3e342b] leading-tight mb-3 break-keep">
+          <h2 className="text-[1.8rem] font-bold text-[#3e342b] leading-tight mb-2 break-keep font-['Nanum_Myeongjo']">
             {photo.spot.name}
           </h2>
-          <p className="text-[0.9rem] text-[#685b4f] leading-relaxed break-keep mb-6">
-            {photo.spot.desc || photo.island.description}
+          
+          <div className="flex items-center gap-1.5 text-[#a39585] mb-5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <p className="text-[0.85rem] font-medium tracking-wide">
+              {photo.spot.address}
+            </p>
+          </div>
+
+          <p className="text-[0.95rem] text-[#54463a] font-medium leading-relaxed break-keep mb-4 border-l-[3px] border-[#d5ccbe] pl-3">
+            {photo.spot.desc}
           </p>
+
+          <div className="bg-[#f0ebe1] rounded-xl p-4 mb-6 border border-[#e8e2d5]">
+            <h4 className="text-[0.75rem] font-bold text-[#8a7a6b] mb-1.5 tracking-wider">[{photo.island.name}] 소개</h4>
+            <p className="text-[0.85rem] text-[#685b4f] leading-relaxed break-keep">
+              {photo.island.description}
+            </p>
+          </div>
           
           {/* Actions row: Download, Map */}
           <div className="flex gap-3 mb-8">
@@ -109,16 +125,16 @@ export default function GalleryDetail() {
                 link.click();
                 document.body.removeChild(link);
               }}
-              className="w-12 h-12 shrink-0 rounded-full bg-[#f0ebe1] flex items-center justify-center text-[#3e342b] active:scale-95 transition-transform"
+              className="w-12 h-12 shrink-0 rounded-full bg-[#e8e2d5] flex items-center justify-center text-[#3e342b] active:scale-95 transition-transform"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
             </button>
             <a 
               href={`https://map.kakao.com/link/search/${encodeURIComponent(photo.spot.name)}`}
               target="_blank" rel="noopener noreferrer"
-              className="flex-1 rounded-full bg-[#f0ebe1] flex items-center justify-center font-bold text-[#3e342b] text-[0.9rem] active:scale-95 transition-transform"
+              className="flex-1 rounded-full bg-[#e8e2d5] flex items-center justify-center font-bold text-[#3e342b] text-[0.9rem] active:scale-95 transition-transform"
             >
-              지도에서 보기
+              지도에서 위치 확인
             </a>
           </div>
         </div>
