@@ -319,21 +319,31 @@ export default function IslandDetail() {
                   transition={{ delay: contentRevealDelay, duration: 0.8, ease: "easeOut" }}
                   className="absolute inset-0 z-20 pointer-events-none flex flex-col"
                 >
-                  {/* TOP AREA: Title Only */}
-                  <div className="flex-1 flex flex-col items-center justify-end text-center px-8 w-full pb-6">
-                    <h2 className="text-[2rem] font-bold text-[#3e342b] mb-0 font-['Nanum_Myeongjo'] tracking-wide break-keep drop-shadow-sm">
+                  {/* TOP AREA: Title & Description */}
+                  <div className="flex-1 flex flex-col items-center justify-end text-center px-8 w-full pb-4">
+                    <h2 className="text-[1.8rem] font-bold text-[#3e342b] mb-2 font-['Nanum_Myeongjo'] tracking-wide break-keep">
                       {selectedSpot.spot.name}
                     </h2>
+                    <div className="w-12 h-[2px] bg-[#d5ccbe] rounded-full mb-3" />
+                    <p className="text-[0.95rem] font-medium text-[#685b4f] leading-relaxed break-keep">
+                      {selectedSpot.spot.desc}
+                    </p>
                   </div>
 
                   {/* Spacer jumping over the circle */}
                   <div className="shrink-0" style={{ height: finalDiameter }} />
 
-                  {/* BOTTOM AREA: Map Buttons, Address, and Content */}
+                  {/* BOTTOM AREA: Address & Map Buttons */}
                   <div className="flex-1 flex flex-col items-center justify-start w-full pt-6 px-8 pointer-events-auto">
-                    
+                    <div className="flex items-center gap-1.5 text-[#a39585] mb-6">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                      <p className="text-[0.8rem] font-medium tracking-wide">
+                        {selectedSpot.spot.address}
+                      </p>
+                    </div>
+
                     {/* Navigation Buttons */}
-                    <div className="flex gap-3 w-full justify-center mb-4 shrink-0">
+                    <div className="flex gap-3 w-full justify-center">
                       
                       {/* Kakao Map Button */}
                       <button 
@@ -358,18 +368,6 @@ export default function IslandDetail() {
                       </button>
 
                     </div>
-
-                    <div className="flex items-center gap-1.5 text-[#a39585] mb-4 shrink-0">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                      <p className="text-[0.8rem] font-medium tracking-wide">
-                        {selectedSpot.spot.address}
-                      </p>
-                    </div>
-
-                    <p className="text-[0.9rem] font-medium text-[#685b4f] leading-relaxed break-keep text-center shrink-0 w-full line-clamp-3 md:line-clamp-none">
-                      {selectedSpot.spot.desc}
-                    </p>
-                    
                   </div>
                 </motion.div>
 
