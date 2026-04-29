@@ -93,7 +93,7 @@ export default function Gallery() {
       </div>
 
       {/* Feed Layout (Pinterest Style Masonry) */}
-      <div className="columns-2 md:columns-3 lg:columns-4 gap-3 px-3 py-4">
+      <div className="columns-2 gap-3 px-3 py-4">
         {ALL_PHOTOS.map((photo, idx) => (
           <div 
             key={photo.id}
@@ -101,7 +101,7 @@ export default function Gallery() {
             className="break-inside-avoid mb-4 cursor-pointer group"
           >
             {/* Image Container */}
-            <div className="relative w-full rounded-[1rem] overflow-hidden bg-[#e8e2d5] shadow-sm">
+            <div className="relative w-full rounded-xl overflow-hidden bg-[#e8e2d5] shadow-sm">
               <img 
                 src={photo.url} 
                 className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.03]" 
@@ -111,14 +111,14 @@ export default function Gallery() {
               />
               
               {/* Top Badges */}
-              <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5 z-10 pointer-events-none">
-                <span className="bg-black/40 backdrop-blur-md text-white text-[0.65rem] font-medium px-2 py-1 rounded-full w-max flex items-center gap-1 shadow-sm">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <div className="absolute top-2 left-2 flex flex-col gap-1 z-10 pointer-events-none">
+                <span className="bg-black/40 backdrop-blur-md text-white text-[0.6rem] font-medium px-2 py-0.5 rounded-full w-max flex items-center gap-1 shadow-sm">
+                  <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                   {photo.island.name}
                 </span>
                 {photo.isUser && (
-                  <span className="bg-[#e06a4e]/90 backdrop-blur-md text-white text-[0.6rem] font-bold px-2 py-1 rounded-full w-max shadow-sm">
-                    ✨ MY 스탬프
+                  <span className="bg-[#e06a4e]/90 backdrop-blur-md text-white text-[0.55rem] font-bold px-2 py-0.5 rounded-full w-max shadow-sm">
+                    ✨ MY
                   </span>
                 )}
               </div>
@@ -128,13 +128,10 @@ export default function Gallery() {
             </div>
 
             {/* Bottom Info Area */}
-            <div className="mt-2.5 px-1">
-              <h3 className="text-[0.85rem] font-bold text-[#3e342b] truncate leading-tight">
+            <div className="mt-1.5 px-0.5">
+              <h3 className="text-[0.8rem] font-bold text-[#3e342b] truncate leading-tight">
                 {photo.spot.name}
               </h3>
-              <p className="text-[0.7rem] text-[#8a7a6b] mt-0.5 truncate font-medium">
-                {photo.spot.desc}
-              </p>
             </div>
           </div>
         ))}
