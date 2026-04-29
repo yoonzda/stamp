@@ -47,11 +47,18 @@ export default function Gallery() {
 
         // 3. User Uploaded Photos (From JSON - Actual Place Photos)
         const internetPhotos = spotImagesData[spot.code] || [];
-        // Use up to 5 photos per spot to make it rich
-        internetPhotos.slice(0, 5).forEach((imgUrl, i) => {
+        // Use up to 8 photos per spot to make it rich
+        internetPhotos.slice(0, 8).forEach((imgUrl, i) => {
+          let secureUrl = imgUrl.replace(/^http:\/\//i, 'https://');
+          
+          // Fix Naver SSL Certificate mismatch errors by routing through their CDN
+          secureUrl = secureUrl.replace('blogfiles.naver.net', 'postfiles.pstatic.net');
+          secureUrl = secureUrl.replace('cafefiles.naver.net', 'cafefiles.pstatic.net');
+          secureUrl = secureUrl.replace('imgnews.naver.net', 'imgnews.pstatic.net');
+
           photos.push({
             id: `photo_net_${spot.code}_${i}_${idCounter++}`,
-            url: imgUrl.replace(/^http:\/\//i, 'https://'), // Upgrade to https for security/mixed-content
+            url: secureUrl,
             spot: spot,
             island: island,
             timestamp: Date.now() - Math.random() * 15000000000 - 5000000000,
