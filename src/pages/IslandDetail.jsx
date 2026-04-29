@@ -266,7 +266,8 @@ export default function IslandDetail() {
                   initial={{ opacity: 1 }}
                   animate={{ opacity: 0 }}
                   transition={{ delay: textFadeOutDelay, duration: textFadeOutDuration }}
-                  className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none drop-shadow-[1px_2px_6px_rgba(0,0,0,0.8)]"
+                  className="absolute left-0 right-0 z-20 flex flex-col items-center justify-center pointer-events-none drop-shadow-[1px_2px_6px_rgba(0,0,0,0.8)]"
+                  style={{ top: '40%', transform: 'translateY(-50%)' }}
                 >
                   <h1 
                     className="text-[2.5rem] text-[#f3efe6] tracking-widest flex"
@@ -292,7 +293,7 @@ export default function IslandDetail() {
                       <rect width="100%" height="100%" fill="white" />
                       <motion.circle 
                         cx="50%" 
-                        cy="50%" 
+                        cy="40%" 
                         initial={{ r: 600 }}
                         animate={{ r: finalRadius }}
                         transition={{ duration: circleDuration, ease: "easeInOut", delay: circleStartDelay }}
@@ -308,7 +309,7 @@ export default function IslandDetail() {
                   initial={{ width: 1200, height: 1200 }}
                   animate={{ width: finalDiameter, height: finalDiameter }}
                   transition={{ duration: circleDuration, ease: "easeInOut", delay: circleStartDelay }}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full z-10 pointer-events-none"
+                  className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full z-10 pointer-events-none"
                   style={{ boxShadow: 'inset 0 4px 15px rgba(0,0,0,0.15)' }}
                 />
 
@@ -317,20 +318,23 @@ export default function IslandDetail() {
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: contentRevealDelay, duration: 0.8, ease: "easeOut" }}
-                  className="absolute inset-0 z-20 pointer-events-none flex flex-col"
+                  className="absolute inset-0 z-20 pointer-events-none"
                 >
                   {/* TOP AREA: Title Only */}
-                  <div className="flex-1 flex flex-col items-center justify-center text-center px-8 w-full pt-8 pb-2">
+                  <div 
+                    className="absolute top-0 left-0 right-0 flex flex-col items-center justify-center text-center px-8 pt-8 pb-2"
+                    style={{ height: `calc(40% - ${finalRadius}px)` }}
+                  >
                     <h2 className="text-[2rem] font-bold text-[#3e342b] mb-0 font-['Nanum_Myeongjo'] tracking-wide break-keep drop-shadow-sm">
                       {selectedSpot.spot.name}
                     </h2>
                   </div>
 
-                  {/* Spacer jumping over the circle */}
-                  <div className="shrink-0" style={{ height: finalDiameter }} />
-
                   {/* BOTTOM AREA: Map Buttons, Address, and Content */}
-                  <div className="flex-1 flex flex-col items-center justify-center w-full px-8 pb-10 pointer-events-auto">
+                  <div 
+                    className="absolute left-0 right-0 bottom-0 flex flex-col items-center justify-center px-8 pb-8 pt-4 pointer-events-auto"
+                    style={{ top: `calc(40% + ${finalRadius}px)` }}
+                  >
                     
                     {/* Navigation Buttons */}
                     <div className="flex gap-3 w-full justify-center mb-5 shrink-0">
