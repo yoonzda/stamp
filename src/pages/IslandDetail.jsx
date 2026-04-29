@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ISLANDS, SYMBOLS } from '../gameState';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -88,9 +88,6 @@ export default function IslandDetail() {
   const [galleryCount, setGalleryCount] = useState(6);
   const [containerWidth, setContainerWidth] = useState(window.innerWidth > 448 ? 448 : window.innerWidth);
   const [isScrollLocked, setIsScrollLocked] = useState(true);
-  
-  const circleRef = useRef(null);
-  const [circleCenterY, setCircleCenterY] = useState('50%');
 
   // 동적 애니메이션 타이밍 계산
   const nameLen = selectedSpot ? selectedSpot.spot.name.length : 0;
@@ -109,14 +106,6 @@ export default function IslandDetail() {
   // 글씨가 완전히 사라지고(fadeOut완료) 즉각적으로 원 축소 시작 -> 글씨가 사라짐과 동시에 원 축소 시작
   const circleStartDelay = textFadeOutDelay + (textFadeOutDuration * 0.5); // 텍스트가 반쯤 사라졌을 때 원이 닫히기 시작
   const contentRevealDelay = circleStartDelay + circleDuration;
-
-  useEffect(() => {
-    if (selectedSpot && circleRef.current) {
-      const rect = circleRef.current.getBoundingClientRect();
-      // rect.top은 브라우저 창 상단 기준이므로, absolute inset-0 화면 전체 기준과 동일합니다.
-      setCircleCenterY(`${rect.top + rect.height / 2}px`);
-    }
-  }, [selectedSpot, containerWidth]);
 
   useEffect(() => {
     if (selectedSpot) {
@@ -272,6 +261,30 @@ export default function IslandDetail() {
                   />
                 </div>
 
+                {/* Cinematic Typewriter Title */}
+                <motion.div 
+                  initial={{ opacity: 1 }}
+                  animate={{ opacity: 0 }}
+                  transition={{ delay: textFadeOutDelay, duration: textFadeOutDuration }}
+                  className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none drop-shadow-[1px_2px_6px_rgba(0,0,0,0.8)]"
+                >
+                  <h1 
+                    className="text-[2.5rem] text-[#f3efe6] tracking-widest flex"
+                    style={{ fontFamily: "'EF_jejudoldam', sans-serif" }}
+                  >
+                    {Array.from(selectedSpot.spot.name).map((char, index) => (
+                      <motion.span
+                        key={index}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: typingStartDelay + (index * typingSpeed), duration: 0.01 }}
+                      >
+                        {char === ' ' ? '\u00A0' : char}
+                      </motion.span>
+                    ))}
+                  </h1>
+                </motion.div>
+
                 {/* SVG Mask Overlay for Iris Wipe */}
                 <svg className="absolute inset-0 w-full h-full pointer-events-none z-10" preserveAspectRatio="none">
                   <defs>
@@ -279,7 +292,7 @@ export default function IslandDetail() {
                       <rect width="100%" height="100%" fill="white" />
                       <motion.circle 
                         cx="50%" 
-                        cy={circleCenterY} 
+                        cy="50%" 
                         initial={{ r: 600 }}
                         animate={{ r: finalRadius }}
                         transition={{ duration: circleDuration, ease: "easeInOut", delay: circleStartDelay }}
@@ -295,58 +308,32 @@ export default function IslandDetail() {
                   initial={{ width: 1200, height: 1200 }}
                   animate={{ width: finalDiameter, height: finalDiameter }}
                   transition={{ duration: circleDuration, ease: "easeInOut", delay: circleStartDelay }}
-                  className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full z-10 pointer-events-none"
-                  style={{ top: circleCenterY, boxShadow: 'inset 0 4px 15px rgba(0,0,0,0.15)' }}
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full z-10 pointer-events-none"
+                  style={{ boxShadow: 'inset 0 4px 15px rgba(0,0,0,0.15)' }}
                 />
 
-                {/* SINGLE FLEX CONTAINER FOR PERFECT VERTICAL CENTERING OF THE ENTIRE GROUP */}
-                <div className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-auto px-8 w-full min-h-[100dvh] py-20">
-                  
-                  {/* Title Wrapper (Contains both cinematic typing title and final title) */}
-                  <div className="relative mb-6 flex justify-center items-center w-full">
-                    {/* Final Title */}
-                    <motion.h2 
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: contentRevealDelay, duration: 0.8 }}
-                      className="text-[2rem] font-bold text-[#3e342b] m-0 font-['Nanum_Myeongjo'] tracking-wide break-keep drop-shadow-sm text-center"
-                    >
+                {/* Text Overlays (Fades in after circle finishes shrinking) */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: contentRevealDelay, duration: 0.8, ease: "easeOut" }}
+                  className="absolute inset-0 z-20 pointer-events-none flex flex-col"
+                >
+                  {/* TOP AREA: Title Only */}
+                  <div className="flex-1 flex flex-col items-center justify-end text-center px-8 w-full pb-6">
+                    <h2 className="text-[2rem] font-bold text-[#3e342b] mb-0 font-['Nanum_Myeongjo'] tracking-wide break-keep drop-shadow-sm">
                       {selectedSpot.spot.name}
-                    </motion.h2>
-
-                    {/* Cinematic Typewriter Title */}
-                    <motion.h1 
-                      initial={{ opacity: 1 }}
-                      animate={{ opacity: 0 }}
-                      transition={{ delay: textFadeOutDelay, duration: textFadeOutDuration }}
-                      className="absolute text-[2.5rem] text-[#f3efe6] tracking-widest pointer-events-none drop-shadow-[1px_2px_6px_rgba(0,0,0,0.8)] whitespace-nowrap"
-                      style={{ fontFamily: "'EF_jejudoldam', sans-serif" }}
-                    >
-                      {Array.from(selectedSpot.spot.name).map((char, index) => (
-                        <motion.span
-                          key={index}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: typingStartDelay + (index * typingSpeed), duration: 0.01 }}
-                        >
-                          {char === ' ' ? '\u00A0' : char}
-                        </motion.span>
-                      ))}
-                    </motion.h1>
+                    </h2>
                   </div>
 
-                  {/* Circle Placeholder (Measures the exact physical center of the flex layout) */}
-                  <div ref={circleRef} className="shrink-0" style={{ width: finalDiameter, height: finalDiameter }} />
+                  {/* Spacer jumping over the circle */}
+                  <div className="shrink-0" style={{ height: finalDiameter }} />
 
-                  {/* Bottom Content */}
-                  <motion.div 
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: contentRevealDelay, duration: 0.8, ease: "easeOut" }}
-                    className="flex flex-col items-center justify-start w-full pt-6 shrink-0"
-                  >
+                  {/* BOTTOM AREA: Map Buttons, Address, and Content */}
+                  <div className="flex-1 flex flex-col items-center justify-start w-full pt-6 px-8 pointer-events-auto">
+                    
                     {/* Navigation Buttons */}
-                    <div className="flex gap-3 w-full justify-center mb-5 shrink-0">
+                    <div className="flex gap-3 w-full justify-center mb-4 shrink-0">
                       
                       {/* Kakao Map Button */}
                       <button 
@@ -379,11 +366,12 @@ export default function IslandDetail() {
                       </p>
                     </div>
 
-                    <p className="text-[0.9rem] font-medium text-[#685b4f] leading-relaxed break-keep text-center shrink-0 w-full">
+                    <p className="text-[0.9rem] font-medium text-[#685b4f] leading-relaxed break-keep text-center shrink-0 w-full line-clamp-3 md:line-clamp-none">
                       {selectedSpot.spot.desc}
                     </p>
-                  </motion.div>
-                </div>
+                    
+                  </div>
+                </motion.div>
 
                 {/* Scroll Down Indicator (Arrow Icon) */}
                 <motion.div 
