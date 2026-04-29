@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ISLANDS, getGameState } from '../gameState';
 import { spotImages } from './IslandDetail';
+import spotImagesData from '../spotImagesArrayMap.json';
 
 export default function Gallery() {
   const navigate = useNavigate();
@@ -44,14 +45,13 @@ export default function Gallery() {
           });
         }
 
-        // 3. User Uploaded Photos (Simulated with Picsum)
-        for (let i = 0; i < 4; i++) {
-          const w = 400;
-          // Random height for masonry effect (cached by useMemo)
-          const h = 300 + Math.floor(Math.random() * 300);
+        // 3. User Uploaded Photos (From JSON - Actual Place Photos)
+        const internetPhotos = spotImagesData[spot.code] || [];
+        // Use up to 5 photos per spot to make it rich
+        internetPhotos.slice(0, 5).forEach((imgUrl, i) => {
           photos.push({
-            id: `photo_${idCounter++}`,
-            url: `https://picsum.photos/seed/${spot.code}_user_${i}/${w}/${h}`,
+            id: `photo_net_${spot.code}_${i}_${idCounter++}`,
+            url: imgUrl.replace(/^http:\/\//i, 'https://'), // Upgrade to https for security/mixed-content
             spot: spot,
             island: island,
             timestamp: Date.now() - Math.random() * 15000000000 - 5000000000,
@@ -59,7 +59,7 @@ export default function Gallery() {
             likes: Math.floor(Math.random() * 100) + 10,
             badges: ['여행자 스냅', '아름다운 순간']
           });
-        }
+        });
       });
     });
 
@@ -67,14 +67,14 @@ export default function Gallery() {
   }, [collectedSpots]);
 
   return (
-    <div className="w-full h-full bg-[#F3EFE6] overflow-y-auto pb-32 relative hide-scrollbar font-['Pretendard']">
+    <div className="w-full h-full bg-[#Fcfbf9] overflow-y-auto pb-32 relative hide-scrollbar font-['Pretendard']">
       <style>{`
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
 
       {/* Header Area */}
-      <div className="px-5 pt-10 pb-5 sticky top-0 bg-[#F3EFE6]/90 backdrop-blur-md z-30 border-b border-[#e8e2d5]/50">
+      <div className="px-5 pt-10 pb-5 sticky top-0 bg-[#Fcfbf9]/90 backdrop-blur-md z-30 border-b border-[#e8e2d5]/50">
         <h1 className="text-[1.7rem] font-extrabold text-[#3e342b] tracking-tight mb-1">
           여행의 조각들
         </h1>
@@ -99,6 +99,11 @@ export default function Gallery() {
                 loading="lazy" 
                 referrerPolicy="no-referrer"
                 alt={photo.spot.name} 
+                onError={(e) => {
+                  // 깨진 이미지는 피드에서 아예 숨김 처리
+                  const container = e.target.closest('.break-inside-avoid');
+                  if (container) container.style.display = 'none';
+                }}
               />
               
               {/* Top Badges */}
