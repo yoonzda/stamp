@@ -323,7 +323,7 @@ export default function IslandDetail() {
                   className="absolute inset-0 z-20 pointer-events-none flex flex-col"
                 >
                   {/* TOP AREA: Title Only */}
-                  <div className="flex-1 flex flex-col items-center justify-end text-center px-8 w-full pb-6">
+                  <div className="flex-1 flex flex-col items-center justify-center text-center px-8 w-full pt-8 pb-2">
                     <h2 className="text-[2rem] font-bold text-[#3e342b] mb-0 font-['Nanum_Myeongjo'] tracking-wide break-keep drop-shadow-sm">
                       {selectedSpot.spot.name}
                     </h2>
@@ -333,10 +333,10 @@ export default function IslandDetail() {
                   <div className="shrink-0" style={{ height: finalDiameter }} />
 
                   {/* BOTTOM AREA: Map Buttons, Address, and Content */}
-                  <div className="flex-1 flex flex-col items-center justify-start w-full pt-6 px-8 pointer-events-auto">
+                  <div className="flex-1 flex flex-col items-center justify-center w-full px-8 pb-10 pointer-events-auto">
                     
                     {/* Navigation Buttons */}
-                    <div className="flex gap-3 w-full justify-center mb-4 shrink-0">
+                    <div className="flex gap-3 w-full justify-center mb-5 shrink-0">
                       
                       {/* Kakao Map Button */}
                       <button 
