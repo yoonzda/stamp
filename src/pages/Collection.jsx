@@ -123,11 +123,7 @@ export default function Collection() {
         </div>
 
         {/* RIGHT SECTION - Badge */}
-        <div className="w-[6.8rem] bg-[#faf8f5] flex flex-col items-center justify-start pt-3 pb-2 px-1 relative">
-          <span className="text-[0.45rem] font-bold text-[#8a7f72] tracking-widest text-center leading-tight mb-2">
-            {island.name}<br/>{spot.name}
-          </span>
-
+        <div className="w-[6.8rem] bg-[#faf8f5] flex flex-col items-center justify-center relative">
           {/* Airplane Window Badge Render */}
           <div className={`relative w-[4.4rem] h-[5.6rem] rounded-[1.8rem] rounded-b-[2rem] border-[2px] flex items-center justify-center overflow-hidden transition-all shadow-sm ${isDone ? 'border-[#e0d6c8] bg-white' : 'border-[#d5ccbe]/40 bg-[#f4ecdf]/30'}`}>
             {isDone ? (
