@@ -102,7 +102,7 @@ export default function GalleryDetail() {
           </div>
 
           <p className="text-[0.95rem] text-[#54463a] font-medium leading-relaxed break-keep mb-4 border-l-[3px] border-[#d5ccbe] pl-3">
-            {photo.spot.desc}
+            {photo.spot.longDesc || photo.spot.desc}
           </p>
 
           <div className="bg-[#f0ebe1] rounded-xl p-4 mb-6 border border-[#e8e2d5]">
@@ -148,7 +148,7 @@ export default function GalleryDetail() {
                 <div 
                   key={p.id}
                   onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: ALL_PHOTOS.findIndex(x => x.id === p.id) }, replace: true })}
-                  className="break-inside-avoid mb-3 cursor-pointer group relative rounded-xl overflow-hidden bg-[#e8e2d5] shadow-sm"
+                  className="break-inside-avoid mb-3 cursor-pointer group relative overflow-hidden bg-[#e8e2d5] shadow-sm"
                 >
                   <img 
                     src={p.url} 

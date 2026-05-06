@@ -78,7 +78,7 @@ export default function SpotGallery() {
 
         <div className="flex flex-col gap-4">
           {displayImages.map((imgUrl, idx) => (
-            <div key={idx} className="w-full bg-white rounded-2xl overflow-hidden shadow-md border border-[#e0dbcd]">
+            <div key={idx} className="w-full bg-white overflow-hidden shadow-md border border-[#e0dbcd]">
               <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
                 <span className="font-bold text-[#3e342b] text-[0.9rem]">
                   {idx === 0 && userAcquired ? '✨ 내가 방문한 순간' : `실제 풍경 ${userAcquired ? idx : idx + 1}`}
