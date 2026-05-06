@@ -101,8 +101,8 @@ export default function Gallery() {
           }}
         />
         
-        {/* Top Badges */}
-        <div className="absolute top-6 left-4 flex flex-col gap-1.5 z-10 pointer-events-none">
+        {/* Bottom Badges */}
+        <div className="absolute bottom-24 right-4 flex flex-col gap-1.5 z-10 pointer-events-none">
           {photo.isUser && (
             <span className="bg-[#e06a4e] text-white text-[0.6rem] font-bold px-2 py-0.5 w-max shadow-sm rounded-sm">
               ✨ MY
@@ -111,10 +111,10 @@ export default function Gallery() {
         </div>
       </div>
 
-      {/* Bottom Overlay Actions */}
-      <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/70 to-transparent pt-16 pb-32 px-5 flex flex-col gap-4 pointer-events-auto">
+      {/* Top Overlay Actions */}
+      <div className="absolute top-0 left-0 w-full bg-gradient-to-b from-black/90 via-black/60 to-transparent pt-12 pb-24 px-5 flex flex-col gap-5 pointer-events-auto z-20">
         {/* Spot Info */}
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 mt-2">
           <span className="text-white/70 text-xs font-semibold tracking-widest uppercase">
             {photo.island.name}
           </span>
@@ -127,7 +127,7 @@ export default function Gallery() {
         <div className="flex items-center justify-between gap-3 w-full">
           {/* Like Button */}
           <button 
-            className="flex-1 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center gap-2 text-white active:scale-95 transition-all border border-white/5"
+            className="flex-1 h-11 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center gap-2 text-white active:scale-95 transition-all border border-white/5"
             onClick={(e) => {
               e.stopPropagation();
               const icon = e.currentTarget.querySelector('svg');
@@ -151,7 +151,7 @@ export default function Gallery() {
 
           {/* Details Button */}
           <button 
-            className="flex-1 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center gap-2 text-white active:scale-95 transition-all border border-white/5"
+            className="flex-1 h-11 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center gap-2 text-white active:scale-95 transition-all border border-white/5"
             onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -160,7 +160,7 @@ export default function Gallery() {
 
           {/* Directions Button */}
           <button 
-            className="flex-1 h-12 bg-[#e06a4e] hover:bg-[#c2533b] rounded-xl flex items-center justify-center gap-2 text-white active:scale-95 transition-all shadow-lg"
+            className="flex-1 h-11 bg-[#e06a4e] hover:bg-[#c2533b] rounded-xl flex items-center justify-center gap-2 text-white active:scale-95 transition-all shadow-lg"
             onClick={() => window.open(`https://map.naver.com/v5/search/${encodeURIComponent(photo.spot.name)}`, '_blank')}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
