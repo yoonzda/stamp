@@ -86,13 +86,13 @@ export default function Gallery() {
     <div 
       key={photo.id}
       onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
-      className={`cursor-pointer group relative bg-[#fdfaf2] p-2.5 pb-4 shadow-[2px_4px_12px_rgba(0,0,0,0.06)] border border-[#e2d8c3] flex flex-col transition-all hover:brightness-95 mt-4 ${idx % 2 === 0 ? '-rotate-[1.5deg]' : 'rotate-[1deg]'}`}
+      className="cursor-pointer group relative bg-[#fdfaf2] p-2.5 pb-4 shadow-[2px_4px_12px_rgba(0,0,0,0.06)] flex flex-col transition-all hover:brightness-95 mt-4"
     >
       {/* Transparent Tape */}
-      <div className={`absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 bg-white/40 backdrop-blur-md shadow-sm border border-white/60 z-20 mix-blend-overlay ${idx % 2 === 0 ? 'rotate-[3deg]' : '-rotate-[2deg]'}`}></div>
+      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 bg-white/40 backdrop-blur-md shadow-sm border border-white/60 z-20 mix-blend-overlay"></div>
 
       {/* Image Container */}
-      <div className="relative w-full aspect-square overflow-hidden bg-[#e8e2d5] border border-[#d0c6b3]/50">
+      <div className="relative w-full aspect-square overflow-hidden bg-[#e8e2d5]">
         <img 
           src={photo.url} 
           className="w-full h-full object-cover sepia-[.15] contrast-[.95] brightness-[.95]" 
@@ -119,8 +119,8 @@ export default function Gallery() {
       </div>
 
       {/* Bottom Info Area (Premium Vintage Style) */}
-      <div className="mt-4 mb-0.5 px-1 flex flex-col items-start text-left w-full gap-1">
-        <span className="text-[#a25141] text-[0.55rem] font-extrabold tracking-[0.25em] font-['Nanum_Myeongjo'] border-b-[1.5px] border-[#a25141]/20 pb-[2px]">
+      <div className="mt-4 mb-0.5 px-1 flex flex-col items-start text-left w-full gap-0.5">
+        <span className="text-[#6b6b6b] text-[0.8rem] font-bold tracking-widest font-['Nanum_Myeongjo']">
           {photo.island.name}
         </span>
         <h3 className="text-[1.1rem] font-bold text-[#2a2219] leading-tight font-['Gowun_Batang'] tracking-tight drop-shadow-sm">
