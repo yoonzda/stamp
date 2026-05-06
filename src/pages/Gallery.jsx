@@ -114,8 +114,8 @@ export default function Gallery() {
           )}
         </div>
         
-        {/* Faint Inner Shadow Overlay */}
-        <div className="absolute inset-0 shadow-[inset_0_0_15px_rgba(0,0,0,0.15)] pointer-events-none rounded-sm" />
+        {/* Inner Shadow / Vignette Overlay */}
+        <div className="absolute inset-0 shadow-[inset_0_0_25px_rgba(0,0,0,0.4)] pointer-events-none border border-black/5" />
       </div>
 
       {/* Bottom Info Area (Premium Vintage Style) */}
