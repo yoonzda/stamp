@@ -71,8 +71,8 @@ export default function Collection() {
               <span className="text-[0.55rem] text-[#a39585] mt-1 font-medium">Ongjin, Korea</span>
             </div>
             
-            <div className="flex items-center justify-center pb-[0.35rem]">
-              <span className="text-[1.75rem] font-black" style={{ color: sym.color }}>{sym.icon}</span>
+            <div className="flex items-center justify-center pb-[0.35rem] px-1">
+              <span className="text-[2.4rem] font-light" style={{ color: sym.color }}>{sym.icon}</span>
             </div>
 
             <div className="flex flex-col text-right">
