@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { getGameState, SYMBOLS, ISLANDS, getAvailableCoupons } from '../gameState';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -12,27 +12,10 @@ export default function Collection() {
 
   const couponsAvailable = getAvailableCoupons(state);
 
-  // Generate deterministic positions for the 28 spots to scatter them over a tall map
-  const ALL_SPOTS = useMemo(() => {
-    return ISLANDS.flatMap((island, iIdx) => 
-      island.spots.map((spot, sIdx) => {
-        const index = iIdx * 4 + sIdx;
-        const top = 6 + (index * 3.2); // Spread from 6% down to ~95%
-        const isLeft = index % 2 === 0;
-        const baseLeft = isLeft ? 25 : 75;
-        const left = baseLeft + (Math.sin(index * 2.1) * 12); // add some organic wave scatter
-        return { ...spot, islandName: island.name, pos: { top: `${top}%`, left: `${left}%` }, index };
-      })
-    );
-  }, []);
-
-  // Prepare points for the SVG dotted path connecting the spots
-  const pathPoints = ALL_SPOTS.map(s => `${parseFloat(s.pos.left)},${parseFloat(s.pos.top)}`).join(' ');
-
   const getMissingSymbols = () => {
     const counts = { PLUS: 0, MINUS: 0, MULTIPLY: 0, DIVIDE: 0 };
     stamps.forEach(s => {
-      const spot = ALL_SPOTS.find(spot => spot.code === s.code);
+      const spot = ISLANDS.flatMap(i => i.spots).find(spot => spot.code === s.code);
       if (spot) counts[spot.category]++;
     });
     const currentCompleted = Math.min(counts.PLUS, counts.MINUS, counts.MULTIPLY, counts.DIVIDE);
@@ -58,25 +41,132 @@ export default function Collection() {
     }
   };
 
+  const renderBoardingPass = (spot, island, isDone, sym, idx) => {
+    const destCode = spot.code.split('_')[1]; // e.g. B1
+    const origCode = 'ONG'; // Ongjin
+
+    return (
+      <motion.button 
+        key={spot.code}
+        onClick={() => setSelectedSpot({ spot, isDone, sym })}
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-20px" }}
+        whileTap={{ scale: 0.97 }}
+        transition={{ delay: (idx % 4) * 0.05, type: 'spring' }}
+        className="w-full h-[8.5rem] bg-white rounded-[0.8rem] shadow-[0_4px_12px_rgba(0,0,0,0.06)] flex flex-row relative overflow-hidden text-left border border-[#e8dfcf]"
+      >
+        {/* LEFT SECTION - Info */}
+        <div className="flex-1 px-4 py-3.5 flex flex-col justify-between relative">
+          {/* Header */}
+          <div className="flex justify-between items-center opacity-60">
+            <span className="text-[0.6rem] font-bold tracking-widest text-[#3e342b]">BOARDING PASS</span>
+            <span className="text-[0.6rem] font-bold tracking-widest text-[#b85b40]">{sym.label}</span>
+          </div>
+
+          {/* Route: ONG ✈ B1 */}
+          <div className="flex items-center justify-between w-full pr-1 my-1">
+            <div className="flex flex-col">
+              <span className="text-[2.2rem] leading-none font-black text-[#a39585] tracking-tighter">{origCode}</span>
+              <span className="text-[0.55rem] text-[#a39585] mt-1 font-medium">Ongjin, Korea</span>
+            </div>
+            <svg className="w-5 h-5 text-[#d32f2f] -mt-2 opacity-90" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+            <div className="flex flex-col text-right">
+              <span className="text-[2.2rem] leading-none font-black text-[#3e342b] tracking-tighter">{destCode}</span>
+              <span className="text-[0.55rem] text-[#3e342b] mt-1 font-bold">{island.name}</span>
+            </div>
+          </div>
+
+          {/* Spot Name & Barcode */}
+          <div className="flex flex-col mt-auto">
+            <div className="flex justify-between items-end pr-1 mb-1.5">
+               <span className="text-[0.65rem] font-bold text-[#a39585]">Destination</span>
+               <span className="text-[0.8rem] font-extrabold text-[#3e342b] truncate max-w-[8rem] text-right">{spot.name}</span>
+            </div>
+            
+            <div className="h-[0.85rem] flex items-center opacity-[0.4] w-full">
+              {/* Fake Barcode lines */}
+              <div className="w-1 h-full bg-black mr-[3px]"></div>
+              <div className="w-[2px] h-full bg-black mr-[3px]"></div>
+              <div className="w-1.5 h-full bg-black mr-[2px]"></div>
+              <div className="w-[1px] h-full bg-black mr-[4px]"></div>
+              <div className="w-1 h-full bg-black mr-[2px]"></div>
+              <div className="w-2 h-full bg-black mr-[3px]"></div>
+              <div className="w-[2px] h-full bg-black mr-[2px]"></div>
+              <div className="w-1 h-full bg-black mr-[1px]"></div>
+              <div className="w-[2px] h-full bg-black mr-[4px]"></div>
+              <div className="w-1.5 h-full bg-black mr-[2px]"></div>
+              <div className="w-1 h-full bg-black mr-[3px]"></div>
+              <div className="w-[1px] h-full bg-black mr-[2px]"></div>
+              <div className="w-2 h-full bg-black mr-[2px]"></div>
+              <div className="w-1 h-full bg-black mr-[1px]"></div>
+              <div className="w-[2px] h-full bg-black mr-[3px]"></div>
+              <div className="w-1 h-full bg-black mr-[1px]"></div>
+              <div className="w-1.5 h-full bg-black mr-[2px]"></div>
+              <div className="w-1 h-full bg-black mr-[2px]"></div>
+              <div className="w-[2px] h-full bg-black mr-[3px]"></div>
+              <div className="w-[1px] h-full bg-black mr-[2px]"></div>
+              <div className="w-1 h-full bg-black"></div>
+            </div>
+          </div>
+        </div>
+
+        {/* PERFORATED LINE & CUTOUTS */}
+        <div className="relative w-0 flex flex-col justify-between items-center z-10 h-[8.5rem]">
+          <div className="w-5 h-5 bg-[#f2ede4] rounded-full absolute -top-2.5 -translate-x-1/2 border-b border-[#e8dfcf]"></div>
+          <div className="h-full border-l-[1.5px] border-dashed border-[#d5ccbe] opacity-50"></div>
+          <div className="w-5 h-5 bg-[#f2ede4] rounded-full absolute -bottom-2.5 -translate-x-1/2 border-t border-[#e8dfcf]"></div>
+        </div>
+
+        {/* RIGHT SECTION - Badge */}
+        <div className="w-[6.8rem] bg-[#faf8f5] flex flex-col items-center justify-start pt-3 pb-2 px-1 relative">
+          <span className="text-[0.45rem] font-bold text-[#8a7f72] tracking-widest text-center leading-tight mb-2">
+            {island.name}<br/>{spot.name}
+          </span>
+
+          {/* Airplane Window Badge Render */}
+          <div className={`relative w-[4.4rem] h-[5.6rem] rounded-[1.8rem] rounded-b-[2rem] border-[2px] flex items-center justify-center overflow-hidden transition-all shadow-sm ${isDone ? 'border-[#e0d6c8] bg-white' : 'border-[#d5ccbe]/40 bg-[#f4ecdf]/30'}`}>
+            {isDone ? (
+              <>
+                <img 
+                  src={`/images/spots/${spot.code}.jpg`}
+                  onError={(e) => { e.target.onerror = null; e.target.src = `https://picsum.photos/seed/${spot.code}landscape/200/200` }}
+                  className="w-full h-full object-cover filter saturate-[1.1] p-[2px] rounded-[1.6rem] rounded-b-[1.8rem]" 
+                  alt="stamp" 
+                />
+                {/* Thin inner gold rim like a pin badge */}
+                <div className="absolute inset-[2px] border border-[#d5ccbe]/60 rounded-[1.6rem] rounded-b-[1.8rem] pointer-events-none" />
+              </>
+            ) : (
+               <span className="text-[#a39585]/30 text-2xl font-bold font-['Nanum_Myeongjo']">?</span>
+            )}
+            {/* Glossy Reflection for Window */}
+            {isDone && <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/50 pointer-events-none" />}
+          </div>
+        </div>
+      </motion.button>
+    );
+  };
+
   return (
-    <div className="w-full h-full bg-[#fcf9f2] overflow-y-auto hide-scrollbar font-['Pretendard'] relative">
+    <div className="w-full h-full bg-[#f2ede4] overflow-y-auto hide-scrollbar font-['Pretendard'] relative">
       <style>{`
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
 
       {/* Floating Header UI */}
-      <div className="sticky top-0 left-0 w-full z-40 px-4 pt-10 pb-4 bg-gradient-to-b from-[#fcf9f2] via-[#fcf9f2]/90 to-transparent pointer-events-none">
+      <div className="sticky top-0 left-0 w-full z-40 px-4 pt-10 pb-4 bg-gradient-to-b from-[#f2ede4] via-[#f2ede4]/90 to-transparent pointer-events-none">
         <div className="pointer-events-auto bg-white/80 backdrop-blur-md border border-[#d5ccbe] rounded-[1.5rem] p-4 shadow-sm flex items-center justify-between">
           <div>
-            <h1 className="text-[1.2rem] text-[#3e342b] font-bold font-['Nanum_Myeongjo']">옹진 명소 탐험지도</h1>
+            <h1 className="text-[1.2rem] text-[#3e342b] font-bold font-['Nanum_Myeongjo']">나의 탑승권</h1>
             <p className="text-[0.7rem] text-[#b85b40] font-bold mt-0.5">수집한 스탬프 {stamps.length}개 / 전체 28개</p>
           </div>
           <button 
             onClick={() => navigate('/reward')}
             className={`px-4 py-2.5 rounded-xl font-bold text-[0.75rem] transition-all shadow-sm
               ${couponsAvailable > 0 
-                ? 'bg-[#b85b40] text-white animate-pulse' 
+                ? 'bg-[#d32f2f] text-white animate-pulse' 
                 : 'bg-[#f4ecdf] text-[#a39889] border border-[#d5ccbe]'
               }`}
           >
@@ -85,85 +175,25 @@ export default function Collection() {
         </div>
       </div>
 
-      {/* MAP CANVAS (Tall container for scrolling adventure) */}
-      <div className="absolute top-0 left-0 w-full h-[2800px] z-0">
-        {/* Background Map Image */}
-        <div 
-          className="absolute inset-0 w-full h-full opacity-70"
-          style={{ 
-            backgroundImage: "url('/images/map_bg.png')", 
-            backgroundSize: 'cover', 
-            backgroundPosition: 'center top' 
-          }}
-        />
-        
-        {/* SVG Path connecting the spots */}
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pointer-events-none z-10">
-          <polyline 
-            points={pathPoints} 
-            fill="none" 
-            stroke="#b85b40" 
-            strokeWidth="3" 
-            strokeDasharray="6,8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-            className="opacity-50 drop-shadow-sm"
-          />
-        </svg>
-
-        {/* Map Nodes */}
-        {ALL_SPOTS.map((spot, idx) => {
-          const isDone = stamps.some(st => st.code === spot.code);
-          const sym = SYMBOLS[spot.category];
-          
-          return (
-            <div 
-              key={spot.code}
-              className="absolute z-20 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center group"
-              style={{ top: spot.pos.top, left: spot.pos.left }}
-            >
-              <motion.button 
-                onClick={() => setSelectedSpot({ spot, isDone, sym })}
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                whileTap={{ scale: 0.9 }}
-                transition={{ delay: idx * 0.03, type: 'spring' }}
-                className="relative flex flex-col items-center justify-center focus:outline-none"
-              >
-                {/* Pin Bubble Shape */}
-                <div className="relative drop-shadow-[0_6px_12px_rgba(0,0,0,0.15)] transition-transform group-hover:-translate-y-1">
-                  <div className={`w-[4.5rem] h-[4.5rem] rounded-full border-[3px] flex items-center justify-center bg-white overflow-hidden ${isDone ? 'border-[#b85b40]' : 'border-[#d5ccbe]'}`}>
-                    {isDone ? (
-                      <img 
-                        src={`/images/spots/${spot.code}.jpg`}
-                        onError={(e) => { e.target.onerror = null; e.target.src = `https://picsum.photos/seed/${spot.code}landscape/200/200` }}
-                        className="w-full h-full object-cover filter saturate-[1.1] contrast-[1.05]" 
-                        alt="stamp" 
-                      />
-                    ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center bg-[#f4ecdf]/40">
-                        <span className="text-[#a39585]/40 text-2xl font-bold font-['Nanum_Myeongjo']">?</span>
-                      </div>
-                    )}
-                  </div>
-                  {/* Pin Tail pointing to the map */}
-                  <div className={`absolute -bottom-2.5 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-r-[8px] border-t-[12px] border-l-transparent border-r-transparent ${isDone ? 'border-t-[#b85b40]' : 'border-t-[#d5ccbe]'}`} />
-                </div>
-                
-                {/* Text Label Below */}
-                <div className="mt-4 flex flex-col items-center bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-[#d5ccbe]/50 shadow-sm">
-                  <span className="text-[#b85b40] text-[0.55rem] font-bold tracking-widest leading-none mb-1">{spot.islandName}</span>
-                  <span className="text-[#3e342b] text-[0.75rem] font-extrabold leading-none">{spot.name}</span>
-                </div>
-              </motion.button>
+      {/* TICKET LIST */}
+      <div className="px-4 pb-24 flex flex-col items-center mt-2">
+        {ISLANDS.map((island) => (
+          <div key={island.id} className="mb-6 w-full max-w-sm">
+            <div className="flex items-center gap-2 mb-3 px-1 opacity-80">
+              <svg className="w-4 h-4 text-[#3e342b]" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+              <h3 className="text-[#3e342b] font-bold text-[0.95rem] tracking-widest">{island.name} 비행편</h3>
             </div>
-          );
-        })}
+            
+            <div className="flex flex-col gap-3.5">
+              {island.spots.map((spot, idx) => {
+                 const isDone = stamps.some(st => st.code === spot.code);
+                 const sym = SYMBOLS[spot.category];
+                 return renderBoardingPass(spot, island, isDone, sym, idx);
+              })}
+            </div>
+          </div>
+        ))}
       </div>
-
-      {/* Spacer to allow scrolling to the bottom of the map */}
-      <div className="w-full h-[2850px] pointer-events-none" />
 
       {/* Spot Detail Modal */}
       <AnimatePresence>
