@@ -86,13 +86,13 @@ export default function Gallery() {
     <div 
       key={photo.id}
       onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
-      className="cursor-pointer group bg-white p-2 pb-4 shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-[#e0dbcd] flex flex-col hover:shadow-[0_6px_16px_rgba(0,0,0,0.1)] transition-all duration-300"
+      className="cursor-pointer group bg-[#f4ebd8] p-2 pb-3 shadow-[2px_3px_5px_rgba(0,0,0,0.08)] border border-[#d0c6b3] flex flex-col hover:-translate-y-0.5 transition-transform duration-300"
     >
       {/* Image Container */}
       <div className="relative w-full aspect-square overflow-hidden bg-[#e8e2d5]">
         <img 
           src={photo.url} 
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.05]" 
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.05] sepia-[.1] contrast-[.95]" 
           loading="lazy" 
           referrerPolicy="no-referrer"
           alt={photo.spot.name} 
@@ -112,15 +112,15 @@ export default function Gallery() {
         </div>
         
         {/* Hover Overlay */}
-        <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+        <div className="absolute inset-0 bg-[#3e342b]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
       </div>
 
-      {/* Bottom Info Area (Polaroid Style) */}
-      <div className="mt-3 px-1 flex flex-col items-center justify-center text-center gap-0.5">
-        <span className="text-[#a39585] text-[0.65rem] font-bold tracking-widest uppercase">
+      {/* Bottom Info Area (Vintage Style) */}
+      <div className="mt-2.5 px-0.5 flex flex-col items-start text-left gap-0.5 w-full">
+        <span className="text-[#8c7e6c] text-[0.6rem] font-bold tracking-widest uppercase">
           {photo.island.name}
         </span>
-        <h3 className="text-[0.85rem] font-bold text-[#3e342b] leading-tight font-['Nanum_Myeongjo'] mt-0.5">
+        <h3 className="text-[0.85rem] font-bold text-[#4a3e31] leading-tight font-['Nanum_Myeongjo'] mt-0.5 w-full">
           {photo.spot.name}
         </h3>
       </div>
@@ -134,15 +134,8 @@ export default function Gallery() {
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
 
-      {/* Header Area */}
-      <div className="px-5 pt-10 pb-5 sticky top-0 bg-[#Fcfbf9]/90 backdrop-blur-md z-30 border-b border-[#e8e2d5]/50">
-        <h1 className="text-[1.7rem] font-extrabold text-[#3e342b] tracking-tight mb-1">
-          여행의 조각들
-        </h1>
-        <p className="text-[#8a7a6b] text-[0.85rem] font-medium tracking-wide">
-          인천의 보석 같은 섬들에서 담아온 기록
-        </p>
-      </div>
+      {/* Top Padding for Feed */}
+      <div className="pt-6"></div>
 
       {/* Feed Layout (Fixed Two Columns Array mapped) */}
       <div className="flex gap-3 px-3 py-4 items-start">
