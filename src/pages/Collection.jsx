@@ -60,17 +60,24 @@ export default function Collection() {
         <div className="flex-1 px-4 py-3.5 flex flex-col justify-between relative">
           {/* Header */}
           <div className="flex justify-between items-center opacity-60">
-            <span className="text-[0.6rem] font-bold tracking-widest text-[#3e342b]">BOARDING PASS</span>
-            <span className="text-[0.6rem] font-bold tracking-widest text-[#b85b40]">{sym.label}</span>
+            <span className="text-[0.6rem] font-bold tracking-widest text-[#3e342b]">STAMP TICKET</span>
+            <span className="text-[0.6rem] font-bold tracking-widest text-[#3e342b]">ONGJIN</span>
           </div>
 
-          {/* Route: ONG ✈ B1 */}
+          {/* Route: ONG -> B1 with Symbol */}
           <div className="flex items-center justify-between w-full pr-1 my-1">
             <div className="flex flex-col">
               <span className="text-[2.2rem] leading-none font-black text-[#a39585] tracking-tighter">{origCode}</span>
               <span className="text-[0.55rem] text-[#a39585] mt-1 font-medium">Ongjin, Korea</span>
             </div>
-            <svg className="w-5 h-5 text-[#d32f2f] -mt-2 opacity-90" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+            
+            <div className="flex flex-col items-center -mt-1">
+              <div className="w-6 h-6 rounded-full flex items-center justify-center text-white shadow-sm" style={{ backgroundColor: sym.color }}>
+                <span className="text-[0.8rem] font-black leading-none mb-[1px]">{sym.icon}</span>
+              </div>
+              <span className="text-[0.45rem] font-bold mt-1 tracking-widest" style={{ color: sym.color }}>{sym.label}</span>
+            </div>
+
             <div className="flex flex-col text-right">
               <span className="text-[2.2rem] leading-none font-black text-[#3e342b] tracking-tighter">{destCode}</span>
               <span className="text-[0.55rem] text-[#3e342b] mt-1 font-bold">{island.name}</span>
@@ -158,8 +165,7 @@ export default function Collection() {
         {ISLANDS.map((island) => (
           <div key={island.id} className="mb-6 w-full max-w-sm">
             <div className="flex items-center gap-2 mb-3 px-1 opacity-80">
-              <svg className="w-4 h-4 text-[#3e342b]" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
-              <h3 className="text-[#3e342b] font-bold text-[0.95rem] tracking-widest">{island.name} 비행편</h3>
+              <h3 className="text-[#3e342b] font-bold text-[0.95rem] tracking-widest">{island.name}</h3>
             </div>
             
             <div className="flex flex-col gap-3.5">
