@@ -86,7 +86,7 @@ export default function Gallery() {
     <div 
       key={photo.id}
       onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
-      className="cursor-pointer group relative bg-[#fdfaf2] p-2.5 pb-4 shadow-[2px_4px_12px_rgba(0,0,0,0.06)] flex flex-col transition-all hover:brightness-95 mt-4"
+      className="cursor-pointer group relative bg-[#fdfaf2] p-2.5 pb-4 shadow-[2px_4px_12px_rgba(0,0,0,0.06)] flex flex-col transition-all mt-4"
     >
       {/* Transparent Tape */}
       <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 bg-white/40 backdrop-blur-md shadow-sm border border-white/60 z-20 mix-blend-overlay"></div>
@@ -114,8 +114,8 @@ export default function Gallery() {
           )}
         </div>
         
-        {/* Hover Overlay */}
-        <div className="absolute inset-0 bg-[#3e342b]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+        {/* Faint Inner Shadow Overlay */}
+        <div className="absolute inset-0 shadow-[inset_0_0_15px_rgba(0,0,0,0.15)] pointer-events-none rounded-sm" />
       </div>
 
       {/* Bottom Info Area (Premium Vintage Style) */}
