@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ISLANDS, getGameState } from '../gameState';
 import { spotImages } from './IslandDetail';
@@ -114,24 +114,8 @@ export default function Gallery() {
       {/* Top Overlay Actions */}
       <div className="absolute top-0 left-0 w-full bg-gradient-to-b from-black/90 via-black/50 to-transparent pt-10 pb-20 px-5 flex flex-col gap-6 pointer-events-auto z-20">
         
-        {/* Top Action Buttons (Details, Directions) */}
-        <div className="flex items-center justify-end gap-2 w-full">
-          <button 
-            className="flex items-center justify-center gap-1.5 bg-white/20 hover:bg-white/30 backdrop-blur-md rounded-full px-4 py-2 text-white active:scale-95 transition-all text-[0.75rem] font-medium"
-            onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
-          >
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            자세히
-          </button>
-
-          <button 
-            className="flex items-center justify-center gap-1.5 bg-[#e06a4e] hover:bg-[#c2533b] rounded-full px-4 py-2 text-white active:scale-95 transition-all shadow-md text-[0.75rem] font-medium tracking-wide"
-            onClick={() => window.open(`https://map.naver.com/v5/search/${encodeURIComponent(photo.spot.name)}`, '_blank')}
-          >
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-            길찾기
-          </button>
-        </div>
+        {/* Spacer for Fixed Buttons */}
+        <div className="w-full h-[34px]"></div>
 
         {/* Spot Info & Like Button */}
         <div className="flex items-start gap-3 pl-1">
@@ -155,7 +139,7 @@ export default function Gallery() {
               }
             }}
           >
-            <svg className="w-7 h-7 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            <svg className="w-8 h-8 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"></path></svg>
           </button>
 
           {/* Texts */}
@@ -172,15 +156,57 @@ export default function Gallery() {
     </div>
   );
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleScroll = (e) => {
+    const scrollX = e.target.scrollLeft;
+    const width = e.target.clientWidth;
+    if (width > 0) {
+      const index = Math.round(scrollX / width);
+      if (index !== currentIndex && index >= 0 && index < ALL_PHOTOS.length) {
+        setCurrentIndex(index);
+      }
+    }
+  };
+
   return (
-    <div className="w-full h-[100dvh] bg-black flex overflow-x-auto snap-x snap-mandatory hide-scrollbar font-['Pretendard'] relative">
+    <div className="w-full h-[100dvh] bg-black relative font-['Pretendard'] overflow-hidden">
       <style>{`
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
 
-      {/* Full-screen Horizontal Slide Layout */}
-      {ALL_PHOTOS.map((photo, idx) => renderPhotoCard(photo, idx))}
+      {/* Fixed Top Buttons */}
+      <div className="absolute top-0 left-0 w-full pt-10 px-5 flex items-center justify-end gap-2 z-30 pointer-events-none">
+        <button 
+          className="pointer-events-auto flex items-center justify-center gap-1.5 bg-white/20 hover:bg-white/30 backdrop-blur-md rounded-full px-4 py-2 text-white active:scale-95 transition-all text-[0.75rem] font-medium"
+          onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: currentIndex } })}
+        >
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          자세히
+        </button>
+
+        <button 
+          className="pointer-events-auto flex items-center justify-center gap-1.5 bg-[#e06a4e] hover:bg-[#c2533b] rounded-full px-4 py-2 text-white active:scale-95 transition-all shadow-md text-[0.75rem] font-medium tracking-wide"
+          onClick={() => {
+            const currentPhoto = ALL_PHOTOS[currentIndex];
+            if (currentPhoto) {
+              window.open(`https://map.naver.com/v5/search/${encodeURIComponent(currentPhoto.spot.name)}`, '_blank');
+            }
+          }}
+        >
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          길찾기
+        </button>
+      </div>
+
+      {/* Scrolling Area */}
+      <div 
+        className="w-full h-full flex overflow-x-auto snap-x snap-mandatory hide-scrollbar relative"
+        onScroll={handleScroll}
+      >
+        {ALL_PHOTOS.map((photo, idx) => renderPhotoCard(photo, idx))}
+      </div>
     </div>
   );
 }
