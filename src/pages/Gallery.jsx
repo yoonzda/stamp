@@ -86,13 +86,13 @@ export default function Gallery() {
     <div 
       key={photo.id}
       onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
-      className="cursor-pointer group bg-[#f4ebd8] p-2 pb-3 shadow-[2px_3px_5px_rgba(0,0,0,0.08)] border border-[#d0c6b3] flex flex-col hover:-translate-y-0.5 transition-transform duration-300"
+      className="cursor-pointer group bg-[#f4ebd8] p-2.5 pb-4 shadow-[2px_3px_5px_rgba(0,0,0,0.08)] border border-[#d0c6b3] flex flex-col transition-opacity hover:opacity-95"
     >
       {/* Image Container */}
-      <div className="relative w-full aspect-square overflow-hidden bg-[#e8e2d5]">
+      <div className="relative w-full aspect-square overflow-hidden bg-[#e8e2d5] border border-[#d0c6b3]/50">
         <img 
           src={photo.url} 
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.05] sepia-[.1] contrast-[.95]" 
+          className="w-full h-full object-cover sepia-[.15] contrast-[.95] brightness-[.95]" 
           loading="lazy" 
           referrerPolicy="no-referrer"
           alt={photo.spot.name} 
@@ -115,12 +115,15 @@ export default function Gallery() {
         <div className="absolute inset-0 bg-[#3e342b]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
       </div>
 
-      {/* Bottom Info Area (Vintage Style) */}
-      <div className="mt-2.5 px-0.5 flex flex-col items-start text-left gap-0.5 w-full">
-        <span className="text-[#8c7e6c] text-[0.6rem] font-bold tracking-widest uppercase">
-          {photo.island.name}
-        </span>
-        <h3 className="text-[0.85rem] font-bold text-[#4a3e31] leading-tight font-['Nanum_Myeongjo'] mt-0.5 w-full">
+      {/* Bottom Info Area (Premium Vintage Style) */}
+      <div className="mt-3.5 mb-1 px-1 flex flex-col items-start text-left w-full">
+        <div className="flex items-center gap-1.5 mb-1.5 opacity-80">
+          <div className="w-2.5 h-[1.5px] bg-[#8c7e6c]"></div>
+          <span className="text-[#7a6b58] text-[0.55rem] font-extrabold tracking-[0.25em]">
+            {photo.island.name}
+          </span>
+        </div>
+        <h3 className="text-[0.95rem] font-bold text-[#3e3226] leading-tight font-['Nanum_Myeongjo'] tracking-tight">
           {photo.spot.name}
         </h3>
       </div>
