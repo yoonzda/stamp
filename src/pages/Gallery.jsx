@@ -145,14 +145,14 @@ export default function Gallery() {
       <div className="pt-6"></div>
 
       {/* Feed Layout (Fixed Two Columns Array mapped) */}
-      <div className="flex gap-4 px-4 py-4 items-start">
+      <div className="flex gap-2 px-2 py-4 items-start">
         {/* Left Column (Even indices) */}
-        <div className="flex-1 flex flex-col gap-6">
+        <div className="flex-1 flex flex-col gap-3">
           {ALL_PHOTOS.map((photo, idx) => idx % 2 === 0 ? renderPhotoCard(photo, idx) : null)}
         </div>
         
         {/* Right Column (Odd indices) */}
-        <div className="flex-1 flex flex-col gap-6">
+        <div className="flex-1 flex flex-col gap-3">
           {ALL_PHOTOS.map((photo, idx) => idx % 2 === 1 ? renderPhotoCard(photo, idx) : null)}
         </div>
       </div>
