@@ -114,22 +114,26 @@ export default function Gallery() {
         </div>
       </div>
 
-      {/* Like Button overlapping bottom right corner */}
+      {/* Like Button inside bottom right corner */}
       <button 
-        className="absolute -bottom-2.5 -right-2.5 w-9 h-9 bg-[#Fcfbf9] shadow-[0_2px_8px_rgba(0,0,0,0.15)] flex items-center justify-center text-[#b85b40] active:scale-95 transition-transform z-20 rounded-full border border-[#e8dfcf]"
+        className="absolute bottom-2 right-2 w-8 h-8 bg-white/85 backdrop-blur-sm shadow-[0_2px_8px_rgba(0,0,0,0.2)] flex items-center justify-center text-[#d95a53] active:scale-90 transition-all duration-300 z-20 rounded-full"
         onClick={(e) => {
           e.stopPropagation();
           const icon = e.currentTarget.querySelector('svg');
-          if (icon.getAttribute('fill') === 'none') {
+          const isLiked = icon.getAttribute('fill') !== 'none';
+          
+          // Pop animation
+          icon.style.transform = 'scale(1.4)';
+          setTimeout(() => { icon.style.transform = 'scale(1)'; }, 200);
+
+          if (!isLiked) {
             icon.setAttribute('fill', 'currentColor');
-            icon.classList.add('scale-110');
           } else {
             icon.setAttribute('fill', 'none');
-            icon.classList.remove('scale-110');
           }
         }}
       >
-        <svg className="w-4 h-4 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        <svg className="w-4 h-4 transition-transform duration-200 ease-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
       </button>
     </div>
   );
