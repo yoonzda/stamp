@@ -85,81 +85,101 @@ export default function Gallery() {
   const renderPhotoCard = (photo, idx) => (
     <div 
       key={photo.id}
-      className="relative w-full"
+      className="w-full h-full flex-shrink-0 snap-center relative flex flex-col justify-center items-center bg-black"
     >
-      {/* Image Container - Sharp Corners */}
-      <div 
-        onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
-        className="w-full bg-[#e8e2d5] overflow-hidden shadow-sm cursor-pointer relative"
-      >
+      {/* Image Container */}
+      <div className="w-full h-full relative flex items-center justify-center">
         <img 
           src={photo.url} 
-          className="w-full h-auto object-cover sepia-[.1] contrast-[.95]" 
+          className="w-full h-full object-contain"
           loading="lazy" 
           referrerPolicy="no-referrer"
           alt={photo.spot.name} 
           onError={(e) => {
-            const container = e.target.closest('.relative.w-full');
+            const container = e.target.closest('.snap-center');
             if (container) container.style.display = 'none';
           }}
         />
         
-        {/* Top Badges - Sharp Corners */}
-        <div className="absolute top-2 left-2 flex flex-col gap-1.5 z-10 pointer-events-none">
+        {/* Top Badges */}
+        <div className="absolute top-6 left-4 flex flex-col gap-1.5 z-10 pointer-events-none">
           {photo.isUser && (
-            <span className="bg-[#e06a4e]/90 backdrop-blur-md text-white text-[0.55rem] font-bold px-2 py-0.5 w-max shadow-sm">
+            <span className="bg-[#e06a4e] text-white text-[0.6rem] font-bold px-2 py-0.5 w-max shadow-sm rounded-sm">
               ✨ MY
             </span>
           )}
         </div>
       </div>
 
-      {/* Like Button inside bottom right corner */}
-      <button 
-        className="absolute bottom-2 right-2 w-8 h-8 bg-white/85 backdrop-blur-sm shadow-[0_2px_8px_rgba(0,0,0,0.2)] flex items-center justify-center text-[#d95a53] active:scale-90 transition-all duration-300 z-20 rounded-full"
-        onClick={(e) => {
-          e.stopPropagation();
-          const icon = e.currentTarget.querySelector('svg');
-          const isLiked = icon.getAttribute('fill') !== 'none';
-          
-          // Pop animation
-          icon.style.transform = 'scale(1.4)';
-          setTimeout(() => { icon.style.transform = 'scale(1)'; }, 200);
+      {/* Bottom Overlay Actions */}
+      <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/70 to-transparent pt-16 pb-32 px-5 flex flex-col gap-4 pointer-events-auto">
+        {/* Spot Info */}
+        <div className="flex flex-col gap-1">
+          <span className="text-white/70 text-xs font-semibold tracking-widest uppercase">
+            {photo.island.name}
+          </span>
+          <h3 className="text-2xl font-bold text-white drop-shadow-md">
+            {photo.spot.name}
+          </h3>
+        </div>
 
-          if (!isLiked) {
-            icon.setAttribute('fill', 'currentColor');
-          } else {
-            icon.setAttribute('fill', 'none');
-          }
-        }}
-      >
-        <svg className="w-4 h-4 transition-transform duration-200 ease-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-      </button>
+        {/* Action Buttons Group */}
+        <div className="flex items-center justify-between gap-3 w-full">
+          {/* Like Button */}
+          <button 
+            className="flex-1 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center gap-2 text-white active:scale-95 transition-all border border-white/5"
+            onClick={(e) => {
+              e.stopPropagation();
+              const icon = e.currentTarget.querySelector('svg');
+              const isLiked = icon.getAttribute('fill') !== 'none';
+              
+              icon.style.transform = 'scale(1.4)';
+              setTimeout(() => { icon.style.transform = 'scale(1)'; }, 200);
+
+              if (!isLiked) {
+                icon.setAttribute('fill', '#ff4b4b');
+                icon.setAttribute('stroke', '#ff4b4b');
+              } else {
+                icon.setAttribute('fill', 'none');
+                icon.setAttribute('stroke', 'currentColor');
+              }
+            }}
+          >
+            <svg className="w-5 h-5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            <span className="text-[0.8rem] font-medium">좋아요</span>
+          </button>
+
+          {/* Details Button */}
+          <button 
+            className="flex-1 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center gap-2 text-white active:scale-95 transition-all border border-white/5"
+            onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span className="text-[0.8rem] font-medium">자세히</span>
+          </button>
+
+          {/* Directions Button */}
+          <button 
+            className="flex-1 h-12 bg-[#e06a4e] hover:bg-[#c2533b] rounded-xl flex items-center justify-center gap-2 text-white active:scale-95 transition-all shadow-lg"
+            onClick={() => window.open(`https://map.naver.com/v5/search/${encodeURIComponent(photo.spot.name)}`, '_blank')}
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            <span className="text-[0.8rem] font-medium tracking-wide">길찾기</span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 
   return (
-    <div className="w-full h-full bg-[#Fcfbf9] overflow-y-auto pb-32 relative hide-scrollbar font-['Pretendard']">
+    <div className="w-full h-[100dvh] bg-black flex overflow-x-auto snap-x snap-mandatory hide-scrollbar font-['Pretendard'] relative">
       <style>{`
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
 
-      {/* Top Padding for Feed */}
-      <div className="pt-6"></div>
-
-      {/* Feed Layout (Fixed Two Columns Array mapped) */}
-      <div className="flex gap-2 px-2 py-4 items-start">
-        {/* Left Column (Even indices) */}
-        <div className="flex-1 flex flex-col gap-3">
-          {ALL_PHOTOS.map((photo, idx) => idx % 2 === 0 ? renderPhotoCard(photo, idx) : null)}
-        </div>
-        
-        {/* Right Column (Odd indices) */}
-        <div className="flex-1 flex flex-col gap-3">
-          {ALL_PHOTOS.map((photo, idx) => idx % 2 === 1 ? renderPhotoCard(photo, idx) : null)}
-        </div>
-      </div>
+      {/* Full-screen Horizontal Slide Layout */}
+      {ALL_PHOTOS.map((photo, idx) => renderPhotoCard(photo, idx))}
     </div>
   );
 }
