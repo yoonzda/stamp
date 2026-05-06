@@ -85,48 +85,53 @@ export default function Gallery() {
   const renderPhotoCard = (photo, idx) => (
     <div 
       key={photo.id}
-      onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
-      className="cursor-pointer group relative bg-[#fdfaf2] p-2.5 pb-4 shadow-[2px_4px_12px_rgba(0,0,0,0.06)] flex flex-col transition-all mt-4"
+      className="relative w-full"
     >
-      {/* Transparent Tape */}
-      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 bg-white/40 backdrop-blur-md shadow-sm border border-white/60 z-20 mix-blend-overlay"></div>
-
       {/* Image Container */}
-      <div className="relative w-full aspect-square overflow-hidden bg-[#e8e2d5]">
+      <div 
+        onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
+        className="w-full aspect-[4/5] bg-[#e8e2d5] rounded-[1.5rem] overflow-hidden shadow-[0_8px_20px_rgba(0,0,0,0.08)] cursor-pointer relative"
+      >
         <img 
           src={photo.url} 
-          className="w-full h-full object-cover sepia-[.15] contrast-[.95] brightness-[.95]" 
+          className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.03]" 
           loading="lazy" 
           referrerPolicy="no-referrer"
           alt={photo.spot.name} 
           onError={(e) => {
-            const container = e.target.closest('.cursor-pointer');
+            const container = e.target.closest('.relative.w-full');
             if (container) container.style.display = 'none';
           }}
         />
         
         {/* Top Badges */}
-        <div className="absolute top-2 left-2 flex flex-col gap-1 z-10 pointer-events-none">
+        <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-10 pointer-events-none">
           {photo.isUser && (
-            <span className="bg-[#e06a4e]/90 backdrop-blur-md text-white text-[0.55rem] font-bold px-2 py-0.5 rounded-full w-max shadow-sm">
+            <span className="bg-[#e06a4e]/90 backdrop-blur-md text-white text-[0.65rem] font-bold px-3 py-1 rounded-full w-max shadow-sm">
               ✨ MY
             </span>
           )}
         </div>
-        
-        {/* Inner Shadow / Vignette Overlay */}
-        <div className="absolute inset-0 shadow-[inset_0_0_25px_rgba(0,0,0,0.4)] pointer-events-none border border-black/5" />
       </div>
 
-      {/* Bottom Info Area (Premium Vintage Style) */}
-      <div className="mt-4 mb-0.5 px-1 flex flex-col items-start text-left w-full gap-0.5">
-        <span className="text-[#6b6b6b] text-[0.8rem] font-bold tracking-widest font-['Nanum_Myeongjo']">
-          {photo.island.name}
-        </span>
-        <h3 className="text-[1.1rem] font-bold text-[#2a2219] leading-tight font-['Gowun_Batang'] tracking-tight drop-shadow-sm">
-          {photo.spot.name}
-        </h3>
-      </div>
+      {/* Like Button overlapping bottom right corner */}
+      <button 
+        className="absolute -bottom-3 -right-3 w-[3.5rem] h-[3.5rem] bg-white rounded-full shadow-[0_4px_15px_rgba(0,0,0,0.15)] flex flex-col items-center justify-center text-[#e06a4e] active:scale-95 transition-transform z-20 border border-gray-100 group"
+        onClick={(e) => {
+          e.stopPropagation();
+          const icon = e.currentTarget.querySelector('svg');
+          if (icon.getAttribute('fill') === 'none') {
+            icon.setAttribute('fill', 'currentColor');
+            icon.classList.add('scale-110');
+          } else {
+            icon.setAttribute('fill', 'none');
+            icon.classList.remove('scale-110');
+          }
+        }}
+      >
+        <svg className="w-[1.4rem] h-[1.4rem] transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        <span className="text-[0.6rem] font-extrabold mt-0.5 text-gray-600">{photo.likes}</span>
+      </button>
     </div>
   );
 
@@ -140,17 +145,9 @@ export default function Gallery() {
       {/* Top Padding for Feed */}
       <div className="pt-6"></div>
 
-      {/* Feed Layout (Fixed Two Columns Array mapped) */}
-      <div className="flex gap-3 px-3 py-4 items-start">
-        {/* Left Column (Even indices) */}
-        <div className="flex-1 flex flex-col gap-4">
-          {ALL_PHOTOS.map((photo, idx) => idx % 2 === 0 ? renderPhotoCard(photo, idx) : null)}
-        </div>
-        
-        {/* Right Column (Odd indices) */}
-        <div className="flex-1 flex flex-col gap-4">
-          {ALL_PHOTOS.map((photo, idx) => idx % 2 === 1 ? renderPhotoCard(photo, idx) : null)}
-        </div>
+      {/* Feed Layout (Single Column Large Images) */}
+      <div className="flex flex-col gap-10 px-6 py-6 items-center w-full">
+        {ALL_PHOTOS.map((photo, idx) => renderPhotoCard(photo, idx))}
       </div>
     </div>
   );
