@@ -87,14 +87,14 @@ export default function Gallery() {
       key={photo.id}
       className="relative w-full"
     >
-      {/* Image Container */}
+      {/* Image Container - Sharp Corners */}
       <div 
         onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
-        className="w-full aspect-[4/5] bg-[#e8e2d5] rounded-[1.5rem] overflow-hidden shadow-[0_8px_20px_rgba(0,0,0,0.08)] cursor-pointer relative"
+        className="w-full bg-[#e8e2d5] overflow-hidden shadow-sm cursor-pointer relative"
       >
         <img 
           src={photo.url} 
-          className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.03]" 
+          className="w-full h-auto object-cover sepia-[.1] contrast-[.95]" 
           loading="lazy" 
           referrerPolicy="no-referrer"
           alt={photo.spot.name} 
@@ -104,10 +104,10 @@ export default function Gallery() {
           }}
         />
         
-        {/* Top Badges */}
-        <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-10 pointer-events-none">
+        {/* Top Badges - Sharp Corners */}
+        <div className="absolute top-2 left-2 flex flex-col gap-1.5 z-10 pointer-events-none">
           {photo.isUser && (
-            <span className="bg-[#e06a4e]/90 backdrop-blur-md text-white text-[0.65rem] font-bold px-3 py-1 rounded-full w-max shadow-sm">
+            <span className="bg-[#e06a4e]/90 backdrop-blur-md text-white text-[0.55rem] font-bold px-2 py-0.5 w-max shadow-sm">
               ✨ MY
             </span>
           )}
@@ -116,7 +116,7 @@ export default function Gallery() {
 
       {/* Like Button overlapping bottom right corner */}
       <button 
-        className="absolute -bottom-3 -right-3 w-[3.5rem] h-[3.5rem] bg-white rounded-full shadow-[0_4px_15px_rgba(0,0,0,0.15)] flex flex-col items-center justify-center text-[#e06a4e] active:scale-95 transition-transform z-20 border border-gray-100 group"
+        className="absolute -bottom-2.5 -right-2.5 w-9 h-9 bg-[#Fcfbf9] shadow-[0_2px_8px_rgba(0,0,0,0.15)] flex items-center justify-center text-[#b85b40] active:scale-95 transition-transform z-20 rounded-full border border-[#e8dfcf]"
         onClick={(e) => {
           e.stopPropagation();
           const icon = e.currentTarget.querySelector('svg');
@@ -129,8 +129,7 @@ export default function Gallery() {
           }
         }}
       >
-        <svg className="w-[1.4rem] h-[1.4rem] transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-        <span className="text-[0.6rem] font-extrabold mt-0.5 text-gray-600">{photo.likes}</span>
+        <svg className="w-4 h-4 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
       </button>
     </div>
   );
@@ -145,9 +144,17 @@ export default function Gallery() {
       {/* Top Padding for Feed */}
       <div className="pt-6"></div>
 
-      {/* Feed Layout (Single Column Large Images) */}
-      <div className="flex flex-col gap-10 px-6 py-6 items-center w-full">
-        {ALL_PHOTOS.map((photo, idx) => renderPhotoCard(photo, idx))}
+      {/* Feed Layout (Fixed Two Columns Array mapped) */}
+      <div className="flex gap-4 px-4 py-4 items-start">
+        {/* Left Column (Even indices) */}
+        <div className="flex-1 flex flex-col gap-6">
+          {ALL_PHOTOS.map((photo, idx) => idx % 2 === 0 ? renderPhotoCard(photo, idx) : null)}
+        </div>
+        
+        {/* Right Column (Odd indices) */}
+        <div className="flex-1 flex flex-col gap-6">
+          {ALL_PHOTOS.map((photo, idx) => idx % 2 === 1 ? renderPhotoCard(photo, idx) : null)}
+        </div>
       </div>
     </div>
   );
