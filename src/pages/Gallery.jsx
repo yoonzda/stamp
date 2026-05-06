@@ -112,22 +112,32 @@ export default function Gallery() {
       </div>
 
       {/* Top Overlay Actions */}
-      <div className="absolute top-0 left-0 w-full bg-gradient-to-b from-black/90 via-black/60 to-transparent pt-12 pb-24 px-5 flex flex-col gap-5 pointer-events-auto z-20">
-        {/* Spot Info */}
-        <div className="flex flex-col gap-1 mt-2">
-          <span className="text-white/70 text-xs font-semibold tracking-widest uppercase">
-            {photo.island.name}
-          </span>
-          <h3 className="text-2xl font-bold text-white drop-shadow-md">
-            {photo.spot.name}
-          </h3>
+      <div className="absolute top-0 left-0 w-full bg-gradient-to-b from-black/90 via-black/50 to-transparent pt-10 pb-20 px-5 flex flex-col gap-6 pointer-events-auto z-20">
+        
+        {/* Top Action Buttons (Details, Directions) */}
+        <div className="flex items-center justify-end gap-2 w-full">
+          <button 
+            className="flex items-center justify-center gap-1.5 bg-white/20 hover:bg-white/30 backdrop-blur-md rounded-full px-4 py-2 text-white active:scale-95 transition-all text-[0.75rem] font-medium"
+            onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
+          >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            자세히
+          </button>
+
+          <button 
+            className="flex items-center justify-center gap-1.5 bg-[#e06a4e] hover:bg-[#c2533b] rounded-full px-4 py-2 text-white active:scale-95 transition-all shadow-md text-[0.75rem] font-medium tracking-wide"
+            onClick={() => window.open(`https://map.naver.com/v5/search/${encodeURIComponent(photo.spot.name)}`, '_blank')}
+          >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            길찾기
+          </button>
         </div>
 
-        {/* Action Buttons Group */}
-        <div className="flex items-center justify-between gap-3 w-full">
-          {/* Like Button */}
+        {/* Spot Info & Like Button */}
+        <div className="flex items-start gap-3 pl-1">
+          {/* Like Button (Heart only) */}
           <button 
-            className="flex-1 h-11 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center gap-2 text-white active:scale-95 transition-all border border-white/5"
+            className="mt-1 flex-shrink-0 text-white drop-shadow-md active:scale-90 transition-transform"
             onClick={(e) => {
               e.stopPropagation();
               const icon = e.currentTarget.querySelector('svg');
@@ -145,27 +155,18 @@ export default function Gallery() {
               }
             }}
           >
-            <svg className="w-5 h-5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-            <span className="text-[0.8rem] font-medium">좋아요</span>
+            <svg className="w-7 h-7 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
           </button>
 
-          {/* Details Button */}
-          <button 
-            className="flex-1 h-11 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center gap-2 text-white active:scale-95 transition-all border border-white/5"
-            onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            <span className="text-[0.8rem] font-medium">자세히</span>
-          </button>
-
-          {/* Directions Button */}
-          <button 
-            className="flex-1 h-11 bg-[#e06a4e] hover:bg-[#c2533b] rounded-xl flex items-center justify-center gap-2 text-white active:scale-95 transition-all shadow-lg"
-            onClick={() => window.open(`https://map.naver.com/v5/search/${encodeURIComponent(photo.spot.name)}`, '_blank')}
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-            <span className="text-[0.8rem] font-medium tracking-wide">길찾기</span>
-          </button>
+          {/* Texts */}
+          <div className="flex flex-col gap-0.5">
+            <span className="text-white/80 text-xs font-semibold tracking-widest uppercase">
+              {photo.island.name}
+            </span>
+            <h3 className="text-2xl font-extrabold text-white drop-shadow-lg leading-tight">
+              {photo.spot.name}
+            </h3>
+          </div>
         </div>
       </div>
     </div>
