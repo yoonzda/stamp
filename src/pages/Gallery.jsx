@@ -86,8 +86,11 @@ export default function Gallery() {
     <div 
       key={photo.id}
       onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
-      className="cursor-pointer group bg-[#f4ebd8] p-2.5 pb-4 shadow-[2px_3px_5px_rgba(0,0,0,0.08)] border border-[#d0c6b3] flex flex-col transition-opacity hover:opacity-95"
+      className="cursor-pointer group relative bg-[#f4ebd8] p-2.5 pb-4 shadow-[2px_3px_5px_rgba(0,0,0,0.08)] border border-[#d0c6b3] flex flex-col transition-opacity hover:opacity-95 mt-3"
     >
+      {/* Transparent Tape */}
+      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 bg-white/40 backdrop-blur-sm shadow-sm border border-white/50 -rotate-2 z-20 mix-blend-hard-light"></div>
+
       {/* Image Container */}
       <div className="relative w-full aspect-square overflow-hidden bg-[#e8e2d5] border border-[#d0c6b3]/50">
         <img 
@@ -116,14 +119,11 @@ export default function Gallery() {
       </div>
 
       {/* Bottom Info Area (Premium Vintage Style) */}
-      <div className="mt-3.5 mb-1 px-1 flex flex-col items-start text-left w-full">
-        <div className="flex items-center gap-1.5 mb-1.5 opacity-80">
-          <div className="w-2.5 h-[1.5px] bg-[#8c7e6c]"></div>
-          <span className="text-[#7a6b58] text-[0.55rem] font-extrabold tracking-[0.25em]">
-            {photo.island.name}
-          </span>
-        </div>
-        <h3 className="text-[0.95rem] font-bold text-[#3e3226] leading-tight font-['Nanum_Myeongjo'] tracking-tight">
+      <div className="mt-4 mb-1 px-1 flex flex-col items-start text-left w-full gap-0.5">
+        <span className="text-[#a0907e] text-[0.6rem] font-bold tracking-widest uppercase">
+          {photo.island.name}
+        </span>
+        <h3 className="text-[1.05rem] font-extrabold text-[#2a2219] leading-tight font-['Gowun_Batang'] tracking-tight drop-shadow-sm">
           {photo.spot.name}
         </h3>
       </div>
