@@ -137,9 +137,7 @@ export default function Collection() {
                 {/* Thin inner gold rim like a pin badge */}
                 <div className="absolute inset-[2px] border border-[#d5ccbe]/60 rounded-[1.6rem] rounded-b-[1.8rem] pointer-events-none" />
               </>
-            ) : (
-               <span className="text-[#a39585]/30 text-2xl font-bold font-['Nanum_Myeongjo']">?</span>
-            )}
+            ) : null}
             {/* Glossy Reflection for Window */}
             {isDone && <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/50 pointer-events-none" />}
           </div>
@@ -155,28 +153,8 @@ export default function Collection() {
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
 
-      {/* Floating Header UI */}
-      <div className="sticky top-0 left-0 w-full z-40 px-4 pt-10 pb-4 bg-gradient-to-b from-[#f2ede4] via-[#f2ede4]/90 to-transparent pointer-events-none">
-        <div className="pointer-events-auto bg-white/80 backdrop-blur-md border border-[#d5ccbe] rounded-[1.5rem] p-4 shadow-sm flex items-center justify-between">
-          <div>
-            <h1 className="text-[1.2rem] text-[#3e342b] font-bold font-['Nanum_Myeongjo']">나의 탑승권</h1>
-            <p className="text-[0.7rem] text-[#b85b40] font-bold mt-0.5">수집한 스탬프 {stamps.length}개 / 전체 28개</p>
-          </div>
-          <button 
-            onClick={() => navigate('/reward')}
-            className={`px-4 py-2.5 rounded-xl font-bold text-[0.75rem] transition-all shadow-sm
-              ${couponsAvailable > 0 
-                ? 'bg-[#d32f2f] text-white animate-pulse' 
-                : 'bg-[#f4ecdf] text-[#a39889] border border-[#d5ccbe]'
-              }`}
-          >
-            {couponsAvailable > 0 ? `${couponsAvailable}개 보상받기` : '보상 확인'}
-          </button>
-        </div>
-      </div>
-
       {/* TICKET LIST */}
-      <div className="px-4 pb-24 flex flex-col items-center mt-2">
+      <div className="px-4 pb-8 flex flex-col items-center pt-10">
         {ISLANDS.map((island) => (
           <div key={island.id} className="mb-6 w-full max-w-sm">
             <div className="flex items-center gap-2 mb-3 px-1 opacity-80">
@@ -193,6 +171,20 @@ export default function Collection() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* BOTTOM REWARD BUTTON */}
+      <div className="px-4 pb-16 w-full max-w-sm mx-auto">
+          <button 
+            onClick={() => navigate('/reward')}
+            className={`w-full py-4 rounded-xl font-bold text-[0.95rem] transition-all shadow-sm flex items-center justify-center gap-2 border
+              ${couponsAvailable > 0 
+                ? 'bg-[#d32f2f] text-white border-[#d32f2f] animate-pulse' 
+                : 'bg-white/50 text-[#a39889] border-[#d5ccbe]'
+              }`}
+          >
+            {couponsAvailable > 0 ? `🎉 ${couponsAvailable}개의 보상 혜택 고르기` : '보상 확인하러 가기'}
+          </button>
       </div>
 
       {/* Spot Detail Modal */}
