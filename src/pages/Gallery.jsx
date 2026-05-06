@@ -86,13 +86,13 @@ export default function Gallery() {
     <div 
       key={photo.id}
       onClick={() => navigate('/gallery/detail', { state: { photos: ALL_PHOTOS, initialIndex: idx } })}
-      className="cursor-pointer group"
+      className="cursor-pointer group bg-white p-2 pb-4 shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-[#e0dbcd] flex flex-col hover:shadow-[0_6px_16px_rgba(0,0,0,0.1)] transition-all duration-300"
     >
       {/* Image Container */}
-      <div className="relative w-full overflow-hidden bg-[#e8e2d5] shadow-sm">
+      <div className="relative w-full aspect-square overflow-hidden bg-[#e8e2d5]">
         <img 
           src={photo.url} 
-          className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.03]" 
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.05]" 
           loading="lazy" 
           referrerPolicy="no-referrer"
           alt={photo.spot.name} 
@@ -115,13 +115,12 @@ export default function Gallery() {
         <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
       </div>
 
-      {/* Bottom Info Area */}
-      <div className="mt-2 px-0.5 flex flex-col gap-0.5">
-        <span className="text-[#8a7a6b] text-[0.65rem] font-medium tracking-wide flex items-center gap-1">
-          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+      {/* Bottom Info Area (Polaroid Style) */}
+      <div className="mt-3 px-1 flex flex-col items-center justify-center text-center gap-0.5">
+        <span className="text-[#a39585] text-[0.65rem] font-bold tracking-widest uppercase">
           {photo.island.name}
         </span>
-        <h3 className="text-[0.85rem] font-bold text-[#3e342b] truncate leading-tight">
+        <h3 className="text-[0.85rem] font-bold text-[#3e342b] leading-tight font-['Nanum_Myeongjo'] mt-0.5">
           {photo.spot.name}
         </h3>
       </div>
