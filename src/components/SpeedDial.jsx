@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Map, MapPinned, Images, Gift } from 'lucide-react';
+import { Map, MapPinned, Images, Gift, Settings } from 'lucide-react';
 
 export default function SpeedDial() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +14,8 @@ export default function SpeedDial() {
     { id: 'home', path: '/', icon: <Map size={26} /> },
     { id: 'collection', path: '/collection', icon: <MapPinned size={26} /> },
     { id: 'reward', path: '/reward', icon: <Gift size={26} /> },
-    { id: 'gallery', path: '/gallery', icon: <Images size={26} /> }
+    { id: 'gallery', path: '/gallery', icon: <Images size={26} /> },
+    { id: 'settings', path: '/settings', icon: <Settings size={26} /> }
   ];
 
   return (

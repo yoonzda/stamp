@@ -1,16 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { getGameState, SYMBOLS, ISLANDS, getAvailableCoupons } from '../gameState';
+import { toPng } from 'html-to-image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import SymbolIcon from '../components/SymbolIcon';
+import islandSticker from '../assets/island_sticker.png';
 
 export default function Collection() {
   const state = getGameState();
-  const stamps = state.collectedStamps || [];
+  const stampRef = useRef(null);
+  
+  const islandLongDescriptions = {
+    baengnyeong: '대한민국 최서북단에 위치한 백령도는 천혜의 자연경관을 간직한 신비의 섬입니다. 수억 년의 세월이 조각한 웅장한 기암괴석과 끝없이 펼쳐진 천연 비행장 사곶해변은 대자연의 벅찬 경이로움을 선사합니다. 파도에 동글동글 깎인 콩돌해안을 거닐며 맑은 물소리에 귀를 기울여 보세요.',
+    daecheong: '푸른 바다와 고운 모래가 빚어낸 한국의 사하라, 대청도는 신비롭고 이국적인 풍경으로 가득합니다. 거대한 옥죽동 해안사구와 웅장한 수직 절벽 서풍받이는 잊지 못할 감동을 안겨줍니다. 수백 년 된 소나무 숲길을 따라 천천히 거닐며 일상의 무거운 짐을 잠시 내려놓는 시간을 가져보세요.',
+    yeonpyeong: '한때 조기 파시로 온 섬이 들썩였던 연평도는 이제 평화를 염원하는 고요하고 아름다운 섬이 되었습니다. 북녘땅이 손에 잡힐 듯 보이는 망향전망대에서 특별한 의미를 되새겨 봅니다. 인적 드문 청정 해변과 소박한 마을 길을 거닐며 섬마을 특유의 깊은 정취에 흠뻑 빠져보세요.',
+    jawol: '초여름이면 붉은 해당화가 지천으로 피어나는 자월도는 밤하늘의 달빛이 유독 아름다운 낭만의 섬입니다. 완벽한 반달 모양의 해수욕장에서 부드러운 바닷바람을 맞으며 산책을 즐기기에 더없이 좋습니다. 복잡한 도시를 떠나 조용한 숲길과 아늑한 해변에서 잔잔하고 달콤한 여유를 누려보세요.',
+    deokjeok: '수백 년 된 노송 숲과 맑은 파도가 어우러진 덕적도는 그야말로 진정한 힐링을 위한 맞춤형 휴양지입니다. 은빛 모래밭을 감싸 안은 소나무 군락이 뿜어내는 피톤치드를 마시며 걷기만 해도 마음이 상쾌해집니다. 호박돌 사이로 밀려드는 파도 소리를 들으며 대자연의 고요한 위로를 경험해 보세요.',
+    yeongheung: '육지와 다리로 연결되어 더욱 가까워진 영흥도는 넓은 갯벌과 바다가 어우러져 다채로운 매력을 뽐냅니다. 하루 두 번 열리는 신비로운 모래길을 건너 목섬에 닿거나, 국내 유일의 소사나무 군락지에서 짙은 그늘을 즐겨보세요. 서해안의 붉은 낙조를 바라보며 황홀한 하루를 마무리하기에 완벽한 곳입니다.',
+    jangbong: '어부와 인어의 아름다운 전설이 살아 숨 쉬는 장봉도는 굽이굽이 이어지는 낭만적인 해안선이 매력적인 섬입니다. 고운 백사장 뒤로 길게 뻗은 해송 숲에서 상쾌한 바닷바람을 맞으며 걷기 좋은 다채로운 숲길이 조성되어 있습니다. 탁 트인 절경을 감상하며 가슴속까지 뻥 뚫리는 시원함을 느껴보세요.'
+  };
+
+  // (Mocking) 백령도 두무진만 미방문 처리, 나머지는 방문 완료
+  const mockStamps = ISLANDS.flatMap(island => 
+    island.spots.map(spot => {
+      if (spot.name === '두무진') return null; // 두무진은 미방문
+      return {
+        code: spot.code,
+        timestamp: new Date(Date.now() - Math.random() * 10000000000).toISOString()
+      };
+    }).filter(Boolean)
+  );
+  
+  const stamps = mockStamps;
   const navigate = useNavigate();
   const [selectedSpot, setSelectedSpot] = useState(null);
 
-  const couponsAvailable = getAvailableCoupons(state);
+  const couponsAvailable = getAvailableCoupons({ ...state, collectedStamps: stamps });
 
   const getMissingSymbols = () => {
     const counts = { PLUS: 0, MINUS: 0, MULTIPLY: 0, DIVIDE: 0 };
@@ -41,105 +66,69 @@ export default function Collection() {
     }
   };
 
-  const renderBoardingPass = (spot, island, isDone, sym, idx) => {
-    const destCode = spot.code.split('_')[1]; // e.g. B1
-    const origCode = 'ONG'; // Ongjin
+  const renderPostageStamp = (spot, island, isDone, sym, idx) => {
+    const stampRecord = stamps.find(st => st.code === spot.code);
+    let dateStr = '미방문';
+    if (stampRecord) {
+      const d = new Date(stampRecord.timestamp);
+      dateStr = `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
+    }
+
+    // 수채화 이미지 에셋 동적 로드 (존재하지 않으면 fallback)
+    const getSpotImage = () => {
+      try {
+        return new URL(`../assets/${island.id}_${spot.id}.png`, import.meta.url).href;
+      } catch (e) {
+        return `https://picsum.photos/seed/${spot.code}nature/200/200`;
+      }
+    };
+
+    // 미방문 상태일 때의 스타일 처리
+    const stampBgColor = isDone ? sym.color : '#e0dbd3';
+    const imageStyle = isDone ? "filter saturate-[1.1] contrast-[1.05]" : "filter grayscale-[1] sepia-[0.1] contrast-[0.9] brightness-[1.1] opacity-50 mix-blend-multiply";
+    const dateColor = isDone ? "text-[#8a7a6b]" : "text-[#b0a69a]";
 
     return (
       <motion.button 
         key={spot.code}
-        onClick={() => setSelectedSpot({ spot, isDone, sym })}
-        initial={{ opacity: 0, y: 15 }}
+        onClick={() => setSelectedSpot({ spot, isDone, sym, image: getSpotImage(), islandName: island.name })}
+        initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-20px" }}
-        whileTap={{ scale: 0.97 }}
-        transition={{ delay: (idx % 4) * 0.05, type: 'spring' }}
-        className="w-full h-[8.5rem] bg-white rounded-[0.8rem] shadow-[0_4px_12px_rgba(0,0,0,0.06)] flex flex-row relative overflow-hidden text-left border border-[#e8dfcf]"
+        viewport={{ once: true, margin: "0px" }}
+        transition={{ delay: (idx % 4) * 0.05, duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+        whileTap={{ scale: 0.95 }}
+        className="flex flex-col items-center gap-2 relative text-center w-full"
       >
-        {/* LEFT SECTION - Info */}
-        <div className="flex-1 px-4 py-3.5 flex flex-col justify-between relative">
-          {/* Header */}
-          <div className="flex justify-between items-center opacity-60">
-            <span className="text-[0.6rem] font-bold tracking-widest text-[#3e342b]">STAMP TICKET</span>
-            <span className="text-[0.6rem] font-bold tracking-widest text-[#3e342b]">ONGJIN</span>
-          </div>
-
-          {/* Route: ONG -> B1 with Symbol */}
-          <div className="flex items-center justify-between w-full pr-1 my-1">
-            <div className="flex flex-col">
-              <span className="text-[2.2rem] leading-none font-black text-[#a39585] tracking-tighter">{origCode}</span>
-              <span className="text-[0.55rem] text-[#a39585] mt-1 font-medium">Ongjin, Korea</span>
-            </div>
-            
-            <div className="flex items-center justify-center pb-[0.35rem] px-1">
-              <span className="text-[2.4rem] font-light" style={{ color: sym.color }}>{sym.icon}</span>
-            </div>
-
-            <div className="flex flex-col text-right">
-              <span className="text-[2.2rem] leading-none font-black text-[#3e342b] tracking-tighter">{destCode}</span>
-              <span className="text-[0.55rem] text-[#3e342b] mt-1 font-bold">{island.name}</span>
-            </div>
-          </div>
-
-          {/* Spot Name & Barcode */}
-          <div className="flex flex-col mt-auto">
-            <div className="flex justify-between items-end pr-1 mb-1.5">
-               <span className="text-[0.65rem] font-bold text-[#a39585]">Destination</span>
-               <span className="text-[0.8rem] font-extrabold text-[#3e342b] truncate max-w-[8rem] text-right">{spot.name}</span>
-            </div>
-            
-            <div className="h-[0.85rem] flex items-center opacity-[0.4] w-full">
-              {/* Fake Barcode lines */}
-              <div className="w-1 h-full bg-black mr-[3px]"></div>
-              <div className="w-[2px] h-full bg-black mr-[3px]"></div>
-              <div className="w-1.5 h-full bg-black mr-[2px]"></div>
-              <div className="w-[1px] h-full bg-black mr-[4px]"></div>
-              <div className="w-1 h-full bg-black mr-[2px]"></div>
-              <div className="w-2 h-full bg-black mr-[3px]"></div>
-              <div className="w-[2px] h-full bg-black mr-[2px]"></div>
-              <div className="w-1 h-full bg-black mr-[1px]"></div>
-              <div className="w-[2px] h-full bg-black mr-[4px]"></div>
-              <div className="w-1.5 h-full bg-black mr-[2px]"></div>
-              <div className="w-1 h-full bg-black mr-[3px]"></div>
-              <div className="w-[1px] h-full bg-black mr-[2px]"></div>
-              <div className="w-2 h-full bg-black mr-[2px]"></div>
-              <div className="w-1 h-full bg-black mr-[1px]"></div>
-              <div className="w-[2px] h-full bg-black mr-[3px]"></div>
-              <div className="w-1 h-full bg-black mr-[1px]"></div>
-              <div className="w-1.5 h-full bg-black mr-[2px]"></div>
-              <div className="w-1 h-full bg-black mr-[2px]"></div>
-              <div className="w-[2px] h-full bg-black mr-[3px]"></div>
-              <div className="w-[1px] h-full bg-black mr-[2px]"></div>
-              <div className="w-1 h-full bg-black"></div>
-            </div>
-          </div>
-        </div>
-
-        {/* PERFORATED LINE & CUTOUTS */}
-        <div className="relative w-0 flex flex-col justify-between items-center z-10 h-[8.5rem]">
-          <div className="w-5 h-5 bg-[#f2ede4] rounded-full absolute -top-2.5 -translate-x-1/2 border-b border-[#e8dfcf]"></div>
-          <div className="h-full border-l-[1.5px] border-dashed border-[#d5ccbe] opacity-50"></div>
-          <div className="w-5 h-5 bg-[#f2ede4] rounded-full absolute -bottom-2.5 -translate-x-1/2 border-t border-[#e8dfcf]"></div>
-        </div>
-
-        {/* RIGHT SECTION - Badge */}
-        <div className="w-[6.8rem] bg-[#faf8f5] flex flex-col items-center justify-center relative">
-          {/* Airplane Window Badge Render */}
-          <div className={`relative w-[4.4rem] h-[5.6rem] rounded-[1.8rem] rounded-b-[2rem] border-[2px] flex items-center justify-center overflow-hidden transition-all shadow-sm ${isDone ? 'border-[#e0d6c8] bg-white' : 'border-[#d5ccbe]/40 bg-[#f4ecdf]/30'}`}>
-            {isDone ? (
-              <>
-                <img 
-                  src={`/images/spots/${spot.code}.jpg`}
-                  onError={(e) => { e.target.onerror = null; e.target.src = `https://picsum.photos/seed/${spot.code}landscape/200/200` }}
-                  className="w-full h-full object-cover filter saturate-[1.1] p-[2px] rounded-[1.6rem] rounded-b-[1.8rem]" 
-                  alt="stamp" 
-                />
-                {/* Thin inner gold rim like a pin badge */}
-                <div className="absolute inset-[2px] border border-[#d5ccbe]/60 rounded-[1.6rem] rounded-b-[1.8rem] pointer-events-none" />
-              </>
-            ) : null}
-            {/* Glossy Reflection for Window */}
-            {isDone && <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/50 pointer-events-none" />}
+        {/* Postage Stamp Graphic - responsive width, fixed aspect ratio */}
+        <div className="relative shrink-0 w-full aspect-[14/17] mx-auto">
+          {/* Perforated paper background (Faded Vintage Paper) */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              backgroundColor: isDone ? '#ffffff' : '#e6dfd3',
+              WebkitMaskImage: 'radial-gradient(circle, transparent 3px, black 3.5px)',
+              WebkitMaskSize: '10px 10px',
+              WebkitMaskPosition: '-5px -5px',
+              WebkitMaskRepeat: 'round',
+              maskImage: 'radial-gradient(circle, transparent 3px, black 3.5px)',
+              maskSize: '10px 10px',
+              maskPosition: '-5px -5px',
+              maskRepeat: 'round'
+            }}
+          />
+          {/* Solid center patch to hide background mask holes */}
+          <div 
+            className="absolute inset-[5px] rounded-[1px]"
+            style={{ backgroundColor: isDone ? '#ffffff' : '#e6dfd3' }}
+          />
+          {/* Inner printed content (Image directly on paper) */}
+          <div className="absolute inset-[8px] rounded-[1px] overflow-hidden">
+            <img 
+              src={getSpotImage()}
+              onError={(e) => { e.target.onerror = null; e.target.src = `https://picsum.photos/seed/${spot.code}nature/200/200` }}
+              className={`w-full h-full object-cover transition-all duration-300 ${imageStyle}`} 
+              alt="stamp" 
+            />
           </div>
         </div>
       </motion.button>
@@ -151,136 +140,234 @@ export default function Collection() {
       <style>{`
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        @font-face {
+            font-family: 'LeeSeoyun';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
       `}</style>
 
       {/* TICKET LIST */}
-      <div className="px-4 pb-8 flex flex-col items-center pt-10">
+      <div className="w-full pb-12 flex flex-col items-center pt-8">
         {ISLANDS.map((island) => (
-          <div key={island.id} className="mb-6 w-full max-w-sm">
-            <div className="flex items-center gap-2 mb-3 px-1 opacity-80">
-              <h3 className="text-[#3e342b] font-bold text-[0.95rem] tracking-widest">{island.name}</h3>
+          <div key={island.id} className="relative w-full mb-16 mt-6 bg-[#e6dbca] border-y border-[#d4c5af] shadow-[0_4px_12px_rgba(0,0,0,0.06)] pb-10">
+            {/* 상단 마스킹 테이프 (전체 스크랩 종이를 다이어리에 고정) */}
+            <div className="absolute top-[-12px] left-1/2 -translate-x-1/2 rotate-2 w-28 h-7 bg-[#c2b29d] opacity-80 mix-blend-multiply z-20" 
+                 style={{ clipPath: 'polygon(2% 4%, 98% 0%, 99% 96%, 1% 98%)' }}></div>
+                 
+            {/* 섬 이름 헤더 및 설명 (좌측 정렬된 다이어리 스타일) */}
+            <div className="flex flex-col w-full mb-10 mt-8 px-6">
+              {/* 상단 텍스트 가로 배치 */}
+              <div className="flex flex-row justify-start items-start w-full mb-1">
+                <div className="relative inline-block mt-2">
+                  {/* 다이어리 형광펜 효과 (좌측 정렬에 맞게 조정) */}
+                  <div className="absolute bottom-[2px] left-[-8%] -rotate-1 w-[116%] h-[14px] bg-[#fde047] opacity-60 mix-blend-multiply z-0 rounded-[2px]"></div>
+                  
+                  {/* 손글씨 섬 이름 (고운바탕체) */}
+                  <h3 
+                    className="text-[#2a241f] text-[2.4rem] leading-none mb-1 z-10 font-['Gowun_Batang'] font-medium relative"
+                  >
+                    {island.name}
+                  </h3>
+                </div>
+              </div>
+
+              {/* 섬에 대한 긴 다이어리 줄글 (완벽히 정렬된 줄노트 감성) */}
+              <div className="mt-3 w-full opacity-85 px-1 pb-2">
+                <p 
+                  className="text-[#594d40] text-[0.85rem] font-['Pretendard'] font-medium break-keep m-0 p-0"
+                  style={{ 
+                    lineHeight: '26px',
+                    backgroundImage: 'linear-gradient(transparent 25px, #d6cbb5 25px, #d6cbb5 26px)',
+                    backgroundSize: '100% 26px',
+                  }}
+                >
+                  {islandLongDescriptions[island.id]}
+                </p>
+              </div>
             </div>
             
-            <div className="flex flex-col gap-3.5">
+            {/* 2열 그리드: 중앙 공백은 좁게 유지(gap-x-1), 화면 좌우 여백 복구(px-4) */}
+            <div className="grid grid-cols-2 gap-y-8 gap-x-1 px-4 justify-items-stretch w-full">
               {island.spots.map((spot, idx) => {
                  const isDone = stamps.some(st => st.code === spot.code);
                  const sym = SYMBOLS[spot.category];
-                 return renderBoardingPass(spot, island, isDone, sym, idx);
+                 return renderPostageStamp(spot, island, isDone, sym, idx);
               })}
             </div>
           </div>
         ))}
       </div>
 
-      {/* BOTTOM REWARD BUTTON */}
-      <div className="px-4 pb-16 w-full max-w-sm mx-auto">
-          <button 
-            onClick={() => navigate('/reward')}
-            className={`w-full py-4 rounded-xl font-bold text-[0.95rem] transition-all shadow-sm flex items-center justify-center gap-2 border
-              ${couponsAvailable > 0 
-                ? 'bg-[#d32f2f] text-white border-[#d32f2f] animate-pulse' 
-                : 'bg-white/50 text-[#a39889] border-[#d5ccbe]'
-              }`}
-          >
-            {couponsAvailable > 0 ? `🎉 ${couponsAvailable}개의 보상 혜택 고르기` : '보상 확인하러 가기'}
-          </button>
-      </div>
-
-      {/* Spot Detail Modal */}
+      {/* Spot Detail Modal (거대한 우표 팝업 스타일) */}
       <AnimatePresence>
         {selectedSpot && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex flex-col items-center justify-center p-8 bg-[#2a241f]/90 backdrop-blur-md text-center"
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center p-6 bg-[#1a1714]/85 backdrop-blur-sm"
             onClick={(e) => {
               if (e.target === e.currentTarget) setSelectedSpot(null);
             }}
           >
+            {/* 닫기 버튼 */}
+            <button 
+              className="absolute top-4 right-4 text-white text-4xl font-light p-2 active:scale-90 opacity-60 hover:opacity-100 z-[60]"
+              onClick={() => setSelectedSpot(null)}
+            >
+              ×
+            </button>
+
+            {/* 거대한 우표 (모달 메인) */}
             <motion.div 
               initial={{ scale: 0.9, y: 15, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.9, y: 15, opacity: 0 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="flex flex-col items-center w-full max-w-sm"
+              className="relative flex flex-col items-center w-[90vw] max-w-[23rem] aspect-[3/4] shrink-0"
+              style={{ filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.6))' }}
+              onClick={(e) => e.stopPropagation()}
             >
+              {/* 이미지 전체가 톱니바퀴 우표 모양이 되는 컨테이너 */}
               <div 
-                className={`w-24 h-24 rounded-full flex items-center justify-center text-4xl mb-8 border border-dashed relative z-10 shrink-0
-                  ${!selectedSpot.isDone && 'opacity-40 grayscale'} `} 
-                style={{ borderColor: selectedSpot.sym.color }}
+                ref={stampRef}
+                className="relative w-full h-full bg-[#2a241f]"
+                style={{
+                  WebkitMaskImage: `linear-gradient(black, black), radial-gradient(circle at 6px 6px, transparent 4px, black 4.5px)`,
+                  WebkitMaskSize: `calc(100% - 12px) calc(100% - 12px), 20px 20px`,
+                  WebkitMaskPosition: `center, -6px -6px`,
+                  WebkitMaskRepeat: `no-repeat, round`
+                }}
               >
-                <div className="absolute inset-0 opacity-20 rounded-full mix-blend-screen" style={{ backgroundColor: selectedSpot.sym.color }} />
-                <span className="relative z-10 w-12 h-12 flex items-center justify-center drop-shadow-lg" style={{ color: selectedSpot.sym.color }}>
-                  {selectedSpot.isDone ? <SymbolIcon type={selectedSpot.sym.id} /> : '?'}
-                </span>
-              </div>
-
-              <h2 className="text-[1.6rem] font-bold text-[#f4ecdf] mb-4 font-['Nanum_Myeongjo'] drop-shadow-sm tracking-wide break-keep">
-                {selectedSpot.spot.name}
-              </h2>
-              
-              <p className="text-[0.95rem] font-medium text-[#c4baa8] mb-6 leading-relaxed max-w-[14rem] break-keep relative">
-                {selectedSpot.spot.desc}
-              </p>
-
-              <div className="w-8 h-[1px] bg-[#a39585]/40 mb-6" />
-
-              <p className="text-[0.8rem] text-[#a39585] mb-10 font-medium tracking-wide">
-                {selectedSpot.spot.address}
-              </p>
-
-              <div className="flex flex-col w-full gap-3">
-                {selectedSpot.isDone ? (
-                  <>
-                    <p className="text-[0.8rem] font-bold text-[#d5ccbe] mb-4 tracking-widest">
-                      획득 일자 : {new Date(stamps.find(s => s.code === selectedSpot.spot.code)?.timestamp || Date.now()).toLocaleDateString('ko-KR')}
-                    </p>
-                    <button 
-                      onClick={() => handleShare(selectedSpot.spot)}
-                      className="w-full text-[#3e342b] bg-[#e8dfcf] font-bold py-4 rounded-xl shadow-md active:scale-95 transition-transform text-[0.95rem] tracking-widest mt-2 hover:bg-white"
+                {/* 1. 명소 사진 (테두리 끝까지 꽉 참) */}
+                <img 
+                  src={selectedSpot.image} 
+                  alt={selectedSpot.spot.name}
+                  className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${!selectedSpot.isDone ? 'grayscale sepia-[0.3] opacity-60' : 'opacity-100'}`}
+                />
+                
+                {/* 3. 우표 내부 얇은 테두리 (모던 우표 감성) */}
+                <div className="absolute inset-[12px] border-[1px] border-white/90 pointer-events-none z-10"></div>
+                
+                {/* 4. 진짜 우표처럼 정제된 모던 타이포그래피 */}
+                <div className="absolute inset-0 p-6 flex flex-col justify-between pointer-events-none z-20">
+                  
+                  {/* 상단 우측: 날짜와 섬 이름을 같은 줄(세로)에 배치 */}
+                  <div className="flex justify-end w-full mt-1 px-0">
+                    <div 
+                      className="flex items-center gap-3 text-[#fdfcf9] font-medium font-['Gowun_Batang'] mr-0"
+                      style={{ 
+                        writingMode: 'vertical-rl', 
+                        textOrientation: 'sideways',
+                        textShadow: '0 1px 4px rgba(0,0,0,0.5)'
+                      }}
                     >
-                      기록 공유하기
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <div className="flex gap-2 w-full mb-2">
-                      <button 
-                        onClick={() => {
-                          window.open(`https://map.kakao.com/link/search/${encodeURIComponent(selectedSpot.spot.name)}`, '_blank');
-                        }}
-                        className="flex-1 text-[#d5ccbe] border border-dashed border-[#a39585]/50 py-3.5 rounded-xl font-bold text-[0.85rem] active:scale-95 transition-transform tracking-widest hover:text-white"
-                      >
-                        카카오맵 길찾기
-                      </button>
-                      <button 
-                        onClick={() => {
-                          window.open(`https://map.naver.com/v5/directions/-/${encodeURIComponent(selectedSpot.spot.name)},-/transit?c=15,0,0,0,dh`, '_blank');
-                        }}
-                        className="flex-1 text-[#d5ccbe] border border-dashed border-[#a39585]/50 py-3.5 rounded-xl font-bold text-[0.85rem] active:scale-95 transition-transform tracking-widest hover:text-white"
-                      >
-                        네이버지도 길찾기
-                      </button>
+                      <span className="text-[0.7rem] tracking-[0.15em]">
+                        {selectedSpot.isDone ? (() => {
+                          const d = new Date(stamps.find(s => s.code === selectedSpot.spot.code)?.timestamp || Date.now());
+                          return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+                        })() : ''}
+                      </span>
+                      <span className="text-[0.9rem] tracking-[0.15em]">{selectedSpot.islandName}</span>
                     </div>
-                    <button 
-                      onClick={() => navigate(`/photo-verify/${selectedSpot.spot.code}`)}
-                      className="w-full text-[#3e342b] bg-[#e8dfcf] font-bold py-4 rounded-xl shadow-md active:scale-95 transition-transform text-[0.95rem] tracking-widest hover:bg-white flex items-center justify-center gap-2"
+                  </div>
+
+                  {/* 하단 좌측: 명소 이름 (고운바탕 + 은은한 그림자) */}
+                  <div className="flex flex-col items-start w-full mb-5 pl-0">
+                    <span 
+                      className="text-[#fdfcf9] text-[2.3rem] font-medium leading-none tracking-normal font-['Gowun_Batang']"
+                      style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}
                     >
-                      <span>📸 카메라로 사진 찍고 인증하기</span>
-                    </button>
-                  </>
-                )}
+                      {selectedSpot.spot.name}
+                    </span>
+                  </div>
+                </div>
+
               </div>
-
-              <button 
-                onClick={() => setSelectedSpot(null)}
-                className="mt-8 text-[#a39585] text-[0.85rem] font-bold underline underline-offset-4 hover:text-[#f4ecdf] tracking-widest"
-              >
-                닫기
-              </button>
-
             </motion.div>
+
+            {/* 하단 플로팅 버튼 영역 */}
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="flex flex-col w-full max-w-[23rem] mt-6 gap-3 px-2 z-10"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {selectedSpot.isDone ? (
+                <div className="flex gap-3 w-full">
+                  <button 
+                    onClick={async () => {
+                      if (!stampRef.current) return;
+                      try {
+                        const dataUrl = await toPng(stampRef.current, { 
+                          cacheBust: true, 
+                          pixelRatio: 2, 
+                          backgroundColor: 'transparent' 
+                        });
+                        const a = document.createElement('a');
+                        a.href = dataUrl;
+                        a.download = `${selectedSpot.spot.name}_기념우표.png`;
+                        a.click();
+                      } catch (e) {
+                        console.error('Failed to save stamp image', e);
+                        alert('이미지 저장에 실패했습니다. 다시 시도해 주세요.');
+                      }
+                    }}
+                    className="flex-1 text-[#2a241f] bg-[#fdfcf9] font-bold py-4 rounded-full active:scale-95 transition-all duration-300 text-[0.9rem] tracking-[0.1em] shadow-[0_4px_20px_rgba(0,0,0,0.2)] flex items-center justify-center"
+                  >
+                    저장하기
+                  </button>
+                  <button 
+                    onClick={async () => {
+                      if (!stampRef.current) return;
+                      try {
+                        const dataUrl = await toPng(stampRef.current, { 
+                          cacheBust: true, 
+                          pixelRatio: 2, 
+                          backgroundColor: 'transparent' 
+                        });
+                        const blob = await (await fetch(dataUrl)).blob();
+                        const file = new File([blob], `${selectedSpot.spot.name}_기념우표.png`, { type: 'image/png' });
+                        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                          await navigator.share({
+                            title: '내 기념 우표',
+                            text: `${selectedSpot.spot.name}에서 예쁜 우표를 획득했어요!`,
+                            files: [file],
+                          });
+                        } else {
+                          alert('이 기기에서는 이미지 직접 공유를 지원하지 않습니다. 저장하기를 이용해주세요.');
+                        }
+                      } catch (e) {
+                        console.error('Share failed', e);
+                      }
+                    }}
+                    className="flex-1 text-[#2a241f] bg-[#fdfcf9] font-bold py-4 rounded-full active:scale-95 transition-all duration-300 text-[0.9rem] tracking-[0.1em] shadow-[0_4px_20px_rgba(0,0,0,0.2)] flex items-center justify-center"
+                  >
+                    공유하기
+                  </button>
+                </div>
+              ) : (
+                <div className="flex gap-3 w-full mt-1">
+                  <button 
+                    onClick={() => { window.open(`https://map.kakao.com/link/to/${encodeURIComponent(selectedSpot.spot.name)},${selectedSpot.spot.lat},${selectedSpot.spot.lng}`, '_blank'); }}
+                    className="flex-1 text-[#2a241f] bg-[#fdfcf9] font-bold py-4 rounded-full active:scale-95 transition-all duration-300 text-[0.85rem] tracking-[0.1em] shadow-[0_4px_20px_rgba(0,0,0,0.2)] flex items-center justify-center"
+                  >
+                    카카오맵 길찾기
+                  </button>
+                  <button 
+                    onClick={() => { window.open(`https://map.naver.com/p/directions/-/${selectedSpot.spot.lng},${selectedSpot.spot.lat},${encodeURIComponent(selectedSpot.spot.name)}/-/transit?c=15,0,0,0,dh`, '_blank'); }}
+                    className="flex-1 text-[#2a241f] bg-[#fdfcf9] font-bold py-4 rounded-full active:scale-95 transition-all duration-300 text-[0.85rem] tracking-[0.1em] shadow-[0_4px_20px_rgba(0,0,0,0.2)] flex items-center justify-center"
+                  >
+                    네이버지도 길찾기
+                  </button>
+                </div>
+              )}
+            </motion.div>
+
           </motion.div>
         )}
       </AnimatePresence>

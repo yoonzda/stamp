@@ -7,6 +7,7 @@ import Gallery from './pages/Gallery';
 import GalleryDetail from './pages/GalleryDetail';
 import Collection from './pages/Collection';
 import Reward from './pages/Reward';
+import Settings from './pages/Settings';
 import SpeedDial from './components/SpeedDial';
 import Splash from './components/Splash';
 import Onboarding from './pages/Onboarding';
@@ -54,6 +55,7 @@ function App() {
           <Route path="/gallery/detail" element={<GalleryDetail />} />
           <Route path="/collection" element={<Collection />} />
           <Route path="/reward" element={<Reward />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
         <SpeedDial />
       </div>
