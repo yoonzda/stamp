@@ -180,30 +180,61 @@ export default function Collection() {
 
   const [isGenerating, setIsGenerating] = useState(false);
   const [saveModalImage, setSaveModalImage] = useState(null);
+  const [pregeneratedImage, setPregeneratedImage] = useState(null);
+
+  // 모달이 열리고 애니메이션이 끝난 뒤(1초 후) 사용자가 버튼을 누르기 전에 미리 백그라운드에서 이미지를 생성해둡니다.
+  // 이렇게 하면 버튼 클릭 시 지연 시간 없이 0초 만에 바로 저장/공유 창이 뜹니다.
+  React.useEffect(() => {
+    if (selectedSpot && selectedSpot.isDone && stampRef.current) {
+      const timer = setTimeout(async () => {
+        try {
+          const dataUrl = await toPng(stampRef.current, { 
+            pixelRatio: 1.5, // 2에서 1.5로 낮춰 화질 저하 없이 생성 속도 대폭 개선
+            backgroundColor: '#ffffff',
+            style: { filter: 'none' },
+            filter: (node) => {
+              if (node.style) {
+                node.style.maskImage = 'none';
+                node.style.WebkitMaskImage = 'none';
+              }
+              return true;
+            }
+          });
+          setPregeneratedImage(dataUrl);
+        } catch(e) {
+          console.error('Background generation failed', e);
+        }
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setPregeneratedImage(null);
+    }
+  }, [selectedSpot]);
 
   const handleDownload = async () => {
-    if (!stampRef.current) return;
     setIsGenerating('save');
     try {
-      const dataUrl = await toPng(stampRef.current, { 
-        pixelRatio: 2, 
-        backgroundColor: '#ffffff',
-        style: { filter: 'none' }, // Remove shadow to prevent clipping
-        filter: (node) => {
-          if (node.style) {
-            node.style.maskImage = 'none';
-            node.style.WebkitMaskImage = 'none';
+      let dataUrl = pregeneratedImage;
+      if (!dataUrl) {
+        if (!stampRef.current) return;
+        dataUrl = await toPng(stampRef.current, { 
+          pixelRatio: 1.5, 
+          backgroundColor: '#ffffff',
+          style: { filter: 'none' },
+          filter: (node) => {
+            if (node.style) {
+              node.style.maskImage = 'none';
+              node.style.WebkitMaskImage = 'none';
+            }
+            return true;
           }
-          return true;
-        }
-      });
+        });
+      }
       
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       if (isMobile) {
-        // 모바일 환경: 브라우저 강제 다운로드가 막히는 경우가 많아 '꾹 눌러 저장' 모달로 우회 (100% 성공 보장)
         setSaveModalImage(dataUrl);
       } else {
-        // 데스크탑: 일반적인 다운로드 링크 클릭
         const a = document.createElement('a');
         a.href = dataUrl;
         a.download = `${selectedSpot.spot.name}_기념우표.png`;
@@ -220,21 +251,24 @@ export default function Collection() {
   };
 
   const handleShare = async () => {
-    if (!stampRef.current) return;
     setIsGenerating('share');
     try {
-      const dataUrl = await toPng(stampRef.current, { 
-        pixelRatio: 2, 
-        backgroundColor: '#ffffff',
-        style: { filter: 'none' },
-        filter: (node) => {
-          if (node.style) {
-            node.style.maskImage = 'none';
-            node.style.WebkitMaskImage = 'none';
+      let dataUrl = pregeneratedImage;
+      if (!dataUrl) {
+        if (!stampRef.current) return;
+        dataUrl = await toPng(stampRef.current, { 
+          pixelRatio: 1.5, 
+          backgroundColor: '#ffffff',
+          style: { filter: 'none' },
+          filter: (node) => {
+            if (node.style) {
+              node.style.maskImage = 'none';
+              node.style.WebkitMaskImage = 'none';
+            }
+            return true;
           }
-          return true;
-        }
-      });
+        });
+      }
       const blob = await (await fetch(dataUrl)).blob();
       const file = new File([blob], `${selectedSpot.spot.name}_기념우표.png`, { type: 'image/png' });
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
