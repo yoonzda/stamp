@@ -36,11 +36,6 @@ export default function PhotoVerification() {
   const handleCapture = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
-    if (!agreed) {
-      alert("사진 수집 및 이용에 동의해주세요.");
-      return;
-    }
     if (gpsStatus.state !== 'success') {
       alert("GPS 위치 확인이 완료되지 않았습니다.");
       return;
@@ -70,101 +65,116 @@ export default function PhotoVerification() {
   if (!spot) return <div className="p-10 text-center bg-[#F3EFE6] h-full">잘못된 접근입니다.</div>;
 
   return (
-    <div className="w-full h-full bg-[#1a1a1a] flex flex-col relative text-white">
-      {/* Mock Camera Viewfinder */}
-      <div className="flex-1 relative flex flex-col justify-end p-6 bg-black overflow-hidden">
-        {/* The simulated live camera feed or real photo preview */}
+    <div className="w-full h-[100dvh] bg-black flex flex-col relative text-white overflow-hidden font-['Pretendard']">
+      
+      {/* FULL SCREEN Viewfinder */}
+      <div className="absolute inset-0 z-0">
         <div 
-          className={`absolute inset-0 bg-cover bg-center ${photoPreview ? 'opacity-100 scale-100' : 'opacity-60 scale-110 motion-safe:animate-pulse'}`}
+          className={`w-full h-full bg-cover bg-center transition-all duration-500 ${photoPreview ? 'opacity-100 scale-100' : 'opacity-70 scale-105 motion-safe:animate-pulse'}`}
           style={{ backgroundImage: `url(${photoPreview || `https://picsum.photos/seed/${code}1/400/800`})` }} 
         />
-        {photoPreview && <div className="absolute inset-0 bg-black/20" />}
+        {/* Subtle darkening for better contrast on UI elements */}
+        {photoPreview && <div className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-all duration-500" />}
+      </div>
+
+      {/* TOP BAR: Sleek, native-style header */}
+      <div className="absolute top-0 left-0 right-0 z-20 pt-6 pb-12 px-5 flex items-start justify-between bg-gradient-to-b from-black/80 to-transparent">
+        <button 
+          onClick={() => navigate(-1)} 
+          className="w-10 h-10 flex items-center justify-center bg-black/30 backdrop-blur-md rounded-full active:scale-95 transition-transform border border-white/20"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
         
-        {/* Viewfinder Frame */}
-        <div className="absolute inset-8 border-2 border-white/20 rounded-3xl pointer-events-none z-10 flex flex-col justify-between p-4">
-          <div className="flex justify-between w-full h-8">
-            <div className="w-8 h-full border-t-4 border-l-4 border-white opacity-80 rounded-tl-xl"></div>
-            <div className="w-8 h-full border-t-4 border-r-4 border-white opacity-80 rounded-tr-xl"></div>
+        <div className="flex flex-col items-center mt-1 drop-shadow-md">
+          <span className="text-[0.75rem] font-bold text-white/80 tracking-widest mb-1">PHOTO VERIFY</span>
+          <h2 className="text-xl font-bold font-['Nanum_Myeongjo'] text-white">
+            {spot.name}
+          </h2>
+        </div>
+        
+        <div className="w-10 h-10"></div> {/* Spacer for center alignment */}
+      </div>
+
+      {/* CENTER: Viewfinder Frame Guidelines (Modern & Minimal) */}
+      {!photoPreview && (
+        <div className="absolute inset-x-12 top-1/2 -translate-y-1/2 aspect-[3/4] border border-white/30 rounded-2xl pointer-events-none z-10 flex flex-col justify-between p-6">
+          <div className="flex justify-between w-full h-10">
+            <div className="w-10 h-full border-t-[3px] border-l-[3px] border-white drop-shadow-md rounded-tl-xl"></div>
+            <div className="w-10 h-full border-t-[3px] border-r-[3px] border-white drop-shadow-md rounded-tr-xl"></div>
           </div>
-          <div className="w-full h-[1px] bg-white/20 my-auto"></div>
-          <div className="h-full absolute left-1/2 top-0 bottom-0 w-[1px] bg-white/20 transform -translate-x-1/2"></div>
-          <div className="flex justify-between w-full h-8">
-            <div className="w-8 h-full border-b-4 border-l-4 border-white opacity-80 rounded-bl-xl"></div>
-            <div className="w-8 h-full border-b-4 border-r-4 border-white opacity-80 rounded-br-xl"></div>
+          {/* Center Crosshair */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center opacity-40">
+             <div className="w-4 h-[1px] bg-white absolute"></div>
+             <div className="w-[1px] h-4 bg-white absolute"></div>
+          </div>
+          <div className="flex justify-between w-full h-10">
+            <div className="w-10 h-full border-b-[3px] border-l-[3px] border-white drop-shadow-md rounded-bl-xl"></div>
+            <div className="w-10 h-full border-b-[3px] border-r-[3px] border-white drop-shadow-md rounded-br-xl"></div>
           </div>
         </div>
+      )}
 
-        {/* GPS Indication */}
-        <div className="absolute top-12 left-0 right-0 flex justify-center z-20">
+      {/* BOTTOM AREA: GPS Status & Shutter Button */}
+      <div className="absolute bottom-0 left-0 right-0 z-30 pt-24 pb-12 flex flex-col items-center bg-gradient-to-t from-black/90 via-black/50 to-transparent">
+        
+        {/* Sleek GPS Status Pill */}
+        <div className="mb-6 h-8 flex items-center">
           {gpsStatus.state === 'checking' && (
-             <div className="bg-gray-500/90 backdrop-blur text-white px-5 py-2.5 rounded-full font-bold shadow-lg flex items-center gap-2">
-               ⏳ 위성(GPS) 위치 확인 중...
+             <div className="bg-black/40 backdrop-blur-md text-white/90 px-4 py-1.5 rounded-full text-[0.8rem] font-medium border border-white/20 flex items-center gap-2">
+               <svg className="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+               위치 확인 중...
              </div>
           )}
           {gpsStatus.state === 'error' && (
-             <div className="bg-red-500/90 backdrop-blur text-white px-5 py-2.5 rounded-full font-bold shadow-lg flex items-center gap-2">
-               ⚠️ {gpsStatus.error}
+             <div className="bg-red-500/80 backdrop-blur-md text-white px-4 py-1.5 rounded-full text-[0.8rem] font-medium shadow-lg flex items-center gap-1.5">
+               <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+               {gpsStatus.error}
              </div>
           )}
           {gpsStatus.state === 'success' && (
-             <div className="bg-green-500/90 backdrop-blur text-white px-5 py-2.5 rounded-full font-bold shadow-lg flex items-center gap-2 animate-bounce">
-               📍 {spot.name} 위치 확인 완료
+             <div className="bg-green-500/20 backdrop-blur-md text-green-300 border border-green-400/30 px-4 py-1.5 rounded-full text-[0.8rem] font-medium flex items-center gap-1.5">
+               <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+               현위치 확인 완료
              </div>
           )}
         </div>
 
-        <div className="relative z-10 w-full mb-10 pb-20"></div>
-      </div>
-
-      {/* Bottom Panel */}
-      <div className="bg-[#F3EFE6] text-[#3e342b] p-6 rounded-t-3xl absolute bottom-0 left-0 right-0 pb-10 shadow-[0_-10px_30px_rgba(0,0,0,0.6)] z-30">
-        <button 
-          onClick={() => navigate(-1)} 
-          className="absolute top-4 right-5 w-8 h-8 flex items-center justify-center bg-black/10 rounded-full text-black/60 hover:bg-black/20"
-        >
-          ✕
-        </button>
-        
-        <h2 className="text-2xl font-bold font-['Nanum_Myeongjo'] mb-2 flex items-center gap-2 text-[#004790]">
-          {spot.name} 사진 인증
-        </h2>
-        
-        <p className="text-[#685b4f] mb-6 break-keep text-[0.95rem] leading-relaxed">
-          스탬프 발급을 위해 현재 장소의 멋진 풍경을 촬영해주세요. 촬영된 사진은 추억 갤러리에 추가됩니다.
-        </p>
-
-        <label className="flex items-start gap-3 mb-6 p-4 bg-white rounded-xl shadow-sm border border-[#d5ccbe] cursor-pointer active:bg-gray-50 transition-colors">
-          <input 
-            type="checkbox" 
-            className="mt-1 w-5 h-5 accent-[#004790] shrink-0" 
-            checked={agreed}
-            onChange={e => setAgreed(e.target.checked)}
-          />
-          <span className="text-[0.85rem] font-medium text-[#54463a] leading-tight break-keep">
-            (필수) 장소 인증을 위한 임시 카메라 접근 및 위성(GPS) 위치 정보 수집, 그리고 촬영된 사진의 갤러리 활용에 동의합니다.
-          </span>
-        </label>
-
-        <div className="relative">
-          <input 
-            type="file" 
-            accept="image/*" 
-            capture="environment"
-            onChange={handleCapture}
-            disabled={capturing || !agreed || gpsStatus.state !== 'success'}
-            className="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer disabled:cursor-not-allowed"
-          />
-          <button 
-            disabled={capturing || !agreed || gpsStatus.state !== 'success'}
-            className={`w-full py-4 rounded-xl font-bold text-lg shadow-md transition-all relative z-10 ${
-              (agreed && gpsStatus.state === 'success' && !capturing)
-                ? 'bg-[#004790] text-white active:scale-95' 
-                : 'bg-gray-300 text-gray-500'
-            }`}
-          >
-            {capturing ? '사진 분석 및 인증 중...' : '📸 실제 카메라로 촬영하기'}
-          </button>
+        {/* Shutter Button Container */}
+        <div className="relative flex flex-col items-center justify-center">
+          
+          {capturing ? (
+            <div className="flex flex-col items-center justify-center w-20 h-20">
+              <div className="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+              <span className="text-[0.7rem] font-bold mt-4 tracking-widest text-white/90">PROCESSING...</span>
+            </div>
+          ) : (
+            <div className="relative w-[5.5rem] h-[5.5rem] flex items-center justify-center">
+              {/* Outer Ring */}
+              <div className={`absolute inset-0 rounded-full border-[3px] transition-colors duration-300 ${gpsStatus.state === 'success' ? 'border-white' : 'border-white/30'}`}></div>
+              
+              {/* Inner Button */}
+              <div className={`w-[4.2rem] h-[4.2rem] rounded-full transition-all duration-300 ${gpsStatus.state === 'success' ? 'bg-white active:scale-90 active:bg-gray-200' : 'bg-white/30'}`}></div>
+              
+              {/* Invisible File Input Overlay */}
+              <input 
+                type="file" 
+                accept="image/*" 
+                capture="environment"
+                onChange={handleCapture}
+                disabled={gpsStatus.state !== 'success'}
+                className="absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer disabled:cursor-not-allowed"
+              />
+            </div>
+          )}
+          
+          {!capturing && (
+            <span className="text-[0.65rem] text-white/50 mt-5 font-medium tracking-wide">
+              사진 촬영 시 갤러리 등록 및 위치 수집에 동의됩니다.
+            </span>
+          )}
         </div>
+
       </div>
     </div>
   );
