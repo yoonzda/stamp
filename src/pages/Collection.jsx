@@ -54,148 +54,103 @@ export default function Collection() {
 
   const missingSymbols = getMissingSymbols();
 
-  const renderStampArtwork = (spot, islandName, isDone, image, timestamp, size = 'small') => {
-    let dateStr = '미방문';
-    if (isDone && timestamp) {
-      const d = new Date(timestamp);
-      dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  const handleShare = (spot) => {
+    if (navigator.share) {
+      navigator.share({
+        title: '옹진 명소 수집',
+        text: `제가 아름다운 옹진군의 [${spot.name}]에 방문해서 특별한 스탬프를 얻었어요! 함께 구경해볼까요?`,
+        url: window.location.href,
+      }).catch(console.error);
+    } else {
+      alert(`[공유 복사됨] 아름다운 옹진군의 [${spot.name}]에 방문해서 특별한 스탬프를 획득했습니다!`);
     }
-
-    const isSmall = size === 'small';
-    const paperColor = isDone ? '#ffffff' : '#e6dfd3';
-    
-    // Scale text and paddings based on size
-    const titleSize = isSmall ? 'text-[1.3rem]' : 'text-[2.4rem]';
-    const dateSize = isSmall ? 'text-[0.45rem]' : 'text-[0.8rem]';
-    const islandSize = isSmall ? 'text-[0.6rem]' : 'text-[1rem]';
-    const contentInset = isSmall ? '8px' : '14px';
-    const innerBorderInset = isSmall ? '4px' : '8px';
-    const padding = isSmall ? 'p-2.5' : 'p-6';
-
-    return (
-      <div 
-        className={`relative w-full aspect-[14/17] shrink-0 ${isSmall ? 'mx-auto' : ''}`}
-        style={!isSmall ? { filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.4))' } : {}}
-      >
-        {/* Perforated paper background */}
-        <div 
-          className="absolute inset-0"
-          style={{
-            backgroundColor: paperColor,
-            WebkitMaskImage: 'radial-gradient(circle, transparent 3px, black 3.5px)',
-            WebkitMaskSize: '10px 10px',
-            WebkitMaskPosition: '-5px -5px',
-            WebkitMaskRepeat: 'round',
-            maskImage: 'radial-gradient(circle, transparent 3px, black 3.5px)',
-            maskSize: '10px 10px',
-            maskPosition: '-5px -5px',
-            maskRepeat: 'round'
-          }}
-        />
-        {/* Solid center patch to hide background mask holes */}
-        <div 
-          className="absolute inset-[5px] rounded-[1px]"
-          style={{ backgroundColor: paperColor }}
-        />
-        
-        {/* Inner printed content (Image directly on paper) */}
-        <div 
-          className="absolute overflow-hidden rounded-[1px] bg-[#2a241f]"
-          style={{ top: contentInset, right: contentInset, bottom: contentInset, left: contentInset }}
-        >
-          <img 
-            src={image}
-            onError={(e) => { e.target.onerror = null; e.target.src = `https://picsum.photos/seed/${spot.code}nature/400/500` }}
-            className={`w-full h-full object-cover transition-all duration-500 ${!isDone ? 'grayscale sepia-[0.3] opacity-60' : 'opacity-100'}`} 
-            alt={spot.name} 
-          />
-          
-          {/* Inner thin border overlay */}
-          <div 
-            className="absolute border border-white/70 pointer-events-none z-10"
-            style={{ top: innerBorderInset, right: innerBorderInset, bottom: innerBorderInset, left: innerBorderInset }}
-          ></div>
-          
-          {/* Text Overlays */}
-          <div className={`absolute inset-0 ${padding} flex flex-col justify-between pointer-events-none z-20`}>
-            
-            {/* Top Right: Date & Island (Vertical) */}
-            <div className="flex justify-end w-full">
-              <div 
-                className="flex items-center gap-2 text-[#fdfcf9] font-medium font-['Gowun_Batang']"
-                style={{ 
-                  writingMode: 'vertical-rl', 
-                  textOrientation: 'sideways',
-                  whiteSpace: 'nowrap',
-                  textShadow: '0 1px 4px rgba(0,0,0,0.6)'
-                }}
-              >
-                <span className={`${dateSize} tracking-[0.15em] opacity-90 leading-none`}>
-                  {isDone ? dateStr : ''}
-                </span>
-                <span className={`${islandSize} tracking-[0.2em] leading-none`}>{islandName}</span>
-              </div>
-            </div>
-
-            {/* Bottom Left: Spot Name */}
-            <div className="flex flex-col items-start w-full">
-              <span 
-                className={`text-[#fdfcf9] ${titleSize} font-medium leading-none tracking-normal font-['Gowun_Batang']`}
-                style={{ textShadow: '0 1px 5px rgba(0,0,0,0.7)' }}
-              >
-                {spot.name}
-              </span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    );
   };
 
   const renderPostageStamp = (spot, island, isDone, sym, idx) => {
     const stampRecord = stamps.find(st => st.code === spot.code);
-    
-    // 수채화 이미지 에셋 동적 로드
+    let dateStr = '미방문';
+    if (stampRecord) {
+      const d = new Date(stampRecord.timestamp);
+      dateStr = `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
+    }
+
+    // 수채화 이미지 에셋 동적 로드 (존재하지 않으면 fallback)
     const getSpotImage = () => {
-      try { return new URL(`../assets/${island.id}_${spot.id}.png`, import.meta.url).href; } 
-      catch (e) { return `https://picsum.photos/seed/${spot.code}nature/400/500`; }
+      try {
+        return new URL(`../assets/${island.id}_${spot.id}.png`, import.meta.url).href;
+      } catch (e) {
+        return `https://picsum.photos/seed/${spot.code}nature/200/200`;
+      }
     };
+
+    // 미방문 상태일 때의 스타일 처리
+    const stampBgColor = isDone ? sym.color : '#e0dbd3';
+    const imageStyle = isDone ? "filter saturate-[1.1] contrast-[1.05]" : "filter grayscale-[1] sepia-[0.1] contrast-[0.9] brightness-[1.1] opacity-50 mix-blend-multiply";
+    const dateColor = isDone ? "text-[#8a7a6b]" : "text-[#b0a69a]";
 
     return (
       <motion.button 
         key={spot.code}
-        onClick={() => setSelectedSpot({ spot, isDone, sym, image: getSpotImage(), islandName: island.name, timestamp: stampRecord?.timestamp })}
+        onClick={() => setSelectedSpot({ spot, isDone, sym, image: getSpotImage(), islandName: island.name })}
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "0px" }}
         transition={{ delay: (idx % 4) * 0.05, duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
         whileTap={{ scale: 0.95 }}
-        className="w-full text-left"
+        className="flex flex-col items-center gap-2 relative text-center w-full"
       >
-        {renderStampArtwork(spot, island.name, isDone, getSpotImage(), stampRecord?.timestamp, 'small')}
+        {/* Postage Stamp Graphic - responsive width, fixed aspect ratio */}
+        <div className="relative shrink-0 w-full aspect-[14/17] mx-auto">
+          {/* Perforated paper background (Faded Vintage Paper) */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              backgroundColor: isDone ? '#ffffff' : '#e6dfd3',
+              WebkitMaskImage: 'radial-gradient(circle, transparent 3px, black 3.5px)',
+              WebkitMaskSize: '10px 10px',
+              WebkitMaskPosition: '-5px -5px',
+              WebkitMaskRepeat: 'round',
+              maskImage: 'radial-gradient(circle, transparent 3px, black 3.5px)',
+              maskSize: '10px 10px',
+              maskPosition: '-5px -5px',
+              maskRepeat: 'round'
+            }}
+          />
+          {/* Solid center patch to hide background mask holes */}
+          <div 
+            className="absolute inset-[5px] rounded-[1px]"
+            style={{ backgroundColor: isDone ? '#ffffff' : '#e6dfd3' }}
+          />
+          {/* Inner printed content (Image directly on paper) */}
+          <div className="absolute inset-[8px] rounded-[1px] overflow-hidden">
+            <img 
+              src={getSpotImage()}
+              onError={(e) => { e.target.onerror = null; e.target.src = `https://picsum.photos/seed/${spot.code}nature/200/200` }}
+              className={`w-full h-full object-cover transition-all duration-300 ${imageStyle}`} 
+              alt="stamp" 
+            />
+          </div>
+        </div>
       </motion.button>
     );
   };
 
   const [isGenerating, setIsGenerating] = useState(false);
-  const [saveModalImage, setSaveModalImage] = useState(null);
   const [pregeneratedImage, setPregeneratedImage] = useState(null);
 
-  // 모달이 열리고 애니메이션이 끝난 뒤(1초 후) 사용자가 버튼을 누르기 전에 미리 백그라운드에서 이미지를 생성해둡니다.
-  // 이렇게 하면 버튼 클릭 시 지연 시간 없이 0초 만에 바로 저장/공유 창이 뜹니다.
+  // 백그라운드에서 이미지를 미리 생성하여 저장 속도를 0초로 만듭니다.
   React.useEffect(() => {
     if (selectedSpot && selectedSpot.isDone && stampRef.current) {
       const timer = setTimeout(async () => {
         try {
           const dataUrl = await toPng(stampRef.current, { 
-            pixelRatio: 1.5,
-            backgroundColor: 'transparent',
-            style: { filter: 'none' } // Remove shadow to prevent clipping during capture
+            cacheBust: true, 
+            pixelRatio: 2, 
+            backgroundColor: 'transparent' 
           });
           setPregeneratedImage(dataUrl);
-        } catch(e) {
-          console.error('Background generation failed', e);
+        } catch (e) {
+          console.error('Pre-generation failed', e);
         }
       }, 1000);
       return () => clearTimeout(timer);
@@ -203,68 +158,6 @@ export default function Collection() {
       setPregeneratedImage(null);
     }
   }, [selectedSpot]);
-
-  const handleDownload = async () => {
-    setIsGenerating('save');
-    try {
-      let dataUrl = pregeneratedImage;
-      if (!dataUrl) {
-        if (!stampRef.current) return;
-        dataUrl = await toPng(stampRef.current, { 
-          pixelRatio: 1.5, 
-          backgroundColor: 'transparent',
-          style: { filter: 'none' }
-        });
-      }
-      
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      if (isMobile) {
-        setSaveModalImage(dataUrl);
-      } else {
-        const a = document.createElement('a');
-        a.href = dataUrl;
-        a.download = `${selectedSpot.spot.name}_기념우표.png`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      }
-    } catch (e) {
-      console.error('Failed to save stamp image', e);
-      alert('이미지 생성에 실패했습니다.');
-    } finally {
-      setIsGenerating(false);
-    }
-  };
-
-  const handleShare = async () => {
-    setIsGenerating('share');
-    try {
-      let dataUrl = pregeneratedImage;
-      if (!dataUrl) {
-        if (!stampRef.current) return;
-        dataUrl = await toPng(stampRef.current, { 
-          pixelRatio: 1.5, 
-          backgroundColor: 'transparent',
-          style: { filter: 'none' }
-        });
-      }
-      const blob = await (await fetch(dataUrl)).blob();
-      const file = new File([blob], `${selectedSpot.spot.name}_기념우표.png`, { type: 'image/png' });
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          title: '내 기념 우표',
-          text: `${selectedSpot.spot.name}에서 예쁜 우표를 획득했어요!`,
-          files: [file],
-        });
-      } else {
-        alert('이 브라우저에서는 공유하기를 지원하지 않습니다.');
-      }
-    } catch (e) {
-      console.error('Share failed', e);
-    } finally {
-      setIsGenerating(false);
-    }
-  };
 
   return (
     <div className="w-full h-full bg-[#f2ede4] overflow-y-auto hide-scrollbar font-['Pretendard'] relative">
@@ -304,7 +197,7 @@ export default function Collection() {
               </div>
             </div>
             
-            <div className="grid grid-cols-2 gap-y-8 gap-x-3 px-5 justify-items-stretch w-full">
+            <div className="grid grid-cols-2 gap-y-8 gap-x-1 px-4 justify-items-stretch w-full">
               {island.spots.map((spot, idx) => {
                  const isDone = stamps.some(st => st.code === spot.code);
                  const sym = SYMBOLS[spot.category];
@@ -324,28 +217,9 @@ export default function Collection() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex flex-col items-center justify-center p-6 bg-[#1a1714]/85 backdrop-blur-sm"
             onClick={(e) => {
-              if (e.target === e.currentTarget && !isGenerating && !saveModalImage) setSelectedSpot(null);
+              if (e.target === e.currentTarget && !isGenerating) setSelectedSpot(null);
             }}
           >
-            {/* Save Image Overlay for Mobile */}
-            <AnimatePresence>
-              {saveModalImage && (
-                <motion.div 
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="absolute inset-0 z-[70] flex flex-col items-center justify-center bg-black/95 p-6 backdrop-blur-md"
-                  onClick={() => setSaveModalImage(null)}
-                >
-                  <button className="absolute top-6 right-6 text-white text-3xl font-light opacity-70">×</button>
-                  <h3 className="text-white font-bold text-xl mb-3 mt-4">우표가 완성되었습니다!</h3>
-                  <p className="text-white/70 text-[0.95rem] mb-8 text-center break-keep">
-                    아래 우표 이미지를 <strong className="text-[#fde047]">꾹 눌러서 '사진 앱에 저장'</strong>을 선택해 주세요.
-                  </p>
-                  <img src={saveModalImage} alt="완성된 우표" className="w-[85%] max-w-[20rem] rounded-md shadow-2xl" onClick={e => e.stopPropagation()} />
-                </motion.div>
-              )}
-            </AnimatePresence>
             <button 
               className="absolute top-4 right-4 text-white text-4xl font-light p-2 active:scale-90 opacity-60 hover:opacity-100 z-[60]"
               onClick={() => !isGenerating && setSelectedSpot(null)}
@@ -360,11 +234,59 @@ export default function Collection() {
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.9, y: 15, opacity: 0 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="relative flex flex-col items-center w-[90vw] max-w-[23rem] shrink-0"
+              className="relative flex flex-col items-center w-[90vw] max-w-[23rem] aspect-[3/4] shrink-0"
+              style={{ filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.6))' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div ref={stampRef} className="w-full bg-transparent">
-                {renderStampArtwork(selectedSpot.spot, selectedSpot.islandName, selectedSpot.isDone, selectedSpot.image, selectedSpot.timestamp, 'large')}
+              <div 
+                ref={stampRef}
+                className="relative w-full h-full bg-[#2a241f]"
+                style={{
+                  WebkitMaskImage: `linear-gradient(black, black), radial-gradient(circle at 6px 6px, transparent 4px, black 4.5px)`,
+                  WebkitMaskSize: `calc(100% - 12px) calc(100% - 12px), 20px 20px`,
+                  WebkitMaskPosition: `center, -6px -6px`,
+                  WebkitMaskRepeat: `no-repeat, round`
+                }}
+              >
+                <img 
+                  src={selectedSpot.image} 
+                  alt={selectedSpot.spot.name}
+                  className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${!selectedSpot.isDone ? 'grayscale sepia-[0.3] opacity-60' : 'opacity-100'}`}
+                />
+                
+                <div className="absolute inset-[12px] border-[1px] border-white/90 pointer-events-none z-10"></div>
+                
+                <div className="absolute inset-0 p-6 flex flex-col justify-between pointer-events-none z-20">
+                  <div className="flex justify-end w-full mt-1 px-0">
+                    <div 
+                      className="flex items-center gap-3 text-[#fdfcf9] font-medium font-['Gowun_Batang'] mr-0"
+                      style={{ 
+                        writingMode: 'vertical-rl', 
+                        textOrientation: 'sideways',
+                        whiteSpace: 'nowrap',
+                        textShadow: '0 1px 4px rgba(0,0,0,0.5)'
+                      }}
+                    >
+                      <span className="text-[0.7rem] tracking-[0.15em]">
+                        {selectedSpot.isDone ? (() => {
+                          const d = new Date(stamps.find(s => s.code === selectedSpot.spot.code)?.timestamp || Date.now());
+                          return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+                        })() : ''}
+                      </span>
+                      <span className="text-[0.9rem] tracking-[0.15em]">{selectedSpot.islandName}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-start w-full mb-5 pl-0">
+                    <span 
+                      className="text-[#fdfcf9] text-[2.3rem] font-medium leading-none tracking-normal font-['Gowun_Batang']"
+                      style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}
+                    >
+                      {selectedSpot.spot.name}
+                    </span>
+                  </div>
+                </div>
+
               </div>
             </motion.div>
 
@@ -379,7 +301,31 @@ export default function Collection() {
               {selectedSpot.isDone ? (
                 <div className="flex gap-3 w-full">
                   <button 
-                    onClick={handleDownload}
+                    onClick={async () => {
+                      setIsGenerating('save');
+                      try {
+                        let dataUrl = pregeneratedImage;
+                        if (!dataUrl) {
+                          if (!stampRef.current) return;
+                          dataUrl = await toPng(stampRef.current, { 
+                            cacheBust: true, 
+                            pixelRatio: 2, 
+                            backgroundColor: 'transparent' 
+                          });
+                        }
+                        const a = document.createElement('a');
+                        a.href = dataUrl;
+                        a.download = `${selectedSpot.spot.name}_기념우표.png`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                      } catch (e) {
+                        console.error('Failed to save stamp image', e);
+                        alert('이미지 저장에 실패했습니다. 다시 시도해 주세요.');
+                      } finally {
+                        setIsGenerating(false);
+                      }
+                    }}
                     disabled={!!isGenerating}
                     className="flex-1 text-[#2a241f] bg-[#fdfcf9] font-bold py-4 rounded-full active:scale-95 transition-all duration-300 text-[0.9rem] tracking-[0.1em] shadow-[0_4px_20px_rgba(0,0,0,0.2)] flex items-center justify-center disabled:opacity-70"
                   >
@@ -388,7 +334,35 @@ export default function Collection() {
                     ) : '저장하기'}
                   </button>
                   <button 
-                    onClick={handleShare}
+                    onClick={async () => {
+                      setIsGenerating('share');
+                      try {
+                        let dataUrl = pregeneratedImage;
+                        if (!dataUrl) {
+                          if (!stampRef.current) return;
+                          dataUrl = await toPng(stampRef.current, { 
+                            cacheBust: true, 
+                            pixelRatio: 2, 
+                            backgroundColor: 'transparent' 
+                          });
+                        }
+                        const blob = await (await fetch(dataUrl)).blob();
+                        const file = new File([blob], `${selectedSpot.spot.name}_기념우표.png`, { type: 'image/png' });
+                        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                          await navigator.share({
+                            title: '내 기념 우표',
+                            text: `${selectedSpot.spot.name}에서 예쁜 우표를 획득했어요!`,
+                            files: [file],
+                          });
+                        } else {
+                          alert('이 기기에서는 이미지 직접 공유를 지원하지 않습니다. 저장하기를 이용해주세요.');
+                        }
+                      } catch (e) {
+                        console.error('Share failed', e);
+                      } finally {
+                        setIsGenerating(false);
+                      }
+                    }}
                     disabled={!!isGenerating}
                     className="flex-1 text-[#2a241f] bg-[#fdfcf9] font-bold py-4 rounded-full active:scale-95 transition-all duration-300 text-[0.9rem] tracking-[0.1em] shadow-[0_4px_20px_rgba(0,0,0,0.2)] flex items-center justify-center disabled:opacity-70"
                   >
