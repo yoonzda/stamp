@@ -190,6 +190,96 @@ export default function Collection() {
     );
   };
 
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const handleDownload = async () => {
+    if (!stampRef.current) return;
+    setIsGenerating('save');
+    try {
+      const dataUrl = await toPng(stampRef.current, { 
+        cacheBust: true, 
+        pixelRatio: 2, 
+        backgroundColor: '#ffffff',
+        style: { filter: 'none' },
+        filter: (node) => {
+          if (node.style) {
+            node.style.maskImage = 'none';
+            node.style.WebkitMaskImage = 'none';
+          }
+          return true;
+        }
+      });
+      
+      const blob = await (await fetch(dataUrl)).blob();
+      const file = new File([blob], `${selectedSpot.spot.name}_기념우표.png`, { type: 'image/png' });
+      
+      // 모바일(iOS 등)에서는 a.download가 비동기 호출 시 차단되는 경우가 많음.
+      // 따라서 모바일 환경에서 파일 공유가 지원되면 Share API의 '이미지 저장' 기능을 유도.
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile && navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: '우표 저장하기'
+        });
+      } else {
+        // 데스크탑 또는 Share API 미지원 브라우저용 다운로드 방식
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = blobUrl;
+        a.download = `${selectedSpot.spot.name}_기념우표.png`;
+        document.body.appendChild(a);
+        a.click();
+        
+        setTimeout(() => {
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(blobUrl);
+        }, 2000);
+      }
+    } catch (e) {
+      console.error('Failed to save stamp image', e);
+      alert('이미지 생성에 실패했습니다. 브라우저 캐시를 지우거나 다시 시도해 주세요.');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleShare = async () => {
+    if (!stampRef.current) return;
+    setIsGenerating('share');
+    try {
+      const dataUrl = await toPng(stampRef.current, { 
+        cacheBust: true, 
+        pixelRatio: 2, 
+        backgroundColor: '#ffffff',
+        style: { filter: 'none' },
+        filter: (node) => {
+          if (node.style) {
+            node.style.maskImage = 'none';
+            node.style.WebkitMaskImage = 'none';
+          }
+          return true;
+        }
+      });
+      const blob = await (await fetch(dataUrl)).blob();
+      const file = new File([blob], `${selectedSpot.spot.name}_기념우표.png`, { type: 'image/png' });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          title: '내 기념 우표',
+          text: `${selectedSpot.spot.name}에서 예쁜 우표를 획득했어요!`,
+          files: [file],
+        });
+      } else {
+        alert('이 브라우저에서는 이미지 직접 공유를 지원하지 않습니다. 저장하기 버튼을 이용해주세요.');
+      }
+    } catch (e) {
+      console.error('Share failed', e);
+      alert('공유하기에 실패했습니다.');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   return (
     <div className="w-full h-full bg-[#f2ede4] overflow-y-auto hide-scrollbar font-['Pretendard'] relative">
       <style>{`
@@ -248,12 +338,13 @@ export default function Collection() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex flex-col items-center justify-center p-6 bg-[#1a1714]/85 backdrop-blur-sm"
             onClick={(e) => {
-              if (e.target === e.currentTarget) setSelectedSpot(null);
+              if (e.target === e.currentTarget && !isGenerating) setSelectedSpot(null);
             }}
           >
             <button 
               className="absolute top-4 right-4 text-white text-4xl font-light p-2 active:scale-90 opacity-60 hover:opacity-100 z-[60]"
-              onClick={() => setSelectedSpot(null)}
+              onClick={() => !isGenerating && setSelectedSpot(null)}
+              disabled={!!isGenerating}
             >
               ×
             </button>
@@ -283,72 +374,22 @@ export default function Collection() {
               {selectedSpot.isDone ? (
                 <div className="flex gap-3 w-full">
                   <button 
-                    onClick={async () => {
-                      if (!stampRef.current) return;
-                      try {
-                        // FIX: Remove CSS masks during export so html-to-image doesn't render a black screen
-                        const dataUrl = await toPng(stampRef.current, { 
-                          cacheBust: true, 
-                          pixelRatio: 2, 
-                          backgroundColor: '#ffffff',
-                          style: { filter: 'none' }, // Strip drop-shadow to prevent clipping
-                          filter: (node) => {
-                            // Strip masks inline to force rendering
-                            if (node.style) {
-                              node.style.maskImage = 'none';
-                              node.style.WebkitMaskImage = 'none';
-                            }
-                            return true;
-                          }
-                        });
-                        const a = document.createElement('a');
-                        a.href = dataUrl;
-                        a.download = `${selectedSpot.spot.name}_기념우표.png`;
-                        a.click();
-                      } catch (e) {
-                        console.error('Failed to save stamp image', e);
-                        alert('이미지 저장에 실패했습니다. 다시 시도해 주세요.');
-                      }
-                    }}
-                    className="flex-1 text-[#2a241f] bg-[#fdfcf9] font-bold py-4 rounded-full active:scale-95 transition-all duration-300 text-[0.9rem] tracking-[0.1em] shadow-[0_4px_20px_rgba(0,0,0,0.2)] flex items-center justify-center"
+                    onClick={handleDownload}
+                    disabled={!!isGenerating}
+                    className="flex-1 text-[#2a241f] bg-[#fdfcf9] font-bold py-4 rounded-full active:scale-95 transition-all duration-300 text-[0.9rem] tracking-[0.1em] shadow-[0_4px_20px_rgba(0,0,0,0.2)] flex items-center justify-center disabled:opacity-70"
                   >
-                    저장하기
+                    {isGenerating === 'save' ? (
+                      <span className="flex items-center gap-2"><svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg> 저장 중...</span>
+                    ) : '저장하기'}
                   </button>
                   <button 
-                    onClick={async () => {
-                      if (!stampRef.current) return;
-                      try {
-                        const dataUrl = await toPng(stampRef.current, { 
-                          cacheBust: true, 
-                          pixelRatio: 2, 
-                          backgroundColor: '#ffffff',
-                          style: { filter: 'none' },
-                          filter: (node) => {
-                            if (node.style) {
-                              node.style.maskImage = 'none';
-                              node.style.WebkitMaskImage = 'none';
-                            }
-                            return true;
-                          }
-                        });
-                        const blob = await (await fetch(dataUrl)).blob();
-                        const file = new File([blob], `${selectedSpot.spot.name}_기념우표.png`, { type: 'image/png' });
-                        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                          await navigator.share({
-                            title: '내 기념 우표',
-                            text: `${selectedSpot.spot.name}에서 예쁜 우표를 획득했어요!`,
-                            files: [file],
-                          });
-                        } else {
-                          alert('이 기기에서는 이미지 직접 공유를 지원하지 않습니다. 저장하기를 이용해주세요.');
-                        }
-                      } catch (e) {
-                        console.error('Share failed', e);
-                      }
-                    }}
-                    className="flex-1 text-[#2a241f] bg-[#fdfcf9] font-bold py-4 rounded-full active:scale-95 transition-all duration-300 text-[0.9rem] tracking-[0.1em] shadow-[0_4px_20px_rgba(0,0,0,0.2)] flex items-center justify-center"
+                    onClick={handleShare}
+                    disabled={!!isGenerating}
+                    className="flex-1 text-[#2a241f] bg-[#fdfcf9] font-bold py-4 rounded-full active:scale-95 transition-all duration-300 text-[0.9rem] tracking-[0.1em] shadow-[0_4px_20px_rgba(0,0,0,0.2)] flex items-center justify-center disabled:opacity-70"
                   >
-                    공유하기
+                    {isGenerating === 'share' ? (
+                      <span className="flex items-center gap-2"><svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg> 준비 중...</span>
+                    ) : '공유하기'}
                   </button>
                 </div>
               ) : (
