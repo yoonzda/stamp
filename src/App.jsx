@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import MapHome from './pages/MapHome';
 import IslandDetail from './pages/IslandDetail';
 import PhotoVerification from './pages/PhotoVerification';
@@ -21,6 +21,8 @@ function App() {
       setShowOnboarding(true);
     }
   }, []);
+  const location = useLocation();
+  const hideSpeedDial = location.pathname.startsWith('/photo-verify/');
 
   return (
     <div className="w-full max-w-md mx-auto h-screen shadow-xl overflow-hidden relative" style={{ backgroundColor: '#F3EFE6' }}>
@@ -57,7 +59,7 @@ function App() {
           <Route path="/reward" element={<Reward />} />
           <Route path="/settings" element={<Settings />} />
         </Routes>
-        <SpeedDial />
+        {!hideSpeedDial && <SpeedDial />}
       </div>
     </div>
   );
