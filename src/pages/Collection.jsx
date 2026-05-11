@@ -125,8 +125,8 @@ export default function Collection() {
                 className="flex items-center gap-2 text-[#fdfcf9] font-medium font-['Gowun_Batang']"
                 style={{ 
                   writingMode: 'vertical-rl', 
-                  textOrientation: 'mixed', // Changed from sideways to mixed to prevent hyphen wrapping issues
-                  whiteSpace: 'nowrap', // Force no wrapping
+                  textOrientation: 'sideways',
+                  whiteSpace: 'nowrap',
                   textShadow: '0 1px 4px rgba(0,0,0,0.6)'
                 }}
               >
@@ -189,16 +189,9 @@ export default function Collection() {
       const timer = setTimeout(async () => {
         try {
           const dataUrl = await toPng(stampRef.current, { 
-            pixelRatio: 1.5, // 2에서 1.5로 낮춰 화질 저하 없이 생성 속도 대폭 개선
-            backgroundColor: '#ffffff',
-            style: { filter: 'none' },
-            filter: (node) => {
-              if (node.style) {
-                node.style.maskImage = 'none';
-                node.style.WebkitMaskImage = 'none';
-              }
-              return true;
-            }
+            pixelRatio: 1.5,
+            backgroundColor: 'transparent',
+            style: { filter: 'none' } // Remove shadow to prevent clipping during capture
           });
           setPregeneratedImage(dataUrl);
         } catch(e) {
@@ -219,15 +212,8 @@ export default function Collection() {
         if (!stampRef.current) return;
         dataUrl = await toPng(stampRef.current, { 
           pixelRatio: 1.5, 
-          backgroundColor: '#ffffff',
-          style: { filter: 'none' },
-          filter: (node) => {
-            if (node.style) {
-              node.style.maskImage = 'none';
-              node.style.WebkitMaskImage = 'none';
-            }
-            return true;
-          }
+          backgroundColor: 'transparent',
+          style: { filter: 'none' }
         });
       }
       
@@ -258,15 +244,8 @@ export default function Collection() {
         if (!stampRef.current) return;
         dataUrl = await toPng(stampRef.current, { 
           pixelRatio: 1.5, 
-          backgroundColor: '#ffffff',
-          style: { filter: 'none' },
-          filter: (node) => {
-            if (node.style) {
-              node.style.maskImage = 'none';
-              node.style.WebkitMaskImage = 'none';
-            }
-            return true;
-          }
+          backgroundColor: 'transparent',
+          style: { filter: 'none' }
         });
       }
       const blob = await (await fetch(dataUrl)).blob();
@@ -384,7 +363,7 @@ export default function Collection() {
               className="relative flex flex-col items-center w-[90vw] max-w-[23rem] shrink-0"
               onClick={(e) => e.stopPropagation()}
             >
-              <div ref={stampRef} className="w-full bg-[#f2ede4]">
+              <div ref={stampRef} className="w-full bg-transparent">
                 {renderStampArtwork(selectedSpot.spot, selectedSpot.islandName, selectedSpot.isDone, selectedSpot.image, selectedSpot.timestamp, 'large')}
               </div>
             </motion.div>
