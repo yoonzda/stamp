@@ -54,18 +54,6 @@ export default function Collection() {
 
   const missingSymbols = getMissingSymbols();
 
-  const handleShare = (spot) => {
-    if (navigator.share) {
-      navigator.share({
-        title: '옹진 명소 수집',
-        text: `제가 아름다운 옹진군의 [${spot.name}]에 방문해서 특별한 스탬프를 얻었어요! 함께 구경해볼까요?`,
-        url: window.location.href,
-      }).catch(console.error);
-    } else {
-      alert(`[공유 복사됨] 아름다운 옹진군의 [${spot.name}]에 방문해서 특별한 스탬프를 획득했습니다!`);
-    }
-  };
-
   const renderStampArtwork = (spot, islandName, isDone, image, timestamp, size = 'small') => {
     let dateStr = '미방문';
     if (isDone && timestamp) {
