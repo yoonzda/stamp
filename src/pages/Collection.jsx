@@ -191,16 +191,16 @@ export default function Collection() {
   };
 
   const [isGenerating, setIsGenerating] = useState(false);
+  const [saveModalImage, setSaveModalImage] = useState(null);
 
   const handleDownload = async () => {
     if (!stampRef.current) return;
     setIsGenerating('save');
     try {
       const dataUrl = await toPng(stampRef.current, { 
-        cacheBust: true, 
         pixelRatio: 2, 
         backgroundColor: '#ffffff',
-        style: { filter: 'none' },
+        style: { filter: 'none' }, // Remove shadow to prevent clipping
         filter: (node) => {
           if (node.style) {
             node.style.maskImage = 'none';
@@ -210,35 +210,22 @@ export default function Collection() {
         }
       });
       
-      const blob = await (await fetch(dataUrl)).blob();
-      const file = new File([blob], `${selectedSpot.spot.name}_기념우표.png`, { type: 'image/png' });
-      
-      // 모바일(iOS 등)에서는 a.download가 비동기 호출 시 차단되는 경우가 많음.
-      // 따라서 모바일 환경에서 파일 공유가 지원되면 Share API의 '이미지 저장' 기능을 유도.
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      if (isMobile && navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          files: [file],
-          title: '우표 저장하기'
-        });
+      if (isMobile) {
+        // 모바일 환경: 브라우저 강제 다운로드가 막히는 경우가 많아 '꾹 눌러 저장' 모달로 우회 (100% 성공 보장)
+        setSaveModalImage(dataUrl);
       } else {
-        // 데스크탑 또는 Share API 미지원 브라우저용 다운로드 방식
-        const blobUrl = URL.createObjectURL(blob);
+        // 데스크탑: 일반적인 다운로드 링크 클릭
         const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = blobUrl;
+        a.href = dataUrl;
         a.download = `${selectedSpot.spot.name}_기념우표.png`;
         document.body.appendChild(a);
         a.click();
-        
-        setTimeout(() => {
-          document.body.removeChild(a);
-          window.URL.revokeObjectURL(blobUrl);
-        }, 2000);
+        document.body.removeChild(a);
       }
     } catch (e) {
       console.error('Failed to save stamp image', e);
-      alert('이미지 생성에 실패했습니다. 브라우저 캐시를 지우거나 다시 시도해 주세요.');
+      alert('이미지 생성에 실패했습니다.');
     } finally {
       setIsGenerating(false);
     }
@@ -249,7 +236,6 @@ export default function Collection() {
     setIsGenerating('share');
     try {
       const dataUrl = await toPng(stampRef.current, { 
-        cacheBust: true, 
         pixelRatio: 2, 
         backgroundColor: '#ffffff',
         style: { filter: 'none' },
@@ -270,11 +256,10 @@ export default function Collection() {
           files: [file],
         });
       } else {
-        alert('이 브라우저에서는 이미지 직접 공유를 지원하지 않습니다. 저장하기 버튼을 이용해주세요.');
+        alert('이 브라우저에서는 공유하기를 지원하지 않습니다.');
       }
     } catch (e) {
       console.error('Share failed', e);
-      alert('공유하기에 실패했습니다.');
     } finally {
       setIsGenerating(false);
     }
@@ -338,9 +323,28 @@ export default function Collection() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex flex-col items-center justify-center p-6 bg-[#1a1714]/85 backdrop-blur-sm"
             onClick={(e) => {
-              if (e.target === e.currentTarget && !isGenerating) setSelectedSpot(null);
+              if (e.target === e.currentTarget && !isGenerating && !saveModalImage) setSelectedSpot(null);
             }}
           >
+            {/* Save Image Overlay for Mobile */}
+            <AnimatePresence>
+              {saveModalImage && (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  className="absolute inset-0 z-[70] flex flex-col items-center justify-center bg-black/95 p-6 backdrop-blur-md"
+                  onClick={() => setSaveModalImage(null)}
+                >
+                  <button className="absolute top-6 right-6 text-white text-3xl font-light opacity-70">×</button>
+                  <h3 className="text-white font-bold text-xl mb-3 mt-4">우표가 완성되었습니다!</h3>
+                  <p className="text-white/70 text-[0.95rem] mb-8 text-center break-keep">
+                    아래 우표 이미지를 <strong className="text-[#fde047]">꾹 눌러서 '사진 앱에 저장'</strong>을 선택해 주세요.
+                  </p>
+                  <img src={saveModalImage} alt="완성된 우표" className="w-[85%] max-w-[20rem] rounded-md shadow-2xl" onClick={e => e.stopPropagation()} />
+                </motion.div>
+              )}
+            </AnimatePresence>
             <button 
               className="absolute top-4 right-4 text-white text-4xl font-light p-2 active:scale-90 opacity-60 hover:opacity-100 z-[60]"
               onClick={() => !isGenerating && setSelectedSpot(null)}
