@@ -156,13 +156,16 @@
         <button style="background: var(--surface-2); border: none; padding: 6px 14px; font-size: .75rem; font-weight: 600; color: var(--text-muted); border-radius: 20px; cursor: pointer; margin-bottom: 4px;">로그아웃</button>
       </div>
 
-      <!-- 위치 안내 배너 (상자 없음, 깃발 제거, 화살표 유지) -->
-      <div id="location-banner" style="padding: 10px 4px; margin-top: 8px; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
-        <div style="display: flex; flex-direction: column; gap: 6px;">
-          <div id="loc-text-1" style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.3px;">현재 옹진군에서 여행중이신가요?</div>
-          <div id="loc-text-2" style="font-size: 0.85rem; font-weight: 500; color: var(--text-muted); line-height: 1.4; letter-spacing: -0.2px;">위치기반서비스 동의해주시면 장소를 추천해드려요!</div>
+      <!-- 위치 안내 배너 -->
+      <div id="location-banner" style="padding: 16px; margin-top: 12px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 12px; box-shadow: 0 4px 15px rgba(14,165,233,0.15); border: 1px solid rgba(14,165,233,0.2); position: relative; overflow: hidden;">
+        <div style="position: absolute; right: -10px; top: -10px; opacity: 0.05; transform: rotate(15deg);">
+          <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
         </div>
-        <div style="color: #94a3b8; flex-shrink: 0; padding-left: 12px;">
+        <div style="display: flex; flex-direction: column; gap: 4px; position: relative; z-index: 1;">
+          <div id="loc-text-1" style="font-size: 1.1rem; font-weight: 800; color: var(--primary-dark); letter-spacing: -0.3px;">현재 옹진군에서 여행중이신가요?</div>
+          <div id="loc-text-2" style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); line-height: 1.4; letter-spacing: -0.2px;">위치기반서비스 동의해주시면 장소를 추천해드려요!</div>
+        </div>
+        <div style="color: var(--primary); flex-shrink: 0; padding-left: 12px; position: relative; z-index: 1;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
         </div>
       </div>
@@ -268,14 +271,14 @@
       </div>
 
       <!-- 명소 추천 배너 -->
-      <div style="margin-top: 24px; border-radius: 0; overflow: hidden; position: relative; height: 100px; min-height: 100px; flex-shrink: 0; display: block; width: 100%; cursor: pointer; box-shadow: var(--shadow-sm); background-color: #0f172a; background-image: radial-gradient(at 40% 20%, hsla(228,100%,74%,0.2) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(189,100%,56%,0.2) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(355,100%,93%,0.1) 0px, transparent 50%);">
-        <div style="position: absolute; inset: 0; background: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' viewBox=\'0 0 24 24\'><circle cx=\'2\' cy=\'2\' r=\'1\' fill=\'rgba(255,255,255,0.07)\'/></svg>') repeat;"></div>
-        <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(15,23,42,0.8) 0%, rgba(15,23,42,0.1) 100%);"></div>
+      <div style="margin-top: 24px; border-radius: 0; overflow: hidden; position: relative; height: 100px; min-height: 100px; flex-shrink: 0; display: block; width: 100%; cursor: pointer; box-shadow: var(--shadow-sm); background-color: #0f172a;">
+        <img src="./ongjin_travel_banner.png" alt="Island Sunset" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;" />
+        <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0.6) 50%, rgba(15,23,42,0.1) 100%);"></div>
         <div style="position: relative; z-index: 1; padding: 0 20px; height: 100%; display: flex; flex-direction: column; justify-content: center;">
           <div style="font-size: 0.7rem; font-weight: 700; color: #38bdf8; margin-bottom: 4px; letter-spacing: 0.5px;">TRAVEL GUIDE</div>
           <div style="font-size: 1.1rem; font-weight: 800; color: #fff; line-height: 1.3; letter-spacing: -0.3px;">옹진군 핫플레이스<br>BEST 10 만나보기</div>
         </div>
-        <div style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); z-index: 1; width: 32px; height: 32px; background: rgba(255,255,255,0.2); backdrop-filter: blur(4px); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff;">
+        <div style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); z-index: 1; width: 32px; height: 32px; background: rgba(255,255,255,0.25); backdrop-filter: blur(8px); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; border: 1px solid rgba(255,255,255,0.3);">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
       </div>
@@ -548,8 +551,11 @@
             10% { transform: translateY(-5px); color: var(--primary); }
           }
         </style>
-        <div style="display: flex; align-items: center; gap: 14px; width: 100%;">
-          <div style="flex: 1; padding-left: 4px;">
+        <div style="position: absolute; right: -10px; top: -10px; opacity: 0.05; transform: rotate(15deg);">
+          <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px; width: 100%; position: relative; z-index: 1;">
+          <div style="flex: 1;">
             <div style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">현재위치 : 인천광역시 옹진군 백령면 연화리</div>
             <div style="height: 1.5em; overflow: hidden; position: relative;">
               <div style="animation: rollText 9s infinite; display: flex; flex-direction: column;">
@@ -562,14 +568,13 @@
                 <div style="font-size: 1.05rem; font-weight: 800; color: var(--text-primary); line-height: 1.5em; letter-spacing: -0.3px; height: 1.5em; white-space: nowrap;">
                   근처 ${createWavyText("콩돌 해안", 2)} 나들이는 어떠세요?
                 </div>
-                <!-- Duplicate of first item for seamless loop -->
                 <div style="font-size: 1.05rem; font-weight: 800; color: var(--text-primary); line-height: 1.5em; letter-spacing: -0.3px; height: 1.5em; white-space: nowrap;">
                   근처 ${createWavyText("두무진 유람선 선착장", 3)} 어떠세요?
                 </div>
               </div>
             </div>
           </div>
-          <div style="color: #94a3b8; flex-shrink: 0; padding-left: 4px;">
+          <div style="color: var(--primary); flex-shrink: 0; padding-left: 4px;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
           </div>
         </div>
