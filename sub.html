@@ -64,8 +64,8 @@
     /* 사이드 메뉴 */
     .side-menu-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
     .side-menu-overlay.active { opacity: 1; pointer-events: auto; }
-    .side-menu { position: absolute; top: 0; right: -280px; bottom: 0; width: 280px; background: #fff; z-index: 2001; transition: right 0.3s ease; display: flex; flex-direction: column; box-shadow: -4px 0 15px rgba(0,0,0,0.1); }
-    .side-menu.active { right: 0; }
+    .side-menu { position: absolute; top: 0; right: -280px; bottom: 0; width: 280px; background: #fff; z-index: 2001; transition: right 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; box-shadow: none; }
+    .side-menu.active { right: 0; box-shadow: -4px 0 15px rgba(0,0,0,0.1); }
     .side-menu-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
     .side-menu-content { padding: 20px; display: flex; flex-direction: column; gap: 20px; }
 
